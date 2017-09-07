@@ -1,6 +1,3 @@
-#include "actors/player.txt"
-#include "actors/enemies.txt"
-#include "actors/ammo.txt"
 #include "actors/weapons/fist.txt"
 #include "actors/weapons/chainsaw.txt"
 #include "actors/weapons/pistol.txt"

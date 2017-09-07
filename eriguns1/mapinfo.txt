@@ -65,3 +65,11 @@ skill nightmare
 	MustConfirm
 	Key = "n"
 }
+
+// eddy nums
+
+DoomEdNums
+{
+	5013 = GrenadeAmmo
+	5015 = GrenadeBox
+}
