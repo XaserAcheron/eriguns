@@ -1,0 +1,22 @@
+{
+  "name": "eriguns",
+  "version": "1.1.1",
+  "description": "Eriguns: A pair of ZDoom weapon mods featuring sprites by Amuscaria (nee Eriance).",
+  "private": true,
+  "author": "Xaser Acheron",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XaserAcheron/eriguns.git"
+  },
+  "bugs": {
+    "url": "https://github.com/XaserAcheron/eriguns/issues"
+  },
+  "homepage": "https://github.com/XaserAcheron/eriguns#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-zip": "^4.0.0",
+    "merge-stream": "^1.0.1"
+  }
+}
