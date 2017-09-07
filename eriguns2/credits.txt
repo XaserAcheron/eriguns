@@ -5,7 +5,7 @@ Code:
 	- Woolie Wool (hell items)
 
 Sprites:
-	- Eriance (o' course)
+	- Amuscaria (nee Eriance)
 	- PillowBlaster (widescreen-friendly Vorpal Blade & Demonomicon)
 	
 Sounds - Various things from:
