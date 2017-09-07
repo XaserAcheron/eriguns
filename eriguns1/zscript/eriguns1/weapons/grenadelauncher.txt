@@ -1,0 +1,117 @@
+// --------------------------------------------------------------------------
+//
+// Grenade launcher
+//
+// --------------------------------------------------------------------------
+
+class EriGrenadeLauncher : DoomWeapon
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 2500;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 2;
+		Weapon.AmmoType "GrenadeAmmo";
+		Inventory.PickupMessage "$GOTGRENADE";
+		Tag "$TAG_GRENADE";
+		+WEAPON.NOAUTOFIRE;
+	}
+	States
+	{
+	Ready:
+		DGLG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		DGLG A 1 A_Lower();
+		Loop;
+	Select:
+		DGLG A 1 A_Raise();
+		Loop;
+	Fire:
+		DGLF A 2 A_GunFlash();
+		DGLF B 0 Bright A_PlaySound("weapons/grenadefire", CHAN_WEAPON);
+		DGLF B 2 Bright A_FireProjectile("EriGrenade",0,1,0,0,2,-5);
+		DGLF C 2 Bright;
+		DGLF DE 2;
+		DGLG C 4;
+		DGLG B 2;
+		DGLG A 12;
+		DGLG A 0 A_ReFire();
+		Goto Ready;
+	Flash:
+		TNT1 A 2 Bright A_Light(2);
+		TNT1 A 4 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		DEGL A -1;
+		Stop;
+	}
+}
+
+class EriGrenadeLauncherPickup : CustomInventory
+{
+	Default
+	{
+		Inventory.PickupSound "misc/w_pkup";
+		Inventory.PickupMessage "$GOTGRENADE";
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		DEGL A -1;
+		Stop;
+	Pickup:
+		TNT1 A 0 A_JumpIfInventory("AltToken",1,1);
+		Stop;
+		TNT1 A 0 A_GiveInventory("EriGrenadeLauncher",1);
+		Stop;
+	}
+}
+
+class EriGrenade : Actor
+{
+	Default
+	{
+		Radius 11;
+		Height 8;
+		Speed 30;
+		Damage 50;
+		Projectile;
+		Gravity 0.5;
+		Scale 0.8;
+		DeathSound "weapons/grenadeexplode";
+		Obituary "$OB_MPGRENADE";
+		Decal "Scorch";
+		-NOGRAVITY;
+	}
+	States
+	{
+	Spawn:
+		GRNP A 1 Bright A_SpawnItemEx("EriGrenadeTrail",0,0,0,-2,0,0,0,0);
+		Wait;
+	Death:
+		RCKT B 0 Bright A_NoGravity();
+		RCKT B 0 Bright A_SetTranslucent(1.0,1);
+		RCKT B 3 Bright A_Explode(128, 256, 1, 1, 128);
+		RCKT CD 3 Bright;
+		RCKT E 3 Bright A_SetTranslucent(0.75,1);
+		RCKT F 3 Bright A_SetTranslucent(0.5,1);
+		Stop;
+	}
+}
+
+class EriGrenadeTrail : RocketTrail //MissileTrail [TODO] change this
+{
+	Default
+	{
+		Scale 0.25;
+	}
+	States
+	{
+	Spawn:
+		MTRL HDEFG 2 Bright;
+		Stop;
+	}
+}
