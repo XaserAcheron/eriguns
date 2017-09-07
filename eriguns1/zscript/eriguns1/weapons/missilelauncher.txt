@@ -103,8 +103,8 @@ class EriMissileLeft : EriRocket
 		XMIS A 0 Bright A_SetAngle(angle + 45);
 		Goto PreSeek;
 	PreSeek:
-		XMIS A 0 Bright A_SetUserVar("user_explode", 1);
-		XMIS A 0 Bright A_ChangeVelocity(velx + (25*cos(angle)), vely + (25*sin(angle)), velz, CVF_REPLACE);
+		XMIS A 0 Bright { user_explode = 1; }
+		XMIS A 0 Bright A_ChangeVelocity(vel.x + (25*cos(angle)), vel.y + (25*sin(angle)), vel.z, CVF_REPLACE);
 		XMIS A 1 Bright A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
 		Goto Seek;
 	Seek:

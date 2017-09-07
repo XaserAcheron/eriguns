@@ -110,7 +110,7 @@ class AltSuperShotgun : EriSuperShotgun
 		Goto ReloadAlt;
 	   AF:
 		DSSF A 0 A_GunFlash();
-		DSSF A 0 A_PlaySoundEx("weapons/sshotf", "Auto");
+		DSSF A 0 A_PlaySound("weapons/sshotf", CHAN_AUTO);
 		DSSF A 2 Bright A_FireBullets(11.2, 7.1, 20, 5, "BulletPuff");
 		DSSF B 2 Bright;
 		DSSF CJ 2;
@@ -130,7 +130,7 @@ class AltSuperShotgun : EriSuperShotgun
 		Goto Ready;
 	ReloadAlt:
 		DSSG CD 2 A_ResetReloadCounter();
-		DSSG E 2 A_PlaySoundEx("weapons/sshoto", "Weapon");
+		DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_WEAPON);
 		DSSG VWOP 2;
 		Goto RL2;
 	Reload:
