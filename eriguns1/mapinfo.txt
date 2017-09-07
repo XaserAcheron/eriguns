@@ -71,6 +71,7 @@ skill nightmare
 DoomEdNums
 {
 	1006 = EriAutoShotgun
+	5011 = EriMissileLauncher
 	5012 = EriGrenadeLauncher
 	5013 = GrenadeAmmo
 	5014 = EriGatlingGun

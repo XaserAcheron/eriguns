@@ -1,6 +1,0 @@
-#include "actors/weapons/pistol.txt"
-#include "actors/weapons/shotgun.txt"
-#include "actors/weapons/supershotgun.txt"
-#include "actors/weapons/rocketlauncher.txt"
-#include "actors/weapons/missilelauncher.txt"
-#include "actors/weapons/plasmarifle.txt"
