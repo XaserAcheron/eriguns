@@ -1,0 +1,100 @@
+// --------------------------------------------------------------------------
+//
+// Pistol 
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriPistol : DoomWeapon replaces Pistol
+{
+	Game Doom
+	Scale 0.8
+	Weapon.SelectionOrder 1900
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 20
+	Weapon.AmmoType "Clip"
+	Weapon.SisterWeapon "AltPistol"
+	Obituary "$OB_MPPISTOL"
+	+WEAPON.WIMPY_WEAPON
+	Inventory.Pickupmessage "$PICKUP_PISTOL_DROPPED"
+	Decal "BulletChip"
+	Tag "$TAG_PISTOL"
+	States
+	{
+	Ready:
+		DPIG A 1 A_WeaponReady
+		Loop
+	Deselect:
+		DPIG A 1 A_Lower
+		Loop
+	Select:
+		DPIG A 0 A_JumpIfInventory("AltToken",1,"Trade")
+		DPIG A 1 A_Raise
+		Wait
+	Trade:
+		DPIG A 0 A_SelectWeapon("AltPistol")
+		DPIG A 1 A_Lower
+		Wait
+	Fire:
+		DPIG A 4
+		DPIF A 0 bright A_GunFlash
+		DPIF A 0 bright A_FireBullets (5.6, 0, 1, 5, "BulletPuff")
+		DPIF A 2 bright A_PlaySound("weapons/pistol", CHAN_WEAPON)
+		DPIG CB 2
+		DPIG A 4
+		DPIG A 5 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 2 Bright A_Light2
+		TNT1 A 2 Bright A_Light1
+		Goto LightDone
+ 	Spawn:
+		DEPI A -1
+		Stop
+	}
+}
+
+ACTOR AltPistol : EriPistol
+{
+	+NOAUTOFIRE
+	Weapon.SisterWeapon "EriPistol"
+	States
+	{
+	Ready:
+		DPIG A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+		Loop
+	Select:
+		DPIG A 0 A_JumpIfInventory("AltToken",1,1)
+		Goto Trade
+		DPIG A 1 A_Raise
+		Wait
+	Trade:
+		DPIG A 0 A_SelectWeapon("EriPistol")
+		DPIG A 1 A_Lower
+		Wait
+	Fire:
+		DPIF A 0 bright A_GunFlash
+		DPIF A 0 bright A_FireBullets (5.6, 0, 1, 5, "BulletPuff")
+		DPIF A 2 bright A_PlaySound("weapons/pistol", CHAN_WEAPON)
+		DPIG C 2
+		DPIG B 1
+		DPIG B 1 A_CheckForReload (10, "Refire")
+		// intentional fall-through
+	DoReload:
+		DPIR A 2 A_JumpIfNoAmmo("Ready")
+		DPIR B 2 A_PlaySound("weapons/pistolclipout", CHAN_AUTO)
+		DPIR C 2 A_ResetReloadCounter
+		DPIR D 6
+		DPIR EF 2
+		DPIR G 2 A_PlaySound("weapons/pistolclipin", CHAN_AUTO)
+		DPIR HIJ 2
+		// ditto
+	Refire:
+		DPIG BAAAAAAA 1 A_WeaponReady(WRF_NOBOB | WRF_ALLOWRELOAD)
+		goto Ready
+	AltFire:
+	Reload:
+		DPIG A 1 A_WeaponReady(WRF_NOFIRE)
+		DPIG A 0 A_CheckForReload (1, "Ready", 1)
+		goto DoReload
+	}
+}

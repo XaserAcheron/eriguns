@@ -1,0 +1,20 @@
+slightly loose-at-the-moment credits list for eriguns2:
+
+Code:
+	- Xaser (das me)
+	- Woolie Wool (hell items)
+
+Sprites:
+	- Eriance (o' course)
+	- PillowBlaster (widescreen-friendly Vorpal Blade & Demonomicon)
+	
+Sounds - Various things from:
+	- Torchlight (Lots o' stuff)
+	- Descent: Freespace (Immolator firing sound)
+	- Devil May Cry (Vorpal Blade sounds)
+	- Prolly others
+
+Testing n' bugfixing help:
+	- zrrion the insect
+	- Princess Viscra Maelstrom
+	- Blue Shadow

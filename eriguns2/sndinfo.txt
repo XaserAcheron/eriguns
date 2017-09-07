@@ -1,0 +1,108 @@
+// hellguy gunsounds
+
+weapons/bladeswing      dsbswing
+weapons/bladesplat1     dsbsplt1
+weapons/bladesplat2     dsbsplt2
+weapons/bladesplat3     dsbsplt3
+weapons/bladesplat4     dsbsplt4
+$random weapons/bladesplat { weapons/bladesplat1 weapons/bladesplat2 weapons/bladesplat3 weapons/bladesplat4 }
+weapons/bladeclunk      dsbclunk
+weapons/bladeclang      dsbclang
+weapons/bladepower      dsbpower
+weapons/bladepower2     dsbpowr2
+
+weapons/immolatorfire   dsimofir
+weapons/immolatorhit    dsimohit
+weapons/immolatorburn   dsimburn
+weapons/immolatorout    dsimbout
+weapons/immolatorpow1   dsimpow1
+weapons/immolatorpow2   dsimpow2
+weapons/immolatorpow3   dsimpow3
+
+weapons/bloodbaneheart  dsheart
+weapons/bloodbanestab   dsbanstb
+weapons/bloodbanescream dsbanscr
+weapons/bloodbanefire   dsbanfir
+weapons/bloodbanehit    dsbanhit
+weapons/bloodbaneloop   dsbanlop
+weapons/bloodbanepow    dsbanpow
+weapons/bloodbanepow2   dsbanpw2
+weapons/bloodbanepow3   dsbanpw3
+weapons/bloodbanepow4   dsbanpw4
+weapons/bloodbanepowhit dsirehit
+weapons/bloodbanezap    dsbanzap
+weapons/bloodbanecharge dsbanchg
+weapons/bloodbaneember1 dsbanem1
+weapons/bloodbaneember2 dsbanem2
+weapons/bloodbaneember3 dsbanem3
+weapons/bloodbaneember4 dsbanem4
+$random weapons/bloodbaneember { weapons/bloodbaneember1 weapons/bloodbaneember2 weapons/bloodbaneember3 weapons/bloodbaneember4 }
+$limit weapons/bloodbaneember 0
+$volume weapons/bloodbaneember 0.5
+
+weapons/nailgunfire     dsnailfr
+weapons/nailgunextra    dsnailex
+weapons/nailgunhit      dsnailht
+weapons/nailgunblood    dsnailbl
+weapons/nailbone1       dsnbone1
+weapons/nailbone2       dsnbone2
+weapons/nailbone3       dsnbone3
+$limit weapons/nailgunfire 0
+
+weapons/maulerfire      dsmauler
+weapons/maulerfire1     dsmaulf1
+weapons/maulerfire2     dsmaulf2
+weapons/maulersteam     dssteam
+weapons/maulerpowfire   dsmaulpw
+weapons/maulerpowhit    dsirehit
+
+weapons/ireboltfire     dsirefir
+weapons/irebolthit      dsirehit
+weapons/ireboltfly1     dsirefl1
+weapons/ireboltfly2     dsirefl2
+weapons/ireboltfly3     dsirefl3
+weapons/ireboltfly4     dsirefl4
+$random weapons/ireboltfly { weapons/ireboltfly1 weapons/ireboltfly2 weapons/ireboltfly3 weapons/ireboltfly4 }
+weapons/ireboltspike1   dsiresp1
+weapons/ireboltspike2   dsiresp2
+$random weapons/ireboltspike { weapons/ireboltspike1 weapons/ireboltspike2 }
+weapons/ireboltwall1    dsirewl1
+weapons/ireboltwall2    dsirewl2
+$random weapons/ireboltwall { weapons/ireboltwall1 weapons/ireboltwall2 }
+weapons/ireboltdetonate dsiredet
+
+weapons/castercharge    dscaschg
+weapons/casterloop      dscaslop
+weapons/casterloop2     dscaslo2
+weapons/casterfire      dscasfir
+weapons/casterhit       dsirehot
+weapons/casterboom      dsiredet
+weapons/casterpow       dscaspow
+$alias weapons/castersoul weapons/ireboltfly
+$limit weapons/casterboom 0
+
+weapons/basiliskfire    dsirefir
+weapons/basiliskfly     dsirehum
+weapons/basiliskhit     dsirehit
+weapons/basiliskup      dsbasup
+weapons/basiliskspin    dsbasspn
+weapons/basiliskdown    dsbasdwn
+weapons/basilisksteam   dssteam
+weapons/basiliskbounce  dsbasbnc
+$limit weapons/basiliskbounce 0
+$volume weapons/basiliskfly 0.5
+$rolloff weapons/basiliskfly 100 600
+
+weapons/reaverfire      dssolfir
+weapons/reaverhit       dssolhit
+weapons/reavercharge    dssolchg
+weapons/reaverloop      dssoloop
+weapons/reaverloop2     dssoloo2
+weapons/reaverpow       dssolpow
+weapons/reaversoulout   dssolout
+weapons/reaversoulfly   dssolfly
+
+$alias misc/soulbomb weapons/ireboltfly
+$alias misc/soulboom weapons/ireboltdetonate
+$limit misc/soulbomb 0
+$limit misc/soulboom 0

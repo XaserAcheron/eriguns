@@ -1,0 +1,83 @@
+// --------------------------------------------------------------------------
+//
+// Plasma rifle
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriPlasmaRifle : DoomWeapon replaces PlasmaRifle
+{
+	Game Doom
+	Scale 0.8
+	SpawnID 30
+	Weapon.SelectionOrder 100
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 40
+	Weapon.AmmoType "Cell"
+	Inventory.PickupMessage "$GOTPLASMA"
+	Tag "$TAG_PLASMARIFLE"
+	States
+	{
+	Ready:
+		DPGG A 1 A_WeaponReady
+		Loop
+	Deselect:
+		DPGG A 1 A_Lower
+		Loop
+	Select:
+		DPGG A 1 A_Raise
+		Loop
+	Fire:
+		DPGG A 0 A_FireCustomMissile("EriPlasmaBall",0,1,0,0)
+		DPGG A 0 A_Jump(128,"Fire2")
+	Fire1:
+		DPGF AB 1 bright
+		Goto FireEnd
+	Fire2:
+		DPGF CD 1 bright
+	FireEnd:
+		DPGG A 1
+		DPGG B 3 A_ReFire
+		DPGG C 16 
+		DPGG B 3
+		Goto Ready
+	Flash:
+		DPGG A 4 Bright A_Light1
+		Goto LightDone
+		DPGG B 4 Bright A_Light1
+		Goto LightDone
+	Spawn:
+		DEPG A -1
+		Stop
+	}
+}
+
+ACTOR EriPlasmaBall replaces PlasmaBall
+{
+	Game Doom
+	SpawnID 51
+	Radius 13
+	Height 8
+	Speed 25
+	Damage 5
+	Projectile
+	+RANDOMIZE
+	RenderStyle Add
+	Alpha 0.75
+	SeeSound "weapons/plasmaf"
+	DeathSound "weapons/plasmax"
+	Obituary "$OB_MPPLASMARIFLE"
+	Decal "PlasmaScorch"
+	States
+	{
+	Spawn:
+		PLSS A 0
+		PLSS A 1 A_PlaySound("weapons/plasmafly", CHAN_BODY, 0.5, 1, ATTN_STATIC)
+	Fly:
+		PLSS ACBD 1 Bright
+		Goto Fly
+	Death:
+		PLSE A 4 Bright A_StopSound(CHAN_BODY)
+		PLSE BCDE 4 Bright
+		Stop
+	}
+}

@@ -1,0 +1,47 @@
+// --------------------------------------------------------------------------
+//
+// Basic Actors
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriTrail
+{
+	-RANDOMIZE
+	+NOBLOCKMONST
+	+NOTELEPORT
+	+FORCEXYBILLBOARD
+	+NOBLOCKMAP
+	+NOGRAVITY
+	+THRUACTORS
+}
+
+ACTOR EriDrop : EriTrail
+{
+	Projectile
+	-NOGRAVITY
+	Damage 0
+	Speed 0
+}
+
+ACTOR EriPuff
+{
+	+NOGRAVITY
+	+PUFFGETSOWNER
+	+PUFFONACTORS
+}
+
+ACTOR EriToken : Inventory
+{
+	+INVENTORY.UNDROPPABLE
+}
+
+ACTOR GameDetectorDoom    { Game Doom    SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorHeretic { Game Heretic SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorHexen   { Game Hexen   SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorStrife  { Game Strife  SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorChex    { Game Chex    SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDoom    : EriToken {}
+ACTOR GameHeretic : EriToken {}
+ACTOR GameHexen   : EriToken {}
+ACTOR GameStrife  : EriToken {}
+ACTOR GameChex    : EriToken {}

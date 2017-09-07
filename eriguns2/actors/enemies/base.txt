@@ -1,0 +1,100 @@
+// --------------------------------------------------------------------------
+//
+// Base Enemy Definitions
+//
+// --------------------------------------------------------------------------
+
+ACTOR SoulExplosionSmall
+{
+	RenderStyle Add
+	Alpha 1.0
+	Scale 0.75
+	-RANDOMIZE
+	+FORCERADIUSDMG
+	+FORCEXYBILLBOARD
+	+NOBLOCKMAP
+	+NOGRAVITY
+	DamageType "Soul"
+	var int user_explosiondamage;
+	var int user_explosionradius;
+	States
+	{
+	Spawn:
+		SOLX A 0 
+		SOLX A 0 Bright A_SetUserVar("user_explosiondamage", 64)
+		SOLX A 0 Bright A_SetUserVar("user_explosionradius", 128)
+	Boom:
+		SOLX A 3 Bright
+		SOLX B 3 Bright A_PlaySound("weapons/casterboom")
+		SOLX C 3 Bright A_Explode(user_explosiondamage, user_explosionradius, 0)
+		SOLX DEFGH 3 Bright
+		Stop
+	}
+}
+ACTOR SoulExplosionMedium : SoulExplosionSmall
+{
+	Scale 1.0
+	States
+	{
+	Spawn:
+		SOLX A 0 
+		SOLX A 0 Bright A_SetUserVar("user_explosiondamage", 128)
+		SOLX A 0 Bright A_SetUserVar("user_explosionradius", 128)
+		Goto Boom
+	}
+}
+ACTOR SoulExplosionLarge : SoulExplosionSmall
+{
+	Scale 1.5
+	States
+	{
+	Spawn:
+		SOLX A 0 
+		SOLX A 0 Bright A_SetUserVar("user_explosiondamage", 256)
+		SOLX A 0 Bright A_SetUserVar("user_explosionradius", 256)
+		Goto Boom
+	}
+}
+ACTOR SoulExplosionHuge : SoulExplosionSmall
+{
+	Scale 2.0
+	States
+	{
+	Spawn:
+		SOLX A 0 
+		SOLX A 0 Bright A_SetUserVar("user_explosiondamage", 512)
+		SOLX A 0 Bright A_SetUserVar("user_explosionradius", 512)
+		Goto Boom
+	}
+}
+
+ACTOR SoulVaporSmall
+{
+	RenderStyle Add
+	Alpha 1.0
+	Scale 0.75
+	-RANDOMIZE
+	+FORCEXYBILLBOARD
+	+NOBLOCKMAP
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		SPIR E 4 Bright
+		SPIR F 4 Bright A_PlaySound("weapons/castersoul")
+		SPIR GHIJ 4 Bright
+		Stop
+	}
+}
+ACTOR SoulVaporMedium : SoulVaporSmall
+{
+	Scale 1.0
+}
+ACTOR SoulVaporLarge : SoulVaporSmall
+{
+	Scale 1.5
+}
+ACTOR SoulVaporHuge : SoulVaporSmall
+{
+	Scale 2.0
+}

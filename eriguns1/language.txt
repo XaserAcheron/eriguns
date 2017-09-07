@@ -1,0 +1,26 @@
+[enu default]
+
+MNU_CHOOSECLASS	= "SELECT WEAPON SET";
+
+SKILL_VERYHARD  = "Man and a Half!";
+
+TAG_AUTOSHOTGUN = "Auto Shotgun";
+TAG_CHAINGUN    = "Machinegun";
+TAG_GATLINGGUN  = "Gatling Gun";
+TAG_MISSILE     = "Missile Launcher";
+TAG_GRENADE     = "Grenade Launcher";
+
+GOTAUTOSHOGUN   = "You got the auto shotgun!";
+GOTCHAINGUN     = "You got the machinegun!";
+GOTGATLINGGUN   = "You got the gatling gun!";
+GOTMISSILE      = "You got the missile launcher!";
+GOTGRENADE      = "You got the grenade launcher!";
+
+GOTGRENADEAMMO  = "Picked up some grenades.";
+GOTGRENADEBOX   = "Picked up a box of grenades.";
+
+OB_MPAUTOSHOTGUN= "%o was swept clean by %k's auto shotgun.";
+OB_MPCHAINGUN   = "%o was mowed down by %k's machinegun.";
+OB_MPGATLINGGUN = "%o was turned to swiss cheese by %k's gatling gun.";
+OB_MPMISSILE    = "%o was mutilated by %k's missile.";
+OB_MPGRENADE    = "%o was turned inside-out by %k's grenade.";

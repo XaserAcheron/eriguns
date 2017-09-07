@@ -1,0 +1,42 @@
+//===========================================================================
+//
+// Players
+//
+//===========================================================================
+
+ACTOR EriPlayer : DoomPlayer
+{
+	Player.DisplayName "Standard"
+	Player.StartItem "EriPistol"
+	Player.StartItem "EriFist"
+	Player.StartItem "Clip", 50
+	Player.WeaponSlot 1, EriFist, EriChainsaw
+	Player.WeaponSlot 2, EriPistol
+	Player.WeaponSlot 3, EriShotgun, EriSuperShotgun
+	Player.WeaponSlot 4, EriMachinegun, EriGatlingGun
+	Player.WeaponSlot 5, EriRocketLauncher, EriMissileLauncher
+	Player.WeaponSlot 6, EriPlasmaRifle
+	Player.WeaponSlot 7, EriBFG9000
+	Player.WeaponSlot 8, EriGrenadeLauncher
+	Damagefactor "Missile", 0.5
+}
+
+ACTOR AltPlayer : DoomPlayer
+{
+	Player.DisplayName "Extended"
+	Player.StartItem "AltToken"
+	Player.StartItem "AltPistol"
+	Player.StartItem "EriFist"
+	Player.StartItem "Clip", 50
+	Player.WeaponSlot 1, EriFist, EriChainsaw
+	Player.WeaponSlot 2, AltPistol
+	Player.WeaponSlot 3, EriShotgun, AltSuperShotgun, EriAutoShotgun
+	Player.WeaponSlot 4, EriMachinegun, EriGatlingGun
+	Player.WeaponSlot 5, EriRocketLauncher, EriMissileLauncher
+	Player.WeaponSlot 6, EriPlasmaRifle
+	Player.WeaponSlot 7, EriBFG9000
+	Player.WeaponSlot 8, EriGrenadeLauncher
+	Damagefactor "Missile", 0.5
+}
+
+ACTOR AltToken : Inventory { +INVENTORY.UNDROPPABLE }

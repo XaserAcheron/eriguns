@@ -1,0 +1,18 @@
+// --------------------------------------------------------------------------
+//
+// Strife enemies
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriStrifeBishop : StrifeBishop replaces StrifeBishop
+{
+	Health 2000
+	DropItem "EriMauler"
+}
+
+ACTOR EriLoremaster : Loremaster replaces Loremaster
+{
+	Health 2000
+	DropItem "EriSoulReaver"
+	DropItem "Junk"
+}

@@ -1,0 +1,59 @@
+// doomguy gunsounds
+
+weapons/pistolclipout   dsdbcls
+weapons/pistolclipin    dsdbload
+weapons/machinegun      dsmgun
+weapons/sshot1bar       dsdsht1b
+weapons/autoshot1       dssweep1
+weapons/autoshot2       dssweep2
+weapons/autoshot3       dssweep3
+weapons/autoshotclipout dsdbcls
+weapons/autoshotclipin  dsdbload
+$random weapons/autoshot { weapons/autoshot1 weapons/autoshot2 weapons/autoshot3 }
+$volume weapons/autoshot1 0.7
+$volume weapons/autoshot2 0.7
+$volume weapons/autoshot3 0.7
+weapons/gatlingfire1    dsgtfir1
+weapons/gatlingfire2    dsgtfir2
+weapons/gatlingfire3    dsgtfir3
+weapons/gatlingwindup   dsgtwndu
+weapons/gatlingspin     dsgtspin
+weapons/gatlingwinddown dsgtwndd
+$random weapons/gatlingfire { weapons/gatlingfire1 weapons/gatlingfire2 weapons/gatlingfire3 }
+weapons/missilefire     dsmlaunc
+weapons/missilefly      dsmisfly
+weapons/missilelock     dsmisloc
+weapons/missileexplode  dsmisexp
+$limit weapons/missileexplode 0
+weapons/plasmafly       dsplsfly
+weapons/bfgfly          dsbfgfly
+weapons/grenadefire     dsglaunc
+weapons/grenadeexplode  dsgxplod
+$limit weapons/grenadefire 0
+$limit weapons/grenadeexplode 0
+
+// orig. sounds (copied here for strife compat ;)
+
+$pitchshiftrange 3
+weapons/sawup			dssawup
+weapons/sawidle			dssawidl
+weapons/sawfull			dssawful
+weapons/sawhit			dssawhit
+
+$pitchshiftrange 4
+weapons/pistol			dspistol
+weapons/shotgf			dsshotgn
+weapons/shotgr			dssgcock
+weapons/sshotf			dsdshtgn
+weapons/sshoto			dsdbopn
+weapons/sshotc			dsdbcls
+weapons/sshotl			dsdbload
+weapons/rocklx			dsbarexp
+weapons/rocklf			dsrlaunc
+weapons/plasmaf			dsplasma
+weapons/plasmax			dsfirxpl
+weapons/bfgf			dsbfg
+weapons/bfgx			dsrxplod
+$limit weapons/plasmaf 0
+$limit weapons/rocklf 0
+$limit weapons/rocklx 0

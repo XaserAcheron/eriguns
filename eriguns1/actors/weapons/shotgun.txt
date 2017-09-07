@@ -1,0 +1,51 @@
+// --------------------------------------------------------------------------
+//
+// Shotgun
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriShotgun : DoomWeapon replaces Shotgun
+{
+	Game Doom
+	Scale 0.8
+	SpawnID 27
+	Weapon.SelectionOrder 1300
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 8
+	Weapon.AmmoType "Shell"
+	AttackSound "weapons/shotgf"
+	Inventory.PickupMessage "$GOTSHOTGUN"
+	Obituary "$OB_MPSHOTGUN"
+	Tag "$TAG_SHOTGUN"
+	Decal "BulletChip"
+	States
+	{
+	Ready:
+		DSGG A 1 A_WeaponReady
+		Loop
+	Deselect:
+		DSGG A 1 A_Lower
+		Loop
+	Select:
+		DSGG A 1 A_Raise
+		Loop
+	Fire:
+		DSGG A 3
+		DSGF A 2 bright A_FireShotgun
+		DSGF BC 2 bright
+		DSGG A 5
+		DSGG BCD 3
+		DSGG E 5
+		DSGG DCB 3
+		DSGG A 7 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 2 Bright A_Light1
+		TNT1 A 2 Bright A_Light2
+		TNT1 A 2 Bright A_Light1
+		Goto LightDone
+	Spawn:
+		DESG A -1
+		Stop
+	}
+}

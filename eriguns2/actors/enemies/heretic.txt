@@ -1,0 +1,237 @@
+// --------------------------------------------------------------------------
+//
+// Heretic enemies
+//
+// --------------------------------------------------------------------------
+
+ACTOR EriHereticImp : HereticImp replaces HereticImp
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		IMPX S 4 A_ImpXDeath1
+		IMPX T 4
+		IMPX U 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		IMPX V 4 A_Gravity
+		IMPX W 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2)
+		Wait
+	}
+}
+
+ACTOR EriHereticImpLeader : EriHereticImp replaces HereticImpLeader 
+{
+	Health 80
+	-MISSILEMORE
+	AttackSound "himp/leaderattack"
+	States
+	{
+	Melee:
+		Stop
+	Missile:
+		IMPX DE 6 A_FaceTarget
+		IMPX F 6 A_CustomComboAttack("HereticImpBall", 32, random[ImpMsAttack2](5,12), "himp/leaderattack")
+		Goto See
+	}
+}
+
+ACTOR EriMummy : Mummy replaces Mummy
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		MUMM I 4
+		MUMM J 4 A_Scream
+		MUMM K 4 A_SpawnItemEx("MummySoul", 0,0,10, 0,0,1)
+		MUMM L 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		MUMM M 4 A_NoBlocking
+		MUMM NO 4
+		MUMM P -1
+		Stop
+	}
+}
+
+ACTOR EriMummyLeader : EriMummy replaces MummyLeader
+{
+	Health 100
+	Painchance 64
+	Obituary "$OB_MUMMYLEADER"
+	States
+	{
+	Missile:
+		MUMM X 5 A_FaceTarget
+		MUMM Y 5 Bright A_FaceTarget
+		MUMM X 5 A_FaceTarget
+		MUMM Y 5 Bright A_FaceTarget
+		MUMM X 5 A_FaceTarget
+		MUMM Y 5 Bright A_CustomComboAttack("MummyFX1", 32, random[MummyAttack2](1,8)*2, "mummy/attack2")
+		Goto See
+	}
+}
+
+ACTOR EriMummyGhost : EriMummy replaces MummyGhost
+{
+	+SHADOW
+	+GHOST
+	RenderStyle Translucent
+	Alpha 0.4
+}
+
+ACTOR EriMummyLeaderGhost : EriMummyLeader replaces MummyLeaderGhost
+{
+	+SHADOW
+	+GHOST
+	RenderStyle Translucent
+	Alpha 0.4
+}
+
+ACTOR EriKnight : Knight replaces Knight
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		KNIG I 5
+		KNIG J 4 A_Scream
+		KNIG K 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		KNIG L 4 A_NoBlocking
+		KNIG M 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3)
+		KNIG N 4
+		KNIG O -1
+		Stop
+	}
+}
+
+ACTOR EriKnightGhost : EriKnight replaces KnightGhost
+{
+	+SHADOW
+	+GHOST
+	RenderStyle Translucent
+	Alpha 0.4
+}
+
+ACTOR EriWizard : Wizard replaces Wizard
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		WZRD F 4 A_GhostOff
+		WZRD G 4 A_Scream
+		WZRD H 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		WZRD I 4 A_NoBlocking
+		WZRD J 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4)
+		WZRD K 4
+		WZRD L 4
+		WZRD M -1 A_SetFloorClip
+		Stop
+	}
+}
+
+ACTOR EriBeast : Beast replaces Beast
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		BEAS J 4
+		BEAS K 4 A_Scream
+		BEAS L 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		BEAS M 4 A_NoBlocking
+		BEAS N 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4)
+		BEAS O 4 
+		BEAS P 4
+		BEAS Q -1
+		Stop
+	}
+}
+
+ACTOR EriClink : Clink replaces Clink
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		CLNK I 4
+		CLNK J 4 A_Scream
+		CLNK K 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		CLNK L 4 A_NoBlocking
+		CLNK M 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3)
+		CLNK N 4
+		CLNK O -1
+		Stop
+	}
+}
+
+ACTOR EriSnake : Snake replaces Snake
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		SNKE G 4
+		SNKE H 4 A_Scream
+		SNKE I 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		SNKE J 4 A_NoBlocking
+		SNKE K 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4)
+		SNKE LMNO 4
+		SNKE P -1
+		Stop
+	}
+}
+
+ACTOR EriIronLich : IronLich replaces IronLich
+{
+	DropItem "EriMauler"
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		LICH C 5
+		LICH D 5 A_Scream
+		LICH E 5 A_SpawnItemEx("SoulExplosionHuge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		LICH F 5 A_NoBlocking
+		LICH G 5 A_SpawnItemEx("SoulVaporHuge", 0, 0, 24, 0, 0, 5)
+		LICH H 5
+		LICH I -1 A_BossDeath
+		Stop
+	}
+}
+
+ACTOR EriMinotaur : Minotaur replaces Minotaur
+{
+	DropItem "EriSoulReaver"
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		MNTR F 5 A_MinotaurDeath
+		MNTR G 5
+		MNTR H 5 A_Scream
+		MNTR I 5
+		MNTR J 5 A_SpawnItemEx("SoulExplosionHuge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		MNTR K 5 A_NoBlocking
+		MNTR L 5 A_SpawnItemEx("SoulVaporHuge", 0, 0, 24, 0, 0, 5)
+		MNTR MNOPQRS 5
+		MNTR T -1 A_BossDeath
+		Stop
+	}
+}
+
+ACTOR EriChicken : Chicken replaces Chicken
+{
+	States
+	{
+	Death.Soul:
+	Death.SoulRipper:
+		CHKN E 4 A_Scream
+		CHKN F 4 A_Feathers
+		CHKN G 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS)
+		CHKN H 4 A_NoBlocking
+		CHKN I 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2)
+		CHKN JK 4
+		CHKN L -1
+		Stop
+	}
+}
