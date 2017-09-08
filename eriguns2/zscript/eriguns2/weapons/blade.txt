@@ -1,0 +1,308 @@
+// --------------------------------------------------------------------------
+//
+// Vorpal Blade
+//
+// --------------------------------------------------------------------------
+
+class EriBlade : DoomWeapon replaces Chainsaw
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 2200;
+		Weapon.AmmoType "None";
+		Weapon.AmmoType2 "BladeCharge";
+		Weapon.AmmoUse2 100;
+		Weapon.SisterWeapon "EriBladePowered";
+		Inventory.PickupMessage "$GOTBLADE";
+		Obituary "$OB_MPBLADE";
+		Tag "$TAG_BLADE";
+		+WEAPON.NOALERT;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+	}
+	States
+	{
+	Ready:
+		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedReady");
+		HVBG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedDeselect");
+		HVBG A 1 A_Lower();
+		Loop;
+	Select:
+		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedSelect");
+		HVBG A 1 A_Raise();
+		Loop;
+	Fire:
+		"####" A 1 Offset(16, 48);
+		"####" A 1 Offset(32, 64);
+		"####" A 1 Offset(48, 80);
+		"####" A 0 A_WeaponReady(WRF_NOFIRE);
+	Hold:
+		HVBG B 3 A_JumpIfInventory("BladeCharge", 100, "ChargedHold");
+		HVBG C 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+		HVBG D 2;
+		HVBG E 0 A_JumpIfInventory("GameStrife", 1, "AttackSilent");
+		HVBG E 2 A_CustomPunch(10, 0, 0, "BladePuff", 96);
+	PostHold:
+		HVBG F 2;
+		TNT1 A 7;
+		Goto RaiseUp;
+	AttackSilent:
+		HVBG E 2 A_CustomPunch(10, 0, 0, "BladePuffSilent", 96);
+		Goto PostHold;
+	AltFire:
+	AltHold:
+		HVBP A 0 A_JumpIfNoAmmo("Nope");
+		HVBP A 1 Offset(16, 48);
+		HVBP A 1 Offset(32, 64);
+		HVBP A 1 Offset(48, 80);
+		HVBP A 0 A_WeaponReady(WRF_NOFIRE);
+	SuperSlashStart:
+		HVBG B 3;
+		HVBP E 2 A_PlaySound("weapons/bladepower2", CHAN_AUTO);
+		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+		HVBP F 2;
+		HVBP A 0 A_Jump(256, "SuperSlash");
+	SuperSlash:
+		HVBP G 2 A_FireCustomMissile("BladeSlash", 0, 1);
+		HVBP HI 2;
+		TNT1 A 20;
+		Goto RaiseNope;
+	RaiseUp:
+		HVBG A 0 A_Refire;
+		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedRaiseUp");
+	RaiseNope:
+		HVBG A 1 Offset(10, 72);
+		HVBG A 1 Offset( 8, 64);
+		HVBG A 1 Offset( 6, 56);
+		HVBG A 1 Offset( 4, 48);
+		HVBG A 1 Offset( 2, 40);
+		Goto Ready;
+	Nope:
+		HVBG A 1 A_WeaponReady(WRF_NOFIRE);
+		Goto Ready;
+	Flash:
+		TNT1 A 3 Bright A_Light(1);
+		TNT1 A 3 Bright A_Light(3);
+		TNT1 A 3 Bright A_Light(2);
+		TNT1 A 3 Bright A_Light(1);
+		Goto LightDone;
+	ChargedReady:
+		HVBP AAABBBCCCDDDCCC 1 A_WeaponReady();
+		Loop;
+	ChargedDeselect:
+		HVBP AAABBBCCCDDDCCC 1 A_Lower();
+		Loop;
+	ChargedSelect:
+		HVBP AAABBBCCCDDDCCC 1 A_Raise();
+		Loop;
+	ChargedHold:
+		HVBG B 3;
+		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+		HVBP F 2;
+		HVBP G 0 A_JumpIfInventory("GameStrife", 1, "ChargedAttackSilent");
+		HVBP G 2 A_CustomPunch(15, 0, 0, "BladePuffRed", 96);
+	ChargedPostHold:
+		HVBP HI 2;
+		TNT1 A 5;
+		Goto RaiseUp;
+	ChargedAttackSilent:
+		HVBP G 2 A_CustomPunch(15, 0, 0, "BladePuffRedSilent", 96);
+		Goto ChargedPostHold;
+	ChargedRaiseUp:
+		HVBP D 1 Offset(10, 72);
+		HVBP D 1 Offset( 8, 64);
+		HVBP C 1 Offset( 6, 56);
+		HVBP C 1 Offset( 4, 48);
+		HVBP C 1 Offset( 2, 40);
+		Goto Ready;
+	Spawn:
+		HEVB A -1;
+		Stop;
+	}
+}
+
+class EriBladePowered : EriBlade
+{
+	Default
+	{
+		Weapon.SisterWeapon "EriBlade";
+		Obituary "$OB_MPBLADEPOW";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Ready:
+		HVBG A 0 A_GiveInventory("BladeCharge", 100);
+		Goto ChargedReady;
+	Deselect:
+		HVBG A 0 A_GiveInventory("BladeCharge", 100);
+		Goto ChargedDeselect;
+	Select:
+		HVBG A 0 A_GiveInventory("BladeCharge", 100);
+		Goto ChargedSelect;
+	ChargedHold:
+		HVBG B 3;
+		HVBP E 0 A_PlaySound("weapons/bladepower", CHAN_AUTO);
+		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+		HVBP F 2;
+		HVBP G 0 A_JumpIfInventory("GameStrife", 1, "AttackSilent");
+		HVBP G 0 A_CustomPunch(10, 1, 0, "BladePuffRed", 128, 1, 200);
+		HVBP G 2 A_CustomPunch(20, 0, 0, "BladePuffRed", 128);
+	PostChargedHold:
+		HVBP HI 2;
+		TNT1 A 5;
+		Goto RaiseUp;
+	AttackSilent:
+		HVBP G 0 A_CustomPunch(10, 1, 0, "BladePuffRedSilent", 128, 1, 200);
+		HVBP G 2 A_CustomPunch(20, 0, 0, "BladePuffRedSilent", 128);
+		Goto PostChargedHold;
+	AltHold:
+		Goto SuperSlashStart;
+	SuperSlash:
+		HVBP G 2 A_FireCustomMissile("BladeSlash", 0, 0);
+		HVBP HI 2;
+		TNT1 A 20;
+		Goto RaiseUp;
+	}
+}
+
+class EriBladeGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBLADE";
+		DropItem "EriBlade";
+	}
+	States
+	{
+	Spawn:
+		HEVB A -1;
+		Stop;
+	}
+}
+class EriBladeHeretic : EriBladeGiver replaces Gauntlets {}
+class EriBladeHexen1  : EriBladeGiver replaces FWeapFist {}
+class EriBladeHexen2  : EriBladeGiver replaces CWeapMace {}
+class EriBladeHexen3  : EriBladeGiver replaces MWeapWand {}
+
+class BladeCharge : Ammo
+{
+	Default
+	{
+		Inventory.MaxAmount 100;
+		Inventory.Icon "STTPRCNT";
+		+INVENTORY.IGNORESKILL;
+	}
+}
+
+class BladePuff : EriPuff
+{
+	Default
+	{
+		AttackSound "weapons/bladeclunk";
+		SeeSound "weapons/bladesplat";
+		RenderStyle "Translucent";
+		Alpha 0.75;
+	}
+	States
+	{	
+	Spawn:
+	Melee:
+		BSMK A 0;
+		BSMK A 2 A_AlertMonsters();
+		BSMK BCDEFG 2;
+		Stop;
+	XDeath:
+		FAXE F 0;
+		FAXE F 0 A_AlertMonsters();
+		FAXE F 3 A_GiveToTarget("BladeCharge", 10);
+		FAXE GHIJK 3;
+		Stop;
+	}
+}
+
+class BladePuffSilent : BladePuff
+{
+	States
+	{	
+	Spawn:
+	Melee:
+		BSMK ABCDEFG 2;
+		Stop;
+	XDeath:
+		FAXE F 0;
+		FAXE F 3 A_GiveToTarget("BladeCharge", 10);
+		FAXE GHIJK 3;
+		Stop;
+	}
+}
+
+class BladePuffRed : BladePuffSilent
+{
+	States
+	{	
+	Spawn:
+	Melee:
+		BSMR A 0;
+		BSMR A 2 A_AlertMonsters();
+		BSMR BCDEFG 2;
+		Stop;
+	}
+}
+
+class BladePuffRedSilent : BladePuffRed
+{
+	States
+	{	
+	Spawn:
+	Melee:
+		BSMR ABCDEFG 2;
+		Stop;
+	}
+}
+
+class BladeSlash : FastProjectile
+{
+	Default
+	{
+		Radius 16;
+		Height 8;
+		Speed 20;
+		Damage 5;
+		Projectile;
+		Scale 0.66;
+		DamageType "Ripper";
+		Obituary "$OB_MPBLADE";
+		MissileType "BladeTrail";
+		MissileHeight 8;
+		+RIPPER;
+	}
+	States
+	{
+	Spawn:
+		BSLA A 15 Bright;
+		Stop;
+	Death:
+		TNT1 A 1;
+		Stop;
+	}
+}
+
+class BladeTrail : EriTrail
+{
+	Default
+	{
+		Alpha 0.5;
+		Scale 0.66;
+		RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		BSLA AAAAAAA 1 Bright A_FadeOut(0.1, 1);
+		Stop;
+	}
+}

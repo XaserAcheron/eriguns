@@ -1,7 +1,4 @@
 #include "actors/gamedet.txt"
-#include "actors/weapons/base.txt"
-#include "actors/weapons/fist.txt"
-#include "actors/weapons/blade.txt"
 #include "actors/weapons/immolator.txt"
 #include "actors/weapons/bloodbane.txt"
 #include "actors/weapons/nailgun.txt"
