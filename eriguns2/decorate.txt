@@ -1,6 +1,4 @@
 #include "actors/gamedet.txt"
-#include "actors/weapons/nailgun.txt"
-#include "actors/weapons/mauler.txt"
 #include "actors/weapons/irebolt.txt"
 #include "actors/weapons/caster.txt"
 #include "actors/weapons/basilisk.txt"

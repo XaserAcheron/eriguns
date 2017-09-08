@@ -1,0 +1,264 @@
+// --------------------------------------------------------------------------
+//
+// Nailgun
+//
+// --------------------------------------------------------------------------
+
+class EriNailgun : DoomWeapon
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 700;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "NailAmmo";
+		Weapon.SisterWeapon "EriNailgunPowered";
+		Inventory.PickupMessage "$GOTNAILGUN";
+		Tag "$TAG_NAILGUN";
+	}
+	States
+	{
+	Ready:
+		HNAG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HNAG A 1 A_Lower();
+		Loop;
+	Select:
+		HNAG A 1 A_Raise();
+		Loop;
+	Fire:
+		HNAF A 0 Bright A_GunFlash();
+		HNAF A 0 Bright A_CheckForReload(2, "Fire2");
+		HNAF A 0 Bright A_ResetReloadCounter;
+		HNAF A 0 Bright A_PlaySound("weapons/nailbone1", CHAN_WEAPON);
+		HNAF A 0 Bright A_PlaySound("weapons/nailgunextra", CHAN_VOICE, 0.5);
+		HNAF A 2 Bright A_FireProjectile("Nail", 0, 1, -4);
+		HNAF B 2 Bright;
+		HNAG A 2;
+		Goto Ready;
+	Fire2:
+		HNAF A 0 Bright A_PlaySound("weapons/nailbone2", CHAN_WEAPON);
+		HNAF A 0 Bright A_PlaySound("weapons/nailgunextra", CHAN_VOICE, 0.5);
+		HNAF C 2 Bright A_FireProjectile("Nail", 0, 1, 4);
+		HNAF D 2 Bright;
+		HNAG A 2;
+		Goto Ready;
+	Flash:
+		TNT1 A 2 Bright A_Light(2);
+		TNT1 A 2 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HENG A -1;
+		Stop;
+	}
+}
+
+class EriNailgunPowered : EriNailgun
+{
+	Default
+	{
+		Weapon.AmmoUse 4;
+		Weapon.AmmoGive 0;
+		Weapon.SisterWeapon "EriNailgun";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Fire:
+		HNAF A 0 Bright A_PlaySound("weapons/nailbone3", CHAN_WEAPON);
+		HNAF A 0 Bright A_PlaySound("weapons/nailgunextra", CHAN_VOICE, 1.0);
+		HNAF E 0 Bright A_FireProjectile("SuperNail", 0, 0, -3);
+		HNAF E 2 Bright A_FireProjectile("SuperNail", 0, 1,  3);
+		HNAF F 2 Bright;
+		HNAG EAA 2;
+		Goto Ready;
+	}
+}
+
+class EriNailgunMana : EriNailgun replaces CWeapStaff
+{
+	Default
+	{
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriNailgunManaPowered";
+	}
+}
+
+class EriNailgunManaPowered : EriNailgunPowered
+{
+	Default
+	{
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriNailgunMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriNailgunGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTNAILGUN";
+		DropItem "EriNailgun";
+	}
+	States
+	{
+	Spawn:
+		HENG A -1;
+		Stop;
+	}
+}
+
+class EriNailgunHeretic : EriNailgunGiver replaces Blaster    {}
+class EriNailgunStrife  : EriNailgunGiver replaces AssaultGun {}
+class EriNailgunStrife2 : EriNailgunGiver replaces AssaultGunStanding
+{
+	States
+	{
+	Spawn:
+		HENG B -1;
+		Stop;
+	}
+}
+
+class Nail : FastProjectile
+{
+	int user_xvel;
+	int user_yvel;
+	int user_zvel;
+
+	Default
+	{
+		Radius 4;
+		Height 8;
+		Speed 40;
+		Damage 4;
+		Projectile;
+		Scale 0.75;
+		MissileType "NailTrail";
+		MissileHeight 8;
+		SeeSound "weapons/nailgunfire";
+		Obituary "$OB_MPNAILGUN";
+		Decal "BulletChip";
+		+THRUACTORS;
+		+NODAMAGETHRUST;
+		+BLOODSPLATTER;
+	}
+	States
+	{
+	Spawn:
+		NAIL A 0 NoDelay {
+			user_xvel = vel.x;
+			user_yvel = vel.y;
+			user_zvel = vel.z;
+			return A_Jump(256, "Fly");
+		}
+	Fly:
+		NAIL A -1 { bThruActors = false; }
+		Stop;
+	Death:
+	Crash:
+		PUFF A 3 A_PlaySound("weapons/nailgunhit");
+		PUFF BCD 3;
+		Stop;
+	XDeath:
+		TNT1 A 0 A_PlaySound("weapons/nailgunblood");
+	SpawnSubNail:
+		TNT1 A 1 A_SpawnItemEx("SubNail",0,0,0,user_xvel,user_yvel,user_zvel,angle,SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM | SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+		Stop;
+	}
+}
+
+class QNail : Nail
+{
+	Default
+	{
+		SeeSound "";
+	}
+}
+
+class SubNail : QNail
+{
+	States
+	{
+	Fly:
+		NAIL A 1 ;
+		NAIL A 0 { bThruActors = false; }
+		NAIL AAAAAA 1 A_SpawnItemEx("MiniBlood", frandom(-0.1,0.1), 0, frandom(-0.1,0.1));
+		NAIL A -1;
+		Stop;
+	XDeath:
+		TNT1 A 0 A_PlaySound("weapons/nailgunblood");
+		Stop;
+	}
+}
+
+class MiniBlood : Blood
+{
+	Default
+	{
+		Scale 0.5;
+		Gravity 0.5;
+	}
+}
+
+class SuperNail : QNail
+{
+	Default
+	{
+		DamageFunction (2);
+		Obituary "$OB_MPNAILGUNPOW";
+		MissileType "NailTrailHot";
+		DamageType "Ripper";
+		+RIPPER;
+		-THRUACTORS;
+	}
+	States
+	{
+	Spawn:
+	Fly:
+		NAIL B -1 Bright;
+		Stop;
+	Death:
+	Crash:
+	XDeath:
+		PUFF A 3 A_PlaySound("weapons/nailgunhit");
+		PUFF BCD 3;
+		Stop;
+	}
+}
+
+class NailTrail : EriTrail
+{ 
+	Default
+	{
+		Alpha 0.25;
+		Scale 0.5;
+		RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		NTRL IACEG 1 Bright;
+		Stop;
+	}
+}
+
+class NailTrailHot : NailTrail
+{
+	Default
+	{
+		Alpha 0.5;
+		Scale 0.075;
+		VSpeed 0.5;
+	}
+	States
+	{
+	Spawn:
+		HFLM ZABCIJKLM 1 Bright;
+		Stop;
+	}
+}
