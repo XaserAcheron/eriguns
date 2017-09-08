@@ -1,39 +1,8 @@
 // --------------------------------------------------------------------------
 //
-// Basic Actors
+// Game Detection stuff -- will be nix'd in due time.
 //
 // --------------------------------------------------------------------------
-
-ACTOR EriTrail
-{
-	-RANDOMIZE
-	+NOBLOCKMONST
-	+NOTELEPORT
-	+FORCEXYBILLBOARD
-	+NOBLOCKMAP
-	+NOGRAVITY
-	+THRUACTORS
-}
-
-ACTOR EriDrop : EriTrail
-{
-	Projectile
-	-NOGRAVITY
-	Damage 0
-	Speed 0
-}
-
-ACTOR EriPuff
-{
-	+NOGRAVITY
-	+PUFFGETSOWNER
-	+PUFFONACTORS
-}
-
-ACTOR EriToken : Inventory
-{
-	+INVENTORY.UNDROPPABLE
-}
 
 ACTOR GameDetectorDoom    { Game Doom    SpawnID 255  Radius 1  Height 1 }
 ACTOR GameDetectorHeretic { Game Heretic SpawnID 255  Radius 1  Height 1 }

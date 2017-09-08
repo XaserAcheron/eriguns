@@ -1,0 +1,285 @@
+// --------------------------------------------------------------------------
+//
+// Items
+//
+// --------------------------------------------------------------------------
+
+class EriSmallHealth : Stimpack replaces Stimpack
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTHEALTHSMALL";
+	}
+	States
+	{
+	Spawn:
+		HRT1 ABCD 6;
+		Loop;
+	}
+}
+
+class EriLargeHealth : Medikit replaces Medikit
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTHEALTHLARGE";
+		Health.LowMessage 25, "$GOTHEALTHNEED";
+	}
+	States
+	{
+	Spawn:
+		BBON ABCDCB 6;
+		Loop;
+	}
+}
+
+class EriHellsphere : PowerupGiver //replaces BlurSphere
+{
+	Default
+	{
+		Inventory.PickupSound "misc/p_pkup";
+		Inventory.PickupMessage "$GOTHELLSPHERE";
+		Inventory.MaxAmount 0;
+		Powerup.Type "PowerWeaponLevel2";
+		Powerup.Color "128 0 0", 0.4;
+		Powerup.Duration -60;
+		+COUNTITEM;
+		+INVENTORY.AUTOACTIVATE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+	States
+	{
+	Spawn:
+		HELS ABCD 6 BRIGHT;
+	}
+}
+
+class EriBerserksphere : Berserk //replaces Berserk
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTZERKSPHERE";
+	}
+	States
+	{
+	Spawn:
+		ZERK ABCD 6 BRIGHT;
+		Loop;
+	Pickup:
+		TNT1 A 0 A_GiveInventory("PowerStrength");
+		TNT1 A 0 HealThing(100, 0);
+		TNT1 A 0 A_SelectWeapon("EriFist");
+		Stop;
+	}
+}
+
+class EriHellsphere2 : CustomInventory replaces Berserk
+{
+	Default
+	{
+		Inventory.PickupSound "misc/p_pkup";
+		Inventory.PickupMessage "$GOTHELLSPHERE";
+		+COUNTITEM;
+		+INVENTORY.AUTOACTIVATE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+	States
+	{
+	Spawn:
+		HELS ABCD 6 BRIGHT;
+		Loop;
+	Pickup:
+		TNT1 A 0 A_GiveInventory("EriHellsphere");
+		TNT1 A 0 A_GiveInventory("PowerStrength");
+		TNT1 A 0 HealThing(100, 0);
+		Stop;
+	}
+}
+
+class EriRadsphere : Radsuit replaces Radsuit
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTRADSPHERE";
+	}
+	States
+	{
+	Spawn:
+		RADS ABCD 6 BRIGHT;
+		Loop;
+	}
+}
+
+class EriAllSeeingEye : Allmap replaces Allmap
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTALLSEEINGEYE";
+	}
+	States
+	{
+	Spawn:
+		VISN ABCD 6 BRIGHT;
+		Loop;
+	}
+}
+
+class EriDemonomicon : ArtiTomeOfPower replaces ArtiTomeOfPower
+{
+	Default
+	{
+		Inventory.Icon "ARTITOME";
+		Inventory.PickupMessage "$GOTDEMONOMICON";
+		Tag "$TAG_DEMONOMICON";
+	}
+	States
+	{
+	Spawn:
+		TOME B -1;
+		Loop;
+	}
+}
+class EriDemonomiconHexen : RandomSpawner replaces ArtiDarkServant
+{
+	Default
+	{
+		DropItem "EriDemonomicon";
+	}
+}
+
+class EriSoulBomb : ArtiPoisonBagShooter replaces ArtiPoisonBag
+{
+	Default
+	{
+		Tag "$TAG_SOULBOMB";
+		Inventory.DefMaxAmount;
+		Inventory.Icon "ARTISBOM";
+		Inventory.PickupMessage "$GOTSOULBOMB";
+		Inventory.PickupSound "misc/p_pkup";
+		MissileType "ActivatedSoulBomb";
+		Renderstyle "Translucent";
+		Alpha 0.9;
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		SBOM ABCD 4 Bright;
+		Loop;
+	}
+}
+class EriSoulBombHeretic : RandomSpawner replaces ArtiTimeBomb
+{
+	Default
+	{
+		DropItem "EriSoulBomb";
+	}
+}
+class ActivatedSoulBomb : Actor
+{
+	Default
+	{
+		DamageType "Soul";
+		Renderstyle "Translucent";
+		Alpha 0.9;
+		+NOGRAVITY;
+	}
+	States
+	{
+	Spawn:
+		SBOM EFGHEFGH 5 Bright;
+		REAX A 0 Bright A_SetTranslucent(1.0, 1);
+		REAX A 0 Bright A_PlaySound("misc/soulboom", CHAN_AUTO);
+		REAX A 3 Bright A_PlaySound("misc/soulbomb", CHAN_AUTO);
+		REAX B 3 Bright A_Explode(128, 128, 1);
+		REAX CDEFGHI 3 Bright;
+		Stop;
+	}
+}
+
+class EriEggFX : EggFX replaces EggFX
+{
+	Default
+	{
+		MorphProjectile.PlayerClass "EriChickenPlayer";
+		MorphProjectile.MonsterClass "EriChicken";
+	}
+}
+
+/*
+ACTOR EriPorkFX : PorkFX replaces PorkFX
+{
+	Default
+	{
+		MorphProjectile.PlayerClass "EriPigPlayer";
+		MorphProjectile.MonsterClass "EriPig";
+	}
+}
+*/
+
+class EriHereticShield1 : GreenArmor replaces SilverShield    { Default { Armor.SavePercent 50; +FLOATBOB; } }
+class EriHereticShield2 : BlueArmor  replaces EnchantedShield { Default { Armor.SavePercent 75; +FLOATBOB; } }
+
+class EriHexenArmor1 : MeshArmor replaces MeshArmor
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTARMOR";
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		ARM1 A 6;
+		ARM1 B 7 Bright;
+		Loop;
+	}
+}
+
+class EriHexenArmor2 : FalconShield replaces FalconShield
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTARMOR2";
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		ARM2 A 6;
+		ARM2 B 7 Bright;
+		Loop;
+	}
+}
+
+class EriHexenArmor3 : PlatinumHelm replaces PlatinumHelm
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTARMOR3";
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		ARM3 A 6;
+		ARM3 B 7 Bright;
+		Loop;
+	}
+}
+
+class EriHexenArmor4 : AmuletOfWarding replaces AmuletOfWarding
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTARMOR4";
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		ARM4 A 6;
+		ARM4 B 7 Bright;
+		Loop;
+	}
+}

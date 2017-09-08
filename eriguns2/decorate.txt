@@ -1,7 +1,4 @@
-#include "actors/base.txt"
-#include "actors/player.txt"
-#include "actors/ammo.txt"
-#include "actors/items.txt"
+#include "actors/gamedet.txt"
 #include "actors/weapons/base.txt"
 #include "actors/weapons/fist.txt"
 #include "actors/weapons/blade.txt"

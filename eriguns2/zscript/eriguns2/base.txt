@@ -1,0 +1,48 @@
+// --------------------------------------------------------------------------
+//
+// Basic Actors
+//
+// --------------------------------------------------------------------------
+
+class EriTrail : Actor
+{
+	Default
+	{
+		-RANDOMIZE;
+		+NOBLOCKMONST;
+		+NOTELEPORT;
+		+FORCEXYBILLBOARD;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+THRUACTORS;
+	}
+}
+
+class EriDrop : EriTrail
+{
+	Default
+	{
+		Projectile;
+		Damage 0;
+		Speed 0;
+		-NOGRAVITY;
+	}
+}
+
+class EriPuff : Actor
+{
+	Default
+	{
+		+NOGRAVITY;
+		+PUFFGETSOWNER;
+		+PUFFONACTORS;
+	}
+}
+
+class EriToken : Inventory
+{
+	Default
+	{
+		+INVENTORY.UNDROPPABLE;
+	}
+}
