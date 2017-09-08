@@ -1,0 +1,364 @@
+// --------------------------------------------------------------------------
+//
+// Soulcaster
+//
+// --------------------------------------------------------------------------
+
+class EriCaster : DoomWeapon replaces RocketLauncher
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 350;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 4;
+		Weapon.AmmoType "SoulAmmo";
+		Weapon.SisterWeapon "EriCasterPowered";
+		Inventory.PickupMessage "$GOTCASTER";
+		Tag "$TAG_CASTER";
+		Decal "PlasmaScorchLower";
+		AttackSound "weapons/casterpow";
+	}
+	States
+	{
+	Ready:
+		HCAG A 0 A_GunFlash("Clear");
+		HCAG A 1 A_WeaponReady();
+		Wait;
+	Deselect:
+		HCAG A 0 A_GunFlash("Clear");
+		HCAG A 1 A_Lower();
+		Wait;
+	Select:
+		HCAG A 1 A_Raise();
+		Loop;
+	Fire:
+		HCAF A 0 Bright A_PlaySound("weapons/castercharge", CHAN_AUTO);
+		HCAF A 0 Bright A_GunFlash("Clear");
+		HCAF A 0 Bright A_GunFlash("Charge");
+	Hold:
+		TNT1 A 1 Bright;
+		TNT1 A 0 Bright A_JumpIfNoAmmo("Release");
+		TNT1 A 0 Bright A_Refire();
+		TNT1 A 0 Bright A_Jump(256, "Release");
+	Release:
+		HCAF J 0 Bright A_JumpIfInventory("CasterChargeToken", 1, "Release2");
+		HCAF J 0 Bright A_RailAttack(75, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrail3", -4);
+		Goto ReleaseDone;
+	Release2: 
+		HCAF J 0 Bright A_JumpIfInventory("CasterChargeToken", 2, "Release3");
+		HCAF J 0 Bright A_TakeInventory("SoulAmmo", 1, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_RailAttack(150, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrail2", -4);
+		Goto ReleaseDone;
+	Release3: 
+		HCAF J 0 Bright A_TakeInventory("SoulAmmo", 2, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_RailAttack(300, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff1", 0, 0, 0, 0, 8.0, 0, "CasterTrail1", -4);
+	ReleaseDone:
+		HCAF J 0 Bright A_TakeInventory("CasterChargeToken", 2);
+		HCAF J 0 Bright A_GunFlash();
+		HCAF J 0 Bright A_StopSound(CHAN_BODY);
+		HCAF J 0 Bright A_StopSound(CHAN_VOICE);
+		HCAF J 1 Bright A_PlaySound("weapons/casterfire", CHAN_WEAPON);
+		HCAF KL 2 Bright;
+		HCAF M 6;
+		HCAF N 2;
+		HCAG A 2;
+		Goto Ready;
+	Charge:
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 1.0, 1);
+		HCAF ABCABC 3 Bright;
+	ChargeLoop1:
+		HCAF ABC 3 Bright;
+		HCAF A 0 Bright A_JumpIfInventory("SoulAmmo", 2, 1);
+		Loop;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 0.5, 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_VOICE, 0.5, 1);
+		HCAF DEFDEF 3 Bright;
+	ChargeLoop2:
+		HCAF DEF 3 Bright;
+		HCAF A 0 Bright A_JumpIfInventory("SoulAmmo", 3, 1);
+		Loop;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_BODY, 1.0, 1);
+		HCAF A 0 Bright A_StopSound(CHAN_VOICE);
+	ChargeLoop3:
+		HCAF GHI 3 Bright;
+		Loop;
+	Flash:
+		TNT1 A 2 Bright A_Light(3);
+		TNT1 A 2 Bright A_Light(2);
+		TNT1 A 2 Bright A_Light(1);
+		Goto LightDone;
+	Clear:
+		TNT1 A 0 Bright A_StopSound(CHAN_BODY);
+		TNT1 A 0 Bright A_StopSound(CHAN_VOICE);
+		TNT1 A 0 Bright A_TakeInventory("CasterChargeToken", 2);
+		TNT1 A 1;
+		Stop;
+	Spawn:
+		HECA A -1;
+		Stop;
+	}
+}
+
+class EriCasterPowered : EriCaster
+{
+	Default
+	{
+		Weapon.SisterWeapon "EriCaster";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Charge:
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 1.0, 1);
+		HCAF A 3 Bright A_RailAttack(25, 0, 1, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF B 3 Bright;
+		HCAF C 3 Bright A_RailAttack(25, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF A 3 Bright;
+		HCAF B 3 Bright A_RailAttack(25, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF C 3 Bright;
+		HCAF A 3 Bright A_RailAttack(25, 0, 1, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF B 3 Bright;
+		HCAF C 3 Bright A_RailAttack(25, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF A 3 Bright;
+		HCAF B 3 Bright A_RailAttack(25, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort3", -4);
+		HCAF C 3 Bright;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 0.5, 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_VOICE, 0.5, 1);
+		HCAF D 3 Bright A_RailAttack(50, 0, 1, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF E 3 Bright;
+		HCAF F 3 Bright A_RailAttack(50, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF D 3 Bright;
+		HCAF E 3 Bright A_RailAttack(50, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF F 3 Bright;
+		HCAF D 3 Bright A_RailAttack(50, 0, 1, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF E 3 Bright;
+		HCAF F 3 Bright A_RailAttack(50, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF D 3 Bright;
+		HCAF E 3 Bright A_RailAttack(50, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort2", -4);
+		HCAF F 3 Bright;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_BODY, 1.0, 1);
+		HCAF A 0 Bright A_StopSound(CHAN_VOICE);
+	ChargeLoop:
+		HCAF G 3 Bright A_RailAttack(100, 0, 1, "", "", RGF_NOPIERCING, 0, "CasterPPuff1", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort1", -4);
+		HCAF H 3 Bright;
+		HCAF I 3 Bright A_RailAttack(100, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff1", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort1", -4);
+		HCAF G 3 Bright;
+		HCAF H 3 Bright A_RailAttack(100, 0, 0, "", "", RGF_NOPIERCING, 0, "CasterPPuff1", 0, 0, 0, 0, 8.0, 0, "CasterTrailShort1", -4);
+		HCAF I 3 Bright;
+		Loop;
+	Release:
+		HCAG A 0 A_GunFlash();
+		HCAG A 0 A_StopSound(CHAN_VOICE);
+		HCAG A 0 A_StopSound(CHAN_BODY);
+		HCAG A 0 A_JumpIfInventory("CasterChargeToken", 2, "ReleaseAni3");
+		HCAG A 0 A_JumpIfInventory("CasterChargeToken", 1, "ReleaseAni2");
+		Goto ReleaseAni1;
+	ReleaseAni3:
+		HCAF D 3 Bright;
+	ReleaseAni2:
+		HCAF A 3 Bright;
+	ReleaseAni1:
+		HCAG A 3 A_TakeInventory("CasterChargeToken", 2);
+		Goto Ready;
+	Flash:
+		TNT1 A 0;
+		Goto LightDone;
+	}
+}
+
+class EriCasterMana : EriCaster replaces MWeapLightning
+{
+	Default
+	{
+		Weapon.AmmoGive1 25;
+		Weapon.AmmoGive2 25;
+		Weapon.AmmoUse1 2;
+		Weapon.AmmoUse2 2;
+		Weapon.AmmoType1 "Mana1";
+		Weapon.AmmoType2 "Mana2";
+		Weapon.SisterWeapon "EriCasterManaPowered";
+		+WEAPON.PRIMARY_USES_BOTH;
+	}
+	States
+	{
+	Release:
+		HCAF J 0 Bright A_JumpIfInventory("CasterChargeToken", 1, "Release2");
+		HCAF J 0 Bright A_RailAttack(75, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff3", 0, 0, 0, 0, 8.0, 0, "CasterTrail3", -4);
+		Goto ReleaseDone;
+	Release2: 
+		HCAF J 0 Bright A_JumpIfInventory("CasterChargeToken", 2, "Release3");
+		HCAF J 0 Bright A_TakeInventory("Mana1", 2, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_TakeInventory("Mana2", 2, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_RailAttack(150, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff2", 0, 0, 0, 0, 8.0, 0, "CasterTrail2", -4);
+		Goto ReleaseDone;
+	Release3: 
+		HCAF J 0 Bright A_TakeInventory("Mana1", 4, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_TakeInventory("Mana2", 4, TIF_NOTAKEINFINITE);
+		HCAF J 0 Bright A_RailAttack(300, 0, 1, "", "", RGF_SILENT|RGF_NOPIERCING, 0, "CasterPuff1", 0, 0, 0, 0, 8.0, 0, "CasterTrail1", -4);
+		Goto ReleaseDone;
+	Charge:
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 1.0, 1);
+		HCAF ABCABC 3 Bright;
+	ChargeLoop1:
+		HCAF ABC 3 Bright;
+		HCAF A 0 Bright A_JumpIfInventory("Mana1", 4, 1);
+		Loop;
+		HCAF A 0 Bright A_JumpIfInventory("Mana2", 4, 1);
+		Goto ChargeLoop1;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop", CHAN_BODY, 0.5, 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_VOICE, 0.5, 1);
+		HCAF DEFDEF 3 Bright;
+	ChargeLoop2:
+		HCAF DEF 3 Bright;
+		HCAF A 0 Bright A_JumpIfInventory("Mana1", 6, 1);
+		Loop;
+		HCAF A 0 Bright A_JumpIfInventory("Mana2", 6, 1);
+		Goto ChargeLoop2;
+		HCAF A 0 Bright A_GiveInventory("CasterChargeToken", 1);
+		HCAF A 0 Bright A_PlaySound("weapons/casterloop2", CHAN_BODY, 1.0, 1);
+		HCAF A 0 Bright A_StopSound(CHAN_VOICE);
+		Goto ChargeLoop3;
+	}
+}
+
+class EriCasterManaPowered : EriCasterPowered
+{
+	Default
+	{
+		Weapon.AmmoUse1 2;
+		Weapon.AmmoUse2 2;
+		Weapon.AmmoType1 "Mana1";
+		Weapon.AmmoType2 "Mana2";
+		Weapon.SisterWeapon "EriCasterMana";
+		+WEAPON.PRIMARY_USES_BOTH;
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriCasterGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTCASTER";
+		DropItem "EriCaster";
+	}
+	States
+	{
+	Spawn:
+		HECA A -1;
+		Stop;
+	}
+}
+
+class EriCasterHeretic  : EriCasterGiver replaces Mace        {}
+class EriCasterHeretic2 : EriCasterGiver replaces MaceSpawner {}
+class EriCasterStrife   : EriCasterGiver replaces Mauler      {}
+
+class CasterChargeToken : EriToken
+{
+	Default
+	{
+		Inventory.MaxAmount 2;
+	}
+}
+
+class CasterTrail1 : EriTrail
+{ 
+	Default
+	{
+		Alpha 0.50;
+		Scale 0.50;
+		RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		SEFX EDCBAABCDEF 1 Bright;
+		Stop;
+	}
+}
+
+class CasterTrail2 : CasterTrail1
+{
+	Default
+	{
+		Scale 0.33;
+	}
+}
+
+class CasterTrail3 : CasterTrail1
+{
+	Default
+	{
+		Scale 0.25;
+	}
+}
+
+class CasterTrailShort1 : CasterTrail1
+{
+	States
+	{
+	Spawn:
+		SEFX ECABDF 1 Bright;
+		Stop;
+	}
+}
+
+class CasterTrailShort2 : CasterTrailShort1
+{
+	Default
+	{
+		Scale 0.33;
+	}
+}
+
+class CasterTrailShort3 : CasterTrailShort1
+{
+	Default
+	{
+		Scale 0.25;
+	}
+}
+
+class CasterPuff1 : EriPuff
+{
+	Default
+	{
+		Obituary "$OB_MPCASTER";
+		RenderStyle "Add";
+		DamageType "Soul";
+		+ALWAYSPUFF;
+	}
+	States
+	{
+	Spawn:
+		SPUF ABCDEFG 3 Bright;
+		Stop;
+	}
+}
+
+class CasterPuff2 : CasterPuff1
+{
+	Default
+	{
+		Scale 0.75;
+	}
+}
+
+class CasterPuff3 : CasterPuff1
+{
+	Default
+	{
+		Scale 0.50;
+	}
+}
+
+class CasterPPuff1 : CasterPuff1 { Default { Obituary "$OB_MPCASTERPOW"; } }
+class CasterPPuff2 : CasterPuff2 { Default { Obituary "$OB_MPCASTERPOW"; } }
+class CasterPPuff3 : CasterPuff3 { Default { Obituary "$OB_MPCASTERPOW"; } }

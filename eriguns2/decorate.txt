@@ -1,6 +1,4 @@
 #include "actors/gamedet.txt"
-#include "actors/weapons/irebolt.txt"
-#include "actors/weapons/caster.txt"
 #include "actors/weapons/basilisk.txt"
 #include "actors/weapons/soulreaver.txt"
 #include "actors/enemies/base.txt"
