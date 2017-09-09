@@ -6,6 +6,11 @@
 
 class EriMachinegun : DoomWeapon replaces Chaingun
 {
+	const AMMO_OVERLAY_L = 11;
+	const AMMO_OVERLAY_C = 12;
+	const AMMO_OVERLAY_R = 13;
+	int counteryoffset;
+
 	Default
 	{
 		Scale 0.8;
@@ -21,37 +26,106 @@ class EriMachinegun : DoomWeapon replaces Chaingun
 	States
 	{
 	Ready:
-		DMGG A 0 ACS_NamedExecute("MachinegunCounter",0,0,0,0); // hide ammo counter
 		DMGG A 1 A_WeaponReady();
 		Wait;
 	Deselect:
-		DMGG A 0 ACS_NamedExecute("MachinegunCounter",0,0,0,0); // hide ammo counter
 		DMGG A 1 A_Lower();
 		Wait;
 	Select:
+		DMGG A 0 X_InitAmmoCounter();
 		DMGG A 1 A_Raise();
-		Loop;
+		Wait;
 	Fire:
-		DMGF A 0 A_WeaponReady(WRF_NOFIRE | WRF_NOBOB | WRF_NOSWITCH | WRF_NOPRIMARY);
-		DMGF A 0 A_FireBullets (5.6, 0, 1, 5, "BulletPuff");
-		DMGF A 0 A_GunFlash();
-		DMGF A 0 ACS_NamedExecute("MachinegunCounter",0,1,0,0); // show ammo counter -- 'idle' position
-		DMGF A 2 Bright A_PlaySound("weapons/machinegun", CHAN_WEAPON);
-		DMGF B 2 Bright ACS_NamedExecute("MachinegunCounter",0,2,0,0);
-		DMGF B 0 A_CheckReload();
-		DMGF C 0 A_FireBullets (5.6, 0, 1, 5, "BulletPuff");
-		DMGF C 0 A_GunFlash();
-		DMGF C 0 ACS_NamedExecute("MachinegunCounter",0,1,0,0);
-		DMGF C 2 Bright A_PlaySound("weapons/machinegun", CHAN_WEAPON);
-		DMGF D 2 Bright ACS_NamedExecute("MachinegunCounter",0,2,0,0);
-		DMGG B 0 A_ReFire();
+		DMGF A 2 Bright X_FireMachinegun();
+		DMGF B 2 Bright X_MachinegunRecoil();
+		DMGF C 2 Bright X_FireMachinegun();
+		DMGF D 2 Bright X_MachinegunRecoil();
+		DMGG B 0 X_MachinegunRefire();
 		Goto Ready;
 	Flash:
 		TNT1 A 2 Bright A_Light(1);
 		TNT1 A 2 Bright A_Light(2);
 		Goto LightDone;
+	AmmoCounterL:
+		DMGN A 1 Bright X_AmmoCounter(AMMO_OVERLAY_L, 2,-5);
+		Loop;
+	AmmoCounterC:
+		DMGN A 1 Bright X_AmmoCounter(AMMO_OVERLAY_C, 1, 0);
+		Loop;
+	AmmoCounterR:
+		DMGN A 1 Bright X_AmmoCounter(AMMO_OVERLAY_R, 0, 5);
+		Loop;
+	DeadLowered:
+		TNT1 A -1;
+		Stop;
 	Spawn:
 		DEMG A -1;
 		Stop;
+	}
+
+	action state X_FireMachinegun()
+	{
+		invoker.counteryoffset = 0;
+		if(invoker.CheckAmmo(Weapon.PrimaryFire, false)) {
+			A_GunFlash();
+			A_FireBullets (5.6, 0, 1, 5, "BulletPuff");
+			A_PlaySound("weapons/machinegun", CHAN_WEAPON);
+			return null;
+
+		} else {
+			return ResolveState("Ready");
+		}
+	}
+
+	action void X_MachinegunRecoil()
+	{
+		invoker.counteryoffset = 2;
+	}
+
+	action void X_MachinegunRefire()
+	{
+		invoker.counteryoffset = 0;
+		A_Refire();
+	}
+
+	action void X_InitAmmoCounter()
+	{
+		A_Overlay(AMMO_OVERLAY_L, "AmmoCounterL");
+		A_Overlay(AMMO_OVERLAY_C, "AmmoCounterC");
+		A_Overlay(AMMO_OVERLAY_R, "AmmoCounterR");
+	}
+
+	action void X_AmmoCounter(int layer, int place, float xoffset)
+	{
+		A_OverlayOffset(layer, xoffset, invoker.counteryoffset);
+		
+		// set the digit
+		// [TODO] replace StupidPow with ** when it stops crashing 9_6.
+		int ammoCount = invoker.ammo1 ? invoker.ammo1.amount : 0;
+		int div = EriMachinegun.StupidPow(10, place);
+		int frame = ammoCount / div % 10;
+
+		// [TODO] generalize this into an "A_SetOverlayFrame" since that'll be useful
+		if(self.player) {
+			PSprite psp = self.player.GetPSprite(layer);
+			if(psp && psp.CurState != null) {
+				psp.frame = frame;
+			}
+		}
+	}
+
+	// [XA] stupid pow function; just doing ints for now because that's
+	// all I need at present. Will remove this if the crash gets fixed.
+	static int StupidPow(int a, int b)
+	{
+		if(b > 0) {
+			int v = a;
+			for(int i = 1; i < b; i++) {
+				v *= a;
+			}
+			return v;
+		} else {
+			return 1;
+		}
 	}
 }
