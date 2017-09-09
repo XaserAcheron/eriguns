@@ -71,11 +71,10 @@ class EriBFGBall : Actor replaces BFGBall
 	States
 	{
 	Spawn:
-		PLSS A 0;
-		PLSS A 1 A_PlaySound("weapons/BFGfly", CHAN_BODY, 0.75, 1, ATTN_NORM);
+		BFS1 A 0 Bright NoDelay A_PlaySound("weapons/BFGfly", CHAN_BODY, 0.75, 1, ATTN_NORM);
 	Fly:
 		BFS1 AB 4 Bright;
-		Goto Fly;
+		Loop;
 	Death:
 		BFE1 A 0 Bright A_StopSound(CHAN_BODY);
 		BFE1 AB 8 Bright;
