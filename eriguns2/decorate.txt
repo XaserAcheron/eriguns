@@ -1,6 +1,1 @@
 #include "actors/gamedet.txt"
-#include "actors/enemies/base.txt"
-#include "actors/enemies/doom.txt"
-#include "actors/enemies/heretic.txt"
-#include "actors/enemies/hexen.txt"
-#include "actors/enemies/strife.txt"
