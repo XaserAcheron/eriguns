@@ -53,6 +53,8 @@ class EriRocketLauncher : DoomWeapon replaces RocketLauncher
 
 class EriRocket : Actor replaces Rocket
 {
+	bool noisy;
+
 	Default
 	{
 		Radius 11;
@@ -69,17 +71,28 @@ class EriRocket : Actor replaces Rocket
 	States
 	{
 	Spawn:
-		RCKT A 0;
-		RCKT A 0 A_PlaySound("weapons/missilefly", CHAN_BODY, 0.35, 1, ATTN_NORM);
-		RCKT A 1 Bright A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
-		Wait;
+		RCKT A 1 Bright NoDelay X_RocketTrail();
+		Loop;
 	Death:
-		RCKT B 0 Bright A_SetTranslucent(1.0,1);
-	    MISL B 0 Bright A_StopSound(CHAN_BODY);
-		RCKT B 3 Bright A_Explode();
+		RCKT B 4 Bright X_RocketExplode();
 		RCKT CD 3 Bright;
-		RCKT E 3 Bright A_SetTranslucent(0.75,1);
-		RCKT F 3 Bright A_SetTranslucent(0.5,1);
+		RCKT EF 2 Bright A_FadeOut(0.25);
 		Stop;
+	}
+	
+	void X_RocketTrail()
+	{
+		A_SpawnItemEx("MissileTrail", 0, 0, 0, -5, 0, 0, 0, 0);
+		if(!noisy) {
+			A_PlaySound("weapons/missilefly", CHAN_BODY, 0.35, 1, ATTN_NORM);
+			noisy = true;
+		}
+	}
+	
+	void X_RocketExplode()
+	{
+		A_SetTranslucent(1.0,1);
+	    A_StopSound(CHAN_BODY);
+		A_Explode();
 	}
 }

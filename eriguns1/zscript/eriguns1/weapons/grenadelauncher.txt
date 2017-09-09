@@ -30,8 +30,7 @@ class EriGrenadeLauncher : DoomWeapon
 		Loop;
 	Fire:
 		DGLF A 2 A_GunFlash();
-		DGLF B 0 Bright A_PlaySound("weapons/grenadefire", CHAN_WEAPON);
-		DGLF B 2 Bright A_FireProjectile("EriGrenade",0,1,0,0,2,-5);
+		DGLF B 2 Bright X_FireGrenade();
 		DGLF C 2 Bright;
 		DGLF DE 2;
 		DGLG C 4;
@@ -46,6 +45,12 @@ class EriGrenadeLauncher : DoomWeapon
 	Spawn:
 		DEGL A -1;
 		Stop;
+	}
+
+	action void X_FireGrenade()
+	{
+		A_PlaySound("weapons/grenadefire", CHAN_WEAPON);
+		A_FireProjectile("EriGrenade", 0, 1, 0, 0, 2, -5);
 	}
 }
 
@@ -89,16 +94,26 @@ class EriGrenade : Actor
 	States
 	{
 	Spawn:
-		GRNP A 1 Bright A_SpawnItemEx("EriGrenadeTrail",0,0,0,-2,0,0,0,0);
+		GRNP A 1 Bright X_GrenadeTrail();
 		Wait;
 	Death:
-		RCKT B 0 Bright A_NoGravity();
-		RCKT B 0 Bright A_SetTranslucent(1.0,1);
-		RCKT B 3 Bright A_Explode(128, 256, 1, 1, 128);
+		RCKT B 4 Bright X_GrenadeExplode();
 		RCKT CD 3 Bright;
-		RCKT E 3 Bright A_SetTranslucent(0.75,1);
-		RCKT F 3 Bright A_SetTranslucent(0.5,1);
+		RCKT EF 2 Bright A_FadeOut(0.25);
 		Stop;
+	}
+
+	void X_GrenadeTrail()
+	{
+		A_SpawnItemEx("EriGrenadeTrail", 0, 0, 0, -2, 0, 0, 0, 0);
+	}
+
+	void X_GrenadeExplode()
+	{
+		A_NoGravity();
+		A_SetScale(1.2, 0.8);
+		A_SetTranslucent(1.0,1);
+		A_Explode(128, 256, 1, 1, 128);
 	}
 }
 
