@@ -1,0 +1,266 @@
+// --------------------------------------------------------------------------
+//
+// Super Hell Ammo Damn
+//
+// --------------------------------------------------------------------------
+
+class NailAmmo : Ammo replaces Clip
+{
+	Default
+	{
+		Tag "$TAG_NAILAMMO";
+		Inventory.PickupMessage "$GOTNAILAMMO";
+		Inventory.Amount 8;
+		Inventory.MaxAmount 160;
+		Ammo.BackpackAmount 8;
+		Ammo.BackpackMaxAmount 320;
+		Inventory.Icon "NAIAB0";
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		NAIA A -1;
+		Stop;
+	}
+}
+
+class NailHefty : NailAmmo replaces ClipBox
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTNAILHEFTY";
+		Inventory.Amount 40;
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		NAIC A -1;
+		Stop;
+	}
+}
+
+class BloodAmmo : Ammo replaces Shell
+{
+	Default
+	{
+		Tag "$TAG_BLOODAMMO";
+		Inventory.PickupMessage "$GOTBLOODAMMO";
+		Inventory.Amount 4;
+		Inventory.MaxAmount 50;
+		Ammo.BackpackAmount 8;
+		Ammo.BackpackMaxAmount 100;
+		Inventory.Icon "BLDAD0";
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		BLDA AAAAACBC 5;
+		Loop;
+	}
+}
+
+class BloodHefty : BloodAmmo replaces ShellBox
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBLOODHEFTY";
+		Inventory.Amount 20;
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		BLDC AAAAABCB 5;
+		Loop;
+	}
+}
+
+class SoulAmmo : Ammo replaces RocketAmmo
+{
+	Default
+	{
+		Tag "$TAG_SOULAMMO";
+		Inventory.PickupMessage "$GOTSOULAMMO";
+		Inventory.Amount 2;
+		Inventory.MaxAmount 100;
+		Ammo.BackpackAmount 0;
+		Ammo.BackpackMaxAmount 200;
+		Inventory.Icon "SOUAA0";
+		Renderstyle "Add";
+		+FLOATBOB;
+	}
+	States
+	{
+	Spawn:
+		SOUA ABCD 4 Bright;
+		Loop;
+	}
+}
+
+class SoulHefty : SoulAmmo replaces RocketBox
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTSOULHEFTY";
+		Inventory.Amount 10;
+	}
+	States
+	{
+	Spawn:
+		SOUC ABCD 4 Bright;
+		Loop;
+	}
+}
+
+class FlameAmmo : Ammo replaces Cell
+{
+	Default
+	{
+		Tag "$TAG_FLAMEAMMO";
+		Inventory.PickupMessage "$GOTFLAMEAMMO";
+		Inventory.Amount 30;
+		Inventory.MaxAmount 350;
+		Ammo.BackpackAmount 100;
+		Ammo.BackpackMaxAmount 700;
+		Inventory.Icon "FLMAD0";
+	}
+	States
+	{
+	Spawn:
+		FLMA ABCB 5 Bright;
+		Loop;
+	}
+}
+
+class FlameHefty : FlameAmmo replaces CellPack
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTFLAMEHEFTY";
+		Inventory.Amount 150;
+	}
+	States
+	{
+	Spawn:
+		FLMC ABCB 5 Bright;
+		Loop;
+	}
+}
+
+
+class BasicAmmo : Backpack replaces Backpack
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBASICAMMO";
+	}
+	States
+	{
+	Spawn:
+		BASC A 0;
+		BASC A 0 A_SpawnItemEx("EriNailgun");
+	Idle:
+		BASC ABCD 6 BRIGHT;
+		Loop;
+	}
+}
+
+// Extra ammo types for Heretic and Strife:
+
+class AshAmmo : Ammo replaces GoldWandAmmo
+{
+	Default
+	{
+		Tag "$TAG_ASHAMMO";
+		Inventory.PickupMessage "$GOTASHAMMO";
+		Inventory.Amount 5;
+		Inventory.MaxAmount 50;
+		Ammo.BackpackAmount 5;
+		Ammo.BackpackMaxAmount 100;
+		Inventory.Icon "ASHAB0";
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		ASHA A -1;
+		Stop;
+	}
+}
+
+class AshHefty : AshAmmo replaces GoldWandHefty
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTASHHEFTY";
+		Inventory.Amount 40;
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		ASHC A -1;
+		Stop;
+	}
+}
+
+class BoltAmmo : Ammo replaces PhoenixRodAmmo
+{
+	Default
+	{
+		Tag "$TAG_BOLTAMMO";
+		Inventory.PickupMessage "$GOTBOLTAMMO";
+		Inventory.Amount 2;
+		Inventory.MaxAmount 40;
+		Ammo.BackpackAmount 2;
+		Ammo.BackpackMaxAmount 80;
+		Inventory.Icon "BOLAB0";
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		BOLA A -1;
+		Stop;
+	}
+}
+
+class BoltHefty : BoltAmmo replaces PhoenixRodHefty
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBOLTHEFTY";
+		Inventory.Amount 10;
+		Scale 0.8;
+	}
+	States
+	{
+	Spawn:
+		BOLC A -1;
+		Stop;
+	}
+}
+
+// Ammo givers for Heretic and Strife:
+
+class NailAmmoHeretic   : NailAmmo   replaces BlasterAmmo   {}
+class NailHeftyHeretic  : NailHefty  replaces BlasterHefty  {}
+class BloodAmmoHeretic  : BloodAmmo  replaces CrossbowAmmo  {}
+class BloodHeftyHeretic : BloodHefty replaces CrossbowHefty {}
+class SoulAmmoHeretic   : SoulAmmo   replaces MaceAmmo      {}
+class SoulHeftyHeretic  : SoulHefty  replaces MaceHefty     {}
+class FlameAmmoHeretic  : FlameAmmo  replaces SkullRodAmmo  {}
+class FlameHeftyHeretic : FlameHefty replaces SkullRodHefty {}
+
+class AshAmmoStrife    : AshAmmo    replaces ElectricBolts  {}
+class AshHeftyStrife   : AshHefty   replaces PoisonBolts    {}
+class NailAmmoStrife   : NailAmmo   replaces ClipOfBullets  {}
+class NailHeftyStrife  : NailHefty  replaces BoxOfBullets   {}
+class BloodAmmoStrife  : BloodAmmo  replaces MiniMissiles   {}
+class BloodHeftyStrife : BloodHefty replaces CrateOfMissiles{}
+class SoulHeftyStrife  : SoulHefty  replaces PhosphorusGrenadeRounds {}
+class FlameAmmoStrife  : FlameAmmo  replaces EnergyPod      {}
+class FlameHeftyStrife : FlameHefty replaces EnergyPack     {}

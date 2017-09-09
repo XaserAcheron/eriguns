@@ -65,3 +65,8 @@ skill nightmare
 	MustConfirm
 	Key = "n"
 }
+
+DoomEdNums
+{
+	5011 = EriNailgun
+}

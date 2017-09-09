@@ -1,0 +1,103 @@
+// --------------------------------------------------------------------------
+//
+// BFG 9000
+//
+// --------------------------------------------------------------------------
+
+class EriBFG9000 : DoomWeapon replaces BFG9000
+{
+	Default
+	{
+		Scale 0.8;
+		Height 20;
+		Weapon.SelectionOrder 2800;
+		Weapon.AmmoUse 40;
+		Weapon.AmmoGive 40;
+		Weapon.AmmoType "Cell";
+		Inventory.PickupMessage "$GOTBFG9000";
+		Tag "$TAG_BFG9000";
+		+WEAPON.NOAUTOFIRE;
+	}
+	States
+	{
+	Ready:
+		DBFG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		DBFG A 1 A_Lower();
+		Loop;
+	Select:
+		DBFG A 1 A_Raise();
+		Loop;
+	Fire:
+		DBFG B 10 A_PlaySound("weapons/bfgf",CHAN_AUTO);
+		DBFC ABCDE 2 Bright;
+		DBFC F 2 Bright A_GunFlash();
+		DBFC GHIJ 2 Bright;
+		DBFF A 2 Bright A_FireBFG();
+		DBFF B 2 Bright ;
+		DBFG CDA 2 Bright;
+		DBFG A 20 A_ReFire();
+		Goto Ready;
+	Flash:
+		TNT1 A 5 Bright A_Light(1);
+		TNT1 A 5 Bright A_Light(2);
+		TNT1 A 2 Bright A_Light(3);
+		TNT1 A 2 Bright A_Light(2);
+		TNT1 A 2 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		DEBF A -1;
+		Stop;
+	}
+}
+
+class EriBFGBall : Actor replaces BFGBall
+{
+	Default
+	{
+		Radius 13;
+		Height 8;
+		Speed 25;
+		Damage 100;
+		Projectile;
+		RenderStyle "Add";
+		Alpha 0.75;
+		DeathSound "weapons/bfgx";
+		Obituary "$OB_MPBFG_BOOM";
+		Decal "BFGLightning";
+		+RANDOMIZE;
+	}
+	States
+	{
+	Spawn:
+		PLSS A 0;
+		PLSS A 1 A_PlaySound("weapons/BFGfly", CHAN_BODY, 0.75, 1, ATTN_NORM);
+	Fly:
+		BFS1 AB 4 Bright;
+		Goto Fly;
+	Death:
+		BFE1 A 0 Bright A_StopSound(CHAN_BODY);
+		BFE1 AB 8 Bright;
+		BFE1 C 8 Bright A_BFGSpray();
+		BFE1 DEF 8 Bright;
+		Stop;
+	}
+}
+		
+class EriBFGExtra : Actor replaces BFGExtra
+{
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 0.75;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+	}
+	States
+	{
+	Spawn:
+		BFE2 ABCD 8 Bright;
+		Stop;
+	}
+}

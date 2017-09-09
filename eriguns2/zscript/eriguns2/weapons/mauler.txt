@@ -1,0 +1,272 @@
+// --------------------------------------------------------------------------
+//
+// Mauler
+//
+// --------------------------------------------------------------------------
+
+class EriMauler : DoomWeapon replaces Chaingun
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 400;
+		Weapon.AmmoUse 8;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "NailAmmo";
+		Weapon.SisterWeapon "EriMaulerPowered";
+		Inventory.PickupMessage "$GOTMAULER";
+		Tag "$TAG_MAULER";
+	}
+	States
+	{
+	Ready:
+		HMAG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HMAG A 1 A_Lower();
+		Loop;
+	Select:
+		HMAG A 1 A_Raise();
+		Loop;
+	Fire:
+		HMAF A 3 Bright A_GunFlash();
+		HMAF B 0 Bright A_PlaySound("weapons/maulerfire", CHAN_WEAPON);
+		HMAF B 0 Bright A_PlaySound("weapons/maulerfire1", CHAN_AUTO);
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom( -8.0,-4.0), 0,-4.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom( -4.0, 0.0), 0,-1.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom(  0.0, 4.0), 0, 1.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom(  4.0, 8.0), 0, 4.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF B 0 Bright A_FireProjectile("MaulerNail", frandom(-12.0,-6.0), 0,-6.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF B 0 Bright A_FireProjectile("MaulerNail", frandom( -6.0,-2.0), 0,-3.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF B 0 Bright A_FireProjectile("MaulerNail", frandom( -2.0, 2.0), 0, 0.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF B 0 Bright A_FireProjectile("MaulerNail", frandom(  2.0, 6.0), 0, 3.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF B 0 Bright A_FireProjectile("MaulerNail", frandom(  6.0,12.0), 0, 6.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom( -8.0,-4.0), 0,-4.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom( -4.0, 0.0), 0,-1.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF B 0 Bright A_FireProjectile( "MicroNail", frandom(  0.0, 4.0), 0, 1.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF B 3 Bright A_FireProjectile( "MicroNail", frandom(  4.0, 8.0), 1, 4.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF C 3 Bright;
+		HMAF D 3;
+		HMAF E 3 A_PlaySound("weapons/maulersteam", CHAN_AUTO);
+		HMAF FGHI 3;
+		HMAG A 7;
+		Goto Ready;
+	Flash:
+		TNT1 A 3 Bright A_Light(1);
+		TNT1 A 3 Bright A_Light(2);
+		TNT1 A 3 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HEMA A -1;
+		Stop;
+	}
+}
+
+class EriMaulerPowered : EriMauler
+{
+	Default
+	{
+		Weapon.SisterWeapon "EriMauler";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Fire:
+		HMAF J 3 Bright A_GunFlash();
+		HMAF K 0 Bright A_PlaySound("weapons/maulerfire", CHAN_WEAPON);
+		HMAF K 0 Bright A_PlaySound("weapons/maulerpowfire", CHAN_AUTO);
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -8.0,-4.0), 0,-4.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -4.0, 0.0), 0,-1.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(  0.0, 4.0), 0, 1.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(  4.0, 8.0), 0, 4.5, 3, 1, frandom( 0.0, 2.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(-12.0,-6.0), 0,-6.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -6.0,-2.0), 0,-3.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -2.0, 2.0), 0, 0.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(  2.0, 6.0), 0, 3.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(  6.0,12.0), 0, 6.0, 0, 1, frandom(-0.5, 0.5) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -8.0,-4.0), 0,-4.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom( -4.0, 0.0), 0,-1.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF K 0 Bright A_FireProjectile("MaulerPowBomb", frandom(  0.0, 4.0), 0, 1.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF K 3 Bright A_FireProjectile("MaulerPowBomb", frandom(  4.0, 8.0), 1, 4.5,-3, 1, frandom(-2.0, 0.0) );
+		HMAF L 3 Bright;
+		HMAF M 3;
+		HMAF N 3 A_PlaySound("weapons/maulersteam", CHAN_AUTO);
+		HMAF OGHI 3;
+		HMAG A 4;
+		Goto Ready;
+	}
+}
+
+class EriMaulerMana : EriMauler replaces MageWeaponPiece
+{
+	Default
+	{
+		Weapon.AmmoGive 25;
+		Weapon.AmmoUse 4;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriMaulerManaPowered";
+	}
+}
+
+class EriMaulerManaPowered : EriMaulerPowered
+{
+	Default
+	{
+		Weapon.AmmoUse 4;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriMaulerMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriMaulerManaGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTMAULER";
+		DropItem "EriMaulerMana";
+	}
+	States
+	{
+	Spawn:
+		HEMA A -1;
+		Stop;
+	}
+}
+
+class EriMaulerHexen0 : EriMaulerManaGiver replaces BloodscourgeDrop {}
+class EriMaulerHexen1 : EriMaulerManaGiver replaces MWeaponPiece1    {}
+class EriMaulerHexen2 : EriMaulerManaGiver replaces MWeaponPiece2    {}
+class EriMaulerHexen3 : EriMaulerManaGiver replaces MWeaponPiece3    {}
+
+class MaulerNail : QNail
+{
+	Default
+	{
+		Obituary "$OB_MPMAULER";
+	}
+}
+
+class MicroNail : Nail
+{
+	Default
+	{
+		Damage 2;
+		Scale 0.5;
+		SeeSound "";
+		Obituary "$OB_MPMAULER";
+		MissileType "MicroNailTrail";
+	}
+	States
+	{
+	XDeath:
+		TNT1 A 0 A_PlaySound("weapons/nailgunblood");
+	SpawnSubNail:
+		TNT1 A 1 A_SpawnItemEx("SubMicroNail",0,0,0,user_xvel,user_yvel,user_zvel,angle,SXF_ABSOLUTEANGLE | SXF_ABSOLUTEMOMENTUM | SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+		Stop;
+	}
+}
+
+class SubMicroNail : SubNail
+{
+	Default
+	{
+		Damage 2;
+		Scale 0.5;
+		Obituary "$OB_MPMAULER";
+		MissileType "MicroNailTrail";
+	}
+}
+
+class MicroNailTrail : NailTrail
+{ 
+	Default
+	{
+		Scale 0.33;
+	}
+}
+
+class MaulerPowBomb : FastProjectile
+{
+	Default
+	{
+		Radius 4;
+		Height 8;
+		Speed 40;
+		Damage 5;
+		Projectile;
+		+FORCERADIUSDMG;
+		+BLOODSPLATTER;
+		Scale 0.75;
+		Obituary "$OB_MPMAULERPOW";
+		Decal "PlasmaScorchLower";
+		DamageType "Explosive";
+	}
+	States
+	{
+	Spawn:
+		MPOW A 0;
+		MPOW A 0 A_Jump(256, 1, 2, 3, 4);
+	Fly:
+		MPOW A 1 Bright A_SpawnItemEx("MaulerPowTrail1", 0, 0, 0, 0, -1, 0, SXF_CLIENTSIDE);
+		MPOW A 1 Bright A_SpawnItemEx("MaulerPowTrail2", 0, 0, 0, 0, -1, 0, SXF_CLIENTSIDE);
+		MPOW A 1 Bright A_SpawnItemEx("MaulerPowTrail3", 0, 0, 0, 0, -1, 0, SXF_CLIENTSIDE);
+		MPOW A 1 Bright A_SpawnItemEx("MaulerPowTrail4", 0, 0, 0, 0, -1, 0, SXF_CLIENTSIDE);
+		Loop;
+	Death:
+		MPOW B 0 Bright A_SetTranslucent(1.0, 1);
+		MPOW B 3 Bright A_PlaySound("weapons/maulerpowhit");
+		MPOW C 3 Bright A_Explode(10, 32, 0, 0, 32);
+		MPOW DEF 3 Bright;
+		Stop;
+	}
+}
+
+class MaulerPowTrail1 : EriTrail
+{ 
+	Default
+	{
+		Alpha 0.75;
+		Scale 0.75;
+		RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		MPT1 A 0;
+		Goto Fade;
+	Fade:
+		"####" IABCDE 1 Bright;
+		Stop;
+	}
+}
+
+class MaulerPowTrail2 : MaulerPowTrail1
+{
+	States
+	{
+	Spawn:
+		MPT2 A 0;
+		Goto Fade;
+	}
+}
+
+class MaulerPowTrail3 : MaulerPowTrail1
+{
+	States
+	{
+	Spawn:
+		MPT3 A 0;
+		Goto Fade;
+	}
+}
+
+class MaulerPowTrail4 : MaulerPowTrail1
+{
+	States
+	{
+	Spawn:
+		MPT4 A 0;
+		Goto Fade;
+	}
+}

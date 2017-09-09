@@ -1,0 +1,292 @@
+// --------------------------------------------------------------------------
+//
+// Blood Bane
+//
+// --------------------------------------------------------------------------
+
+class EriBloodbane : DoomWeapon replaces Shotgun
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 1300;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 8;
+		Weapon.AmmoType "BloodAmmo";
+		Weapon.SisterWeapon "EriBloodbanePowered";
+		Inventory.PickupMessage "$GOTBLOODBANE";
+		Tag "$TAG_BLOODBANE";
+		AttackSound "weapons/bloodbanestab";
+	}
+	States
+	{
+	Ready:
+		HBBG AAAAAAAAAAAAAAAAAAAAAAAA 1 A_WeaponReady();
+	Beat:
+		HBBG B 0 A_PlaySound("weapons/bloodbaneheart");
+		HBBG BBBBCCCCDDDD 1 A_WeaponReady();
+		Goto Ready;
+	Deselect:
+		HBBG A 1 A_StopSound(CHAN_BODY);
+		HBBG A 1 A_Lower();
+		Wait;
+	Select:
+		HBBG A 1 A_Raise();
+		Loop;
+	Fire:
+		HBBG A 0 Bright A_GunFlash();
+		HBBG E 3 Bright A_PlaySound("weapons/bloodbanescream", CHAN_AUTO);
+		HBBG F 0 Bright A_PlaySound("weapons/bloodbanestab", CHAN_WEAPON);
+		HBBG F 0 Bright A_PlaySound("weapons/bloodbanefire", CHAN_AUTO);
+		HBBG FFFFFF 0 Bright A_FireProjectile("BloodShot", frandom(5, -5), 0, 0, 0, 1, frandom(-8, -3));
+		HBBG F      3 Bright A_FireProjectile("BloodShot", frandom(5, -5), 1, 0, 0, 1, frandom(-8, -3));
+		HBBG G 3 Bright;
+		HBBG H 3;
+		HBBG B 3 A_PlaySound("weapons/bloodbaneheart", CHAN_WEAPON);
+		HBBG CDA 3;
+		HBBG B 3 A_PlaySound("weapons/bloodbaneheart", CHAN_WEAPON);
+		HBBG CD 3;
+		HBBG A 3 A_Refire();
+		Goto Beat;
+	Spawn:
+		HEBB A -1;
+		Stop;
+	}
+}
+
+class EriBloodbanePowered : EriBloodbane
+{
+	Default
+	{
+		Weapon.SisterWeapon "EriBloodbane";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Fire:
+		HBBF F 0 Bright A_GunFlash();
+		HBBF F 0 Bright A_PlaySound("weapons/bloodbanepow", CHAN_AUTO);
+		HBBF F 0 Bright A_PlaySound("weapons/bloodbanepow3", CHAN_AUTO);
+		HBBF FFFFFFFFFFF 0 Bright A_FireProjectile("BloodPowShot", frandom(5, -5), 0, 0, 0, 1, frandom(-8, -3));
+		HBBF F           3 Bright A_FireProjectile("BloodPowShot", frandom(5, -5), 1, 0, 0, 1, frandom(-8, -3));
+		HBBF GHI 3 Bright;
+		HBBF J 2 Bright A_PlaySound("weapons/bloodbanezap", CHAN_AUTO);
+		HBBF KLMNOPQ 2 Bright;
+		Goto Beat;
+	}
+}
+
+class EriBloodbaneMana : EriBloodbane replaces MWeapFrost
+{
+	Default
+	{
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriBloodbaneManaPowered";
+	}
+}
+
+class EriBloodbaneManaPowered : EriBloodbanePowered
+{
+	Default
+	{
+		Weapon.AmmoUse 2;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriBloodbaneMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriBloodbaneGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBLOODBANE";
+		DropItem "EriBloodbane";
+	}
+	States
+	{
+	Spawn:
+		HEBB A -1;
+		Stop;
+	}
+}
+
+class EriBloodbaneHeretic : EriBloodbaneGiver replaces Crossbow            {}
+class EriBloodbaneStrife  : EriBloodbaneGiver replaces MiniMissileLauncher {}
+
+class BloodCharge : EriToken
+{
+	Default
+	{
+		Inventory.MaxAmount 2;
+	}
+}
+
+class BloodShot : Actor
+{
+	Default
+	{
+		Height 13;
+		Radius 4;
+		Speed 30;
+		Damage 3;
+		Renderstyle "Translucent";
+		Alpha 0.75;
+		Scale 0.33;
+		Gravity 0.5;
+		Projectile;
+		Decal "BloodSmear";
+		Deathsound "weapons/bloodbanehit";
+		Obituary "$OB_MPBLOODBANE";
+		-NOGRAVITY;
+		+FORCEXYBILLBOARD;
+	}
+    States
+    {
+    Spawn:
+        GORB ABCDEFG 1 A_SpawnItemEx("BloodTrailTiny",0,0,0,frandom(-0.25,0.25),frandom(-0.25,0.25),frandom(-0.5,0.5),0,128,0);
+        Loop;
+    Death:
+		GORB HH 0 A_SpawnItemEx("BloodSpurt",0,0,0,0.2*random(-10,10),0.2*random(-10,10),0.3*random(5,15),0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
+        GORB HIJK 3;
+        Stop;
+    }
+}
+
+class BloodTrail : EriDrop
+{
+	Default
+	{
+		Mass 1;
+		Alpha 0.75;
+		Scale 0.3;
+		Renderstyle "Translucent";
+	}
+	States
+	{
+	Spawn:
+		GORB ABCDEFG 1;
+		Loop;
+	Death:
+		GORB HIJK 3;
+		Stop;
+	}
+}
+
+class BloodTrailTiny : BloodTrail
+{
+	Default
+	{
+		Scale 0.15;
+		Gravity 0.5;
+	}
+}
+
+class BloodSpurt : Actor
+{
+	Default
+	{
+		Health 4;
+		Radius 3;
+		Height 6;
+		Speed 0.1;
+		Gravity 0.5;
+		Scale 0.3;
+		Mass 0;
+		BounceType "Doom";
+		+DONTSPLASH;
+		+NOTELEPORT;
+		+NOBLOCKMAP;
+		+THRUACTORS;
+		+FORCEXYBILLBOARD;
+	}
+	States
+	{
+	Spawn:
+		BLFX ABCBABCBABCD 1 A_SpawnItemEx("BloodSmear",0.05*random(-10,10),0.05*random(-10,10),0.05*random(-10,10),0,0,0,0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
+		BLFX EEFF 1 A_SpawnItemEx("BloodSmear",0.05*random(-10,10),0.05*random(-10,10),0.05*random(-10,10),0,0,0,0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
+		Stop;
+	}
+}
+
+class BloodSmear : BloodSpurt
+{
+	Default
+	{
+		Gravity 0.25;
+	}
+	States
+	{
+	Spawn:
+		BLFX EEFF 2;
+		Stop;
+	}
+}
+
+class BloodPuff : Actor
+{
+	Default
+	{
+		Decal "BloodSplat";
+		RenderStyle "Translucent";
+		Alpha 0.75;
+		Mass 5;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+RANDOMIZE;
+		+PUFFONACTORS;
+	}
+	States
+	{
+	Spawn:
+	Melee:
+		BLFX A 0;
+		BLFX A 3 A_PlaySound("weapons/bloodbanehit");
+		BLFX BCDEF 3;
+		Stop;
+	}
+}
+
+class BloodPowShot : BloodShot
+{
+	Default
+	{
+		Speed 40;
+		Obituary "$OB_MPBLOODBANEPOW";
+		Deathsound "weapons/bloodbaneember";
+		BounceType "Hexen";
+		BounceCount 2;
+	}
+    States
+    {
+    Spawn:
+        TBAL AAABBBCCCDDD 1 Bright A_SpawnItemEx("BloodPowTrail", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE);
+        Loop;
+	Death:
+		TEXP A 0 Bright A_SetScale(0.5);
+		TEXP A 2 Bright A_NoGravity();
+		TEXP B 2 Bright;
+		TEXP C 2 Bright;
+		TEXP DEFGH 2 Bright;
+		Stop;
+	}
+}
+
+class BloodPowTrail : EriTrail
+{
+	Default
+	{
+		Alpha 1.0;
+		Renderstyle "Add";
+	}
+	States
+	{
+    Spawn:
+        TBAL AB 3 Bright;
+	Fade:
+		TBAL CCCDDDAAABBB 1 Bright A_FadeOut(0.1, 1);
+        Loop;
+	}
+}

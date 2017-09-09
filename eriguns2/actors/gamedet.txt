@@ -1,0 +1,16 @@
+// --------------------------------------------------------------------------
+//
+// Game Detection stuff -- will be nix'd in due time.
+//
+// --------------------------------------------------------------------------
+
+ACTOR GameDetectorDoom    { Game Doom    SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorHeretic { Game Heretic SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorHexen   { Game Hexen   SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorStrife  { Game Strife  SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDetectorChex    { Game Chex    SpawnID 255  Radius 1  Height 1 }
+ACTOR GameDoom    : EriToken {}
+ACTOR GameHeretic : EriToken {}
+ACTOR GameHexen   : EriToken {}
+ACTOR GameStrife  : EriToken {}
+ACTOR GameChex    : EriToken {}

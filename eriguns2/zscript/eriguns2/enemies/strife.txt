@@ -1,0 +1,24 @@
+// --------------------------------------------------------------------------
+//
+// Strife enemies
+//
+// --------------------------------------------------------------------------
+
+class EriStrifeBishop : StrifeBishop replaces StrifeBishop
+{
+	Default
+	{
+		Health 2000;
+		DropItem "EriMauler";
+	}
+}
+
+class EriLoremaster : Loremaster replaces Loremaster
+{
+	Default
+	{
+		Health 2000;
+		DropItem "EriSoulReaver";
+		DropItem "Junk";
+	}
+}

@@ -1,0 +1,39 @@
+// --------------------------------------------------------------------------
+//
+// Ammunition for Guns Shooting
+//
+// --------------------------------------------------------------------------
+
+class GrenadeAmmo : Ammo
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTGRENADEAMMO";
+		Inventory.Amount 2;
+		Inventory.MaxAmount 30;
+		Ammo.BackpackAmount 2;
+		Ammo.BackpackMaxAmount 60;
+		Inventory.Icon "GRNAA0";
+	}
+	States
+	{
+	Spawn:
+		GRNA A -1;
+		Stop;
+	}
+}
+
+class GrenadeBox : GrenadeAmmo
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTGRENADEBOX";
+		Inventory.Amount 10;
+	}
+	States
+	{
+	Spawn:
+		GRNB A -1;
+		Stop;
+	}
+}
