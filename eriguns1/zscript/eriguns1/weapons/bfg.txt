@@ -84,7 +84,7 @@ class EriBFGBall : Actor replaces BFGBall
 		Stop;
 	}
 }
-		
+
 class EriBFGExtra : Actor replaces BFGExtra
 {
 	Default
