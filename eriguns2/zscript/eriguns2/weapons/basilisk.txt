@@ -1,0 +1,205 @@
+// --------------------------------------------------------------------------
+//
+// Basilisk
+//
+// --------------------------------------------------------------------------
+
+class EriBasilisk : DoomWeapon replaces PlasmaRifle
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 100;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "FlameAmmo";
+		Weapon.SisterWeapon "EriBasiliskPowered";
+		Inventory.PickupMessage "$GOTBASILISK";
+		Tag "$TAG_BASILISK";
+	}
+	States
+	{
+	Ready:
+		HBAG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HBAG A 0 A_StopSound(CHAN_BODY);
+		HBAG A 1 A_Lower();
+		Wait;
+	Select:
+		HBAG A 1 A_Raise();
+		Loop;
+	Fire:
+		HBAG C 0 Bright A_PlaySound("weapons/basiliskup", CHAN_AUTO);
+		HBAG BC 3 Bright;
+		HBAG D 2 Bright;
+		HBAG D 0 Bright A_PlaySound("weapons/basiliskspin", CHAN_BODY, 1.0, 1);
+		HBAG D 0 A_Jump(256, "Hold");
+	Hold:
+		HBAF A 0 Bright A_GunFlash();
+		HBAF A 0 Bright A_Recoil(0.25);
+		HBAF A 0 Bright A_PlaySound("weapons/basiliskfire", CHAN_WEAPON);
+		HBAF A 1 Bright A_FireProjectile("BasiliskShot", frandom(-4, 4), 1, 0, 0, 1, frandom(-2, 2));
+		HBAF B 1 Bright;
+		HBAF C 0 Bright A_GunFlash();
+		HBAF C 0 Bright A_Recoil(0.25);
+		HBAF C 0 Bright A_PlaySound("weapons/basiliskfire", CHAN_WEAPON);
+		HBAF C 1 Bright A_FireProjectile("BasiliskShot", frandom(-4, 4), 1, 0, 0, 1, frandom(-2, 2));
+		HBAF D 1 Bright;
+		HBAF E 0 A_ReFire();
+	Spindown:
+		HBAF A 0 Bright A_PlaySound("weapons/basiliskdown", CHAN_BODY);
+		HBAF BCD 1 ;
+		HBAF E 2 A_PlaySound("weapons/basilisksteam", CHAN_AUTO);
+		HBAF FGH 2;
+		HBAG AB 3;
+		HBAG CD 4;
+		Goto Ready;
+	Flash:
+		TNT1 A 1 Bright A_Light(2);
+		TNT1 A 1 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HEBA A -1;
+		Stop;
+	}
+}
+
+class EriBasiliskPowered : EriBasilisk
+{
+	Default
+	{
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 0;
+		Weapon.SisterWeapon "EriBasilisk";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Hold:
+		HBAF AB 1 Bright;
+		HBAF C 0 Bright A_GunFlash();
+		HBAF C 0 Bright A_Recoil(1.0);
+		HBAF C 0 Bright A_PlaySound("weapons/basiliskfire", CHAN_WEAPON);
+		HBAF C 1 Bright A_FireProjectile("BasiliskComet", frandom(-5, 5), 1, 0, 0, 1, frandom(-3, 3));
+		HBAF D 1 Bright;
+		HBAF E 0 A_ReFire();
+		Goto Spindown;
+	}
+}
+
+class EriBasiliskMana : EriBasilisk replaces CWeapFlame
+{
+	Default
+	{
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriBasiliskManaPowered";
+	}
+}
+
+class EriBasiliskManaPowered : EriBasiliskPowered
+{
+	Default
+	{
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriBasiliskMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriBasiliskGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTBASILISK";
+		DropItem "EriBasilisk";
+	}
+	States
+	{
+	Spawn:
+		HEBA A -1;
+		Stop;
+	}
+}
+
+class EriBasiliskHeretic : EriBasiliskGiver replaces SkullRod     {}
+class EriBasiliskStrife  : EriBasiliskGiver replaces Flamethrower {}
+
+class BasiliskShot : Actor
+{
+	Default
+	{
+		Damage 4;
+		Radius 8;
+		Height 8;
+		Speed 30;
+		Projectile;
+		Obituary "$OB_MPBASILISK";
+		Decal "PlasmaScorchLower";
+		Renderstyle "Translucent";
+		Alpha 0.85;
+		Scale 0.5;
+		BounceSound "weapons/basiliskbounce";
+		BounceType "Hexen";
+		BounceCount 2;
+		BounceFactor 1.0;
+		WallBounceFactor 1.0;
+	}
+	States
+	{
+	Spawn:
+		HIB1 AABB 1 Bright;
+		Loop;
+	Death:
+		HIB1 CDEFG 3 Bright;
+		Stop;
+	}
+}
+
+class BasiliskComet : BasiliskShot
+{
+	Default
+	{
+		Damage 10;
+		Obituary "$OB_MPBASILISKPOW";
+		DamageType "Explosive";
+		+FORCERADIUSDMG;
+		+SEEKERMISSILE;
+		+USEBOUNCESTATE;
+	}
+	States
+	{
+	Spawn:
+		COMT A 0;
+		COMT A 0 A_PlaySound("weapons/basiliskfly", CHAN_BODY, 1.0, 1);
+	Fly:
+		COMT AAABBB 1 Bright A_SpawnItemEx("CometTrail",0,0,0,-4,0,0,0,0);
+		Loop;
+	Bounce:
+		COMT AA 0 Bright A_SeekerMissile(90, 90, SMF_LOOK | SMF_PRECISE, 256);
+		Goto Fly;
+	Death:
+		COMX A 0 Bright A_SetTranslucent(1.0,1);
+	    COMX A 0 Bright A_PlaySound("weapons/basiliskhit", CHAN_BODY);
+		COMX A 4 Bright A_Explode(32, 64, 0, 0, 32);
+		COMX BC 4 Bright;
+		Stop;
+	}
+}
+
+class CometTrail : EriTrail
+{ 
+	Default
+	{
+		Alpha 0.25;
+		Scale 0.25;
+		RenderStyle "Add";
+	}
+	States
+	{
+	Spawn:
+		CTRL ZABCDEF 1 BRIGHT;
+		Stop;
+	}
+}
