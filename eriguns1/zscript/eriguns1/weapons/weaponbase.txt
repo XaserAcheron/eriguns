@@ -6,6 +6,7 @@
 
 class EriWeapon : DoomWeapon
 {
+	bool hold;
 	int magsize;
 
 	Property MagSize:magsize;
@@ -34,6 +35,7 @@ class EriWeapon : DoomWeapon
 	
 	override State GetAtkState(bool hold)
 	{
+		self.hold = hold;
 		if(self.magsize > 0 && self.reloadcounter <= 0) {
 			state reloadState = X_Reload();
 			return reloadState ? reloadState : Super.GetAtkState(hold);

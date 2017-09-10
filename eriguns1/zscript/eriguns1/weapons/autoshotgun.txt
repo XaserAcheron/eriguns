@@ -6,14 +6,13 @@
 
 class EriAutoShotgun : EriWeapon
 {
-	//$Category Weapons
-	//$Title "Auto Shotgun"
 	Default
 	{
 		Weapon.SelectionOrder 150;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType "Shell";
+		EriWeapon.MagSize 12;
 		Decal "BulletChip";
 		Inventory.PickupMessage "$GOTAUTOSHOTGUN";
 		Obituary "$OB_MPAUTOSHOTGUN";
@@ -25,41 +24,30 @@ class EriAutoShotgun : EriWeapon
 		DASG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
 		Loop;
 	Deselect:
-		DASG A 1 A_Lower;
+		DASG A 1 A_Lower();
 		Loop;
 	Select:
-		DASG A 1 A_Raise;
+		DASG A 1 A_Raise();
 		Loop;
 	Fire:
-		DASG A 0 Bright A_FireBullets(5.6, 0, 7, 5, "BulletPuff");
-	AfterFire:
-		DASF A 0 A_PlaySound("weapons/autoshot", CHAN_WEAPON);
-		DASF A 2 Bright A_GunFlash();
+		DASF A 2 Bright X_FireAutoShotgun();
 		DASF B 2 Bright;
 		DASF C 2;
 		DASG A 4;
-		DASG A 0 A_CheckForReload (12, "Refire");
-	DoReload: // Intentional Fall-through
+	Refire:
+		DASG A 4;
+		DASG A 10 A_Refire();
+		Goto Ready;
+	DoReload:
 		DASG B 2 A_JumpIfNoAmmo("Ready");
 		DASG C 2 A_PlaySound("weapons/autoshotclipout", CHAN_AUTO);
-		DASG D 2 A_ResetReloadCounter();
+		DASG D 2;
 		DASG EF 2;
 		DASG G 12;
 		DASG HI 2;
 		DASG J 6 A_PlaySound("weapons/autoshotclipin", CHAN_AUTO);
 		DASG KL 3;
-	Refire:
-		DASG A 4;
-		DASG A 10 A_ReFire;
-		Goto Ready;
-	Hold:
-		DASG A 0 Bright A_FireBullets(11.2, 0, 7, 5, "BulletPuff");
-		Goto AfterFire;
-	AltFire:
-	Reload:
-		DASG A 1 A_WeaponReady(WRF_NOFIRE);
-		DASG A 0 A_CheckForReload (1, "Ready", 1);
-		goto DoReload;
+		Goto Refire;
 	Spawn:
 		DEAS A -1;
 		Stop;
@@ -67,5 +55,12 @@ class EriAutoShotgun : EriWeapon
 		TNT1 A 2 Bright A_Light(1);
 		TNT1 B 2 Bright A_Light(2);
 		Goto LightDone;
+	}
+
+	action void X_FireAutoShotgun()
+	{
+		A_FireBullets(invoker.hold ? 11.2 : 5.6, 0, 7, 5, "BulletPuff");
+		A_PlaySound("weapons/autoshot", CHAN_WEAPON);
+		A_GunFlash();
 	}
 }
