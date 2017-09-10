@@ -19,7 +19,6 @@ class EriWeapon : DoomWeapon
 	DoReload:
 		#### # 1 A_Print("You forgot to add a DoReload state, dummy!");
 		Goto ResolveReady;
-	AltFire:
 	Reload:
 		#### # 1 X_Reload();
 		Goto ResolveReady;
@@ -47,7 +46,7 @@ class EriWeapon : DoomWeapon
 	action state X_Reload()
 	{
 		int reloadAmount = min(invoker.magsize, invoker.ammo1 ? invoker.ammo1.amount : 99999);
-		if(invoker.reloadcounter < reloadAmount) {
+		if(invoker.magsize > 0 && invoker.reloadcounter < reloadAmount) {
 			invoker.reloadcounter = reloadAmount;
 			return ResolveState("DoReload");
 		}
