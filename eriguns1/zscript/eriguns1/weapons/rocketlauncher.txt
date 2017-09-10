@@ -4,11 +4,10 @@
 //
 // --------------------------------------------------------------------------
 
-class EriRocketLauncher : DoomWeapon replaces RocketLauncher
+class EriRocketLauncher : EriWeapon replaces RocketLauncher
 {
 	Default
 	{
-		Scale 0.8;
 		Weapon.SelectionOrder 2500;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 2;

@@ -4,6 +4,7 @@ version "2.5"
 #include "zscript/eriguns1/enemies.txt"
 #include "zscript/eriguns1/ammo.txt"
 
+#include "zscript/eriguns1/weapons/weaponbase.txt"
 #include "zscript/eriguns1/weapons/fist.txt"
 #include "zscript/eriguns1/weapons/chainsaw.txt"
 #include "zscript/eriguns1/weapons/pistol.txt"

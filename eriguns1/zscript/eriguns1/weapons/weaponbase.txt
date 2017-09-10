@@ -1,0 +1,64 @@
+// --------------------------------------------------------------------------
+//
+// Base Weapon Definition
+//
+// --------------------------------------------------------------------------
+
+class EriWeapon : DoomWeapon
+{
+	int magsize;
+
+	Property MagSize:magsize;
+
+	Default
+	{
+		Scale 0.8;
+	}
+	States
+	{
+	DoReload:
+		#### # 1 A_Print("You forgot to add a DoReload state, dummy!");
+		Goto ResolveReady;
+	AltFire:
+	Reload:
+		#### # 1 X_Reload();
+		Goto ResolveReady;
+	ResolveReady:
+		#### # 0 ResolveState("Ready"); 
+		Stop;
+	}
+
+	override void PostBeginPlay()
+	{
+		self.reloadcounter = self.magsize;
+	}
+	
+	override State GetAtkState(bool hold)
+	{
+		if(self.magsize > 0 && self.reloadcounter <= 0) {
+			state reloadState = X_Reload();
+			return reloadState ? reloadState : Super.GetAtkState(hold);
+		} else {
+			self.reloadcounter--;
+		}
+		return Super.GetAtkState(hold);
+	}
+
+	action state X_Reload()
+	{
+		int reloadAmount = min(invoker.magsize, invoker.ammo1 ? invoker.ammo1.amount : 99999);
+		if(invoker.reloadcounter < reloadAmount) {
+			invoker.reloadcounter = reloadAmount;
+			return ResolveState("DoReload");
+		}
+		return null;
+	}
+
+	action state X_ReloadIfEmpty()
+	{
+		if(invoker.reloadcounter <= 0) {
+			return X_Reload();
+		}
+		return null;
+	}
+}

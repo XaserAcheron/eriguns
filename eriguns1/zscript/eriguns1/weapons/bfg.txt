@@ -4,11 +4,10 @@
 //
 // --------------------------------------------------------------------------
 
-class EriBFG9000 : DoomWeapon replaces BFG9000
+class EriBFG9000 : EriWeapon replaces BFG9000
 {
 	Default
 	{
-		Scale 0.8;
 		Height 20;
 		Weapon.SelectionOrder 2800;
 		Weapon.AmmoUse 40;

@@ -4,11 +4,10 @@
 //
 // --------------------------------------------------------------------------
 
-class EriShotgun : DoomWeapon replaces Shotgun
+class EriShotgun : EriWeapon replaces Shotgun
 {
 	Default
 	{
-		Scale 0.8;
 		Weapon.SelectionOrder 1300;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 8;

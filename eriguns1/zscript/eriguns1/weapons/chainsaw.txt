@@ -4,10 +4,11 @@
 //
 // --------------------------------------------------------------------------
 
-class EriChainsaw : Weapon replaces Chainsaw
+class EriChainsaw : EriWeapon replaces Chainsaw
 {
 	Default
 	{
+		Scale 1.0;
 		Weapon.Kickback 0;
 		Weapon.SelectionOrder 2200;
 		Weapon.UpSound "weapons/sawup";

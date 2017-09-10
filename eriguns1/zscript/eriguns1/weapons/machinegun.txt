@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriMachinegun : DoomWeapon replaces Chaingun
+class EriMachinegun : EriWeapon replaces Chaingun
 {
 	const AMMO_OVERLAY_L = 11;
 	const AMMO_OVERLAY_C = 12;
@@ -13,7 +13,6 @@ class EriMachinegun : DoomWeapon replaces Chaingun
 
 	Default
 	{
-		Scale 0.8;
 		Weapon.SelectionOrder 700;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 20;

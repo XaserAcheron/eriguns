@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriFist : Weapon replaces Fist
+class EriFist : EriWeapon replaces Fist
 {
 	Default
 	{

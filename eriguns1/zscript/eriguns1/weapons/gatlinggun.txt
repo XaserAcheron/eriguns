@@ -4,11 +4,10 @@
 //
 // --------------------------------------------------------------------------
 
-class EriGatlingGun : DoomWeapon
+class EriGatlingGun : EriWeapon
 {
 	Default
 	{
-		Scale 0.8;
 		Weapon.SelectionOrder 700;
 		Weapon.AmmoUse 2;
 		Weapon.AmmoGive 40;

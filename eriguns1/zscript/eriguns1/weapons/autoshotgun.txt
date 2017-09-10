@@ -4,13 +4,12 @@
 //
 // --------------------------------------------------------------------------
 
-class EriAutoShotgun : DoomWeapon
+class EriAutoShotgun : EriWeapon
 {
 	//$Category Weapons
 	//$Title "Auto Shotgun"
 	Default
 	{
-		Scale 0.8;
 		Weapon.SelectionOrder 150;
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 8;
