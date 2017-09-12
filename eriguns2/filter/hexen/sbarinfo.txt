@@ -1,0 +1,166 @@
+/*
+ * eriguns2: hexen sbarinfo
+ * (c) xaser 2017
+ */
+
+height 32;
+monospacefonts true, "0";
+
+statusbar fullscreen, fullscreenoffsets
+{
+	//health
+	drawnumber 2147483647, BIGFONT, untranslated, health, drawshadow, interpolate(8), 40, -20, 1;
+	
+	//frags
+	gamemode deathmatch {
+		drawnumber 2147483647, HUDFONT_RAVEN, untranslated, frags, drawshadow(1, 1), 70, -15, 1;
+	}
+
+	inventorybarnotvisible {
+		drawselectedinventory alternateonempty, artiflash, INDEXFONT_RAVEN, -82, -31, -52, -8, untranslated {
+			// no-op
+		} else {
+			alpha 0.6 drawimage "ARTIBOX", -80, -30;
+		}
+	}
+
+	// Mana
+	weaponammo Mana1 && Mana2
+	{
+		weaponammo Mana1 {
+			drawimage "MANABRT1", -17, -30;
+		} else {
+			drawimage "MANADIM1", -17, -30;
+		}
+		weaponammo Mana2 {
+			drawimage "MANABRT2", -17, -15;
+		} else {
+			drawimage "MANADIM2", -17, -15;
+		}
+		drawnumber 2147483647, HUDFONT_RAVEN, untranslated, ammo(Mana1), drawshadow(1, 1), -21, -30, 1;
+		drawnumber 2147483647, HUDFONT_RAVEN, untranslated, ammo(Mana2), drawshadow(1, 1), -21, -15, 1;
+	} else {
+		drawimage ammoicon1, -14, -22, centerbottom;
+		drawnumber 2147483647, HUDFONT_RAVEN, untranslated, ammo1, drawshadow(1, 1), -3, -15, 1;
+		usessecondaryammo {
+			drawimage ammoicon2, -14, -63, centerbottom;
+			drawnumber 2147483647, HUDFONT_RAVEN, untranslated, ammo2, drawshadow(1, 1), -3, -56, 1;
+		}
+	}
+}
+
+statusbar normal
+{
+	drawimage "H2BAR", 0, 135;
+
+	drawselectedinventory artiflash, INDEXFONT_RAVEN, 143, 163, 174, 184, untranslated;
+
+	gamemode deathmatch, teamgame {
+		drawimage "KILLS", 38, 163;
+		drawnumber 3, HUDFONT_RAVEN, untranslated, frags, 65, 176, 1;
+	} else {
+		drawimage "ARMCLS", 41, 178;
+		drawnumber 3, HUDFONT_RAVEN, untranslated, health, interpolate(6), 65, 176, 1, red, 25;
+	}
+
+	//mana bars
+	weaponammo Mana1 && Mana2 {
+		weaponammo Mana1 {
+			drawimage "MANABRT1", 77, 164;
+			drawbar "MANAVL1", "nullimage", ammo(Mana1), vertical, 94, 164, 1;
+		} else {
+			drawimage "MANADIM1", 77, 164;
+			drawbar "MANAVL1D", "nullimage", ammo(Mana1), vertical, 94, 164, 1;
+		}
+		weaponammo Mana2 {
+			drawimage "MANABRT2", 110, 164;
+			drawbar "MANAVL2", "nullimage", ammo(Mana2), vertical, 102, 164, 1;
+		} else {
+			drawimage "MANADIM2", 110, 164;
+			drawbar "MANAVL2D", "nullimage", ammo(Mana2), vertical, 102, 164, 1;
+		}
+		drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana1), 91, 181;
+		drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana2), 123, 181;
+	} else {
+		weaponammo BladeCharge {
+			// special bar for Vorpal Blade
+			drawimage "MANADIM1", 77, 164;
+			drawbar "MANAVL1D", "nullimage", ammo(Mana1), vertical, 94, 164, 1;
+			drawimage "MANADIM2", 110, 164;
+			drawbar "MANAVL2D", "nullimage", ammo(Mana2), vertical, 102, 164, 1;
+			drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana1), 91, 181;
+			drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana2), 123, 181;
+		} else {
+			// no ammo
+			drawimage "HAMOBACK", 77, 164;
+			usessecondaryammo {
+				drawimage ammoicon1, 89, 172, center;
+				drawimage ammoicon2, 113, 172, center;
+				drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo1, 98, 182;
+				drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo2, 122, 182;
+			} else {
+				drawimage ammoicon1, 100, 172, center;
+				drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo1, 109, 182;
+			}
+		}
+	}
+
+	//armor
+	drawimage "ARMCLS", 255, 178;
+	drawnumber 2, HUDFONT_RAVEN, untranslated, armorclass, 275, 176, 1;
+
+	// arms -- drawswitchableimage doesn't do selected weapon, so have some fun boilerplate
+	IsSelected EriImmolatorMana  { drawimage "HEXARM2B", 194, 176; } else { drawswitchableimage weaponslot 2, "HEXARM1A", "HEXARM2A", 194, 176; }
+	IsSelected EriBloodbaneMana  { drawimage "HEXARM3B", 200, 176; } else { drawswitchableimage weaponslot 3, "HEXARM1A", "HEXARM3A", 200, 176; }
+	IsSelected EriNailgunMana    { drawimage "HEXARM4B", 206, 176; } else { drawswitchableimage weaponslot 4, "HEXARM1A", "HEXARM4A", 206, 176; }
+	IsSelected EriMaulerMana     { drawimage "HEXARM5B", 212, 176; } else { drawswitchableimage weaponslot 5, "HEXARM1A", "HEXARM5A", 212, 176; }
+	IsSelected EriIreboltMana    { drawimage "HEXARM6B", 218, 176; } else { drawswitchableimage weaponslot 6, "HEXARM1A", "HEXARM6A", 218, 176; }
+	IsSelected EriCasterMana     { drawimage "HEXARM7B", 224, 176; } else { drawswitchableimage weaponslot 7, "HEXARM1A", "HEXARM7A", 224, 176; }
+	IsSelected EriBasiliskMana   { drawimage "HEXARM8B", 230, 176; } else { drawswitchableimage weaponslot 8, "HEXARM1A", "HEXARM8A", 230, 176; }
+	IsSelected EriSoulreaverMana { drawimage "HEXARM9B", 236, 176; } else { drawswitchableimage weaponslot 9, "HEXARM1A", "HEXARM9A", 236, 176; }
+
+	// lifegem
+	gamemode singleplayer {
+		drawgem interpolate(6), "CHAIN", "LIFEGMF2", -23, 49, 15, 30, 193;
+	} else {
+		drawgem translatable, interpolate(6), "CHAIN", "LIFEGMF2", -23, 49, 15, 30, 193;
+	}
+
+	// edges
+	drawimage "LFEDGE", 0, 193;
+	drawimage "RTEDGE", 277, 193;
+}
+
+statusbar Automap
+{
+	// key bar
+	drawimage "H2BARX", 0, 135;
+	drawimage "KEYBAR", 38, 162;
+	drawkeybar 5, horizontal, 20, 46, 164;
+	drawimage hexenarmor(armor, "ARMSLOT1"), 150, 164;
+	drawimage hexenarmor(shield, "ARMSLOT2"), 181, 164;
+	drawimage hexenarmor(helm, "ARMSLOT3"), 212, 164;
+	drawimage hexenarmor(amulet, "ARMSLOT4"), 243, 164;
+
+	// lifegem
+	gamemode singleplayer {
+		drawgem interpolate(6), "CHAIN", "LIFEGMF2", -23, 49, 15, 30, 193;
+	} else {
+		drawgem translatable, interpolate(6), "CHAIN", "LIFEGMF2", -23, 49, 15, 30, 193;
+	}
+
+	// edges
+	drawimage "LFEDGE", 0, 193;
+	drawimage "RTEDGE", 277, 193;
+}
+
+statusbar inventory
+{
+	drawimage "INVBAR", 38, 162;
+	drawinventorybar HexenStrict, noartibox, 7, INDEXFONT_RAVEN, 52, 164, 80, 185, untranslated;
+}
+
+statusbar inventoryfullscreen
+{
+	drawinventorybar HexenStrict, translucent, 7, INDEXFONT_RAVEN, -106+center, -31, -78+center, -10, untranslated;
+}
