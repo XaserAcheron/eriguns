@@ -11,7 +11,7 @@ class HellPlayer : DoomPlayer
 		Player.DisplayName "Hellguy";
 		Player.StartItem "EriImmolator";
 		Player.StartItem "EriFist";
-		Player.StartItem "FlameAmmo", 50;
+		Player.StartItem "FlameAmmo", 60;
 		Player.StartItem "AshAmmo", 25;
 		Player.WeaponSlot 1, "EriFist", "EriBlade";
 		Player.WeaponSlot 2, "EriImmolator";

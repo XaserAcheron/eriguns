@@ -10,7 +10,7 @@ class EriImmolator : DoomWeapon replaces Pistol
 	{
 		Scale 0.8;
 		Weapon.SelectionOrder 1900;
-		Weapon.AmmoUse 1;
+		Weapon.AmmoUse 2;
 		Weapon.AmmoGive 0;
 		Weapon.AmmoType "FlameAmmo";
 		Weapon.SisterWeapon "EriImmolatorPowered";
@@ -82,6 +82,7 @@ class EriImmolatorAsh : EriImmolator replaces GoldWand
 {
 	Default
 	{
+		Weapon.AmmoUse 1;
 		Weapon.AmmoType "AshAmmo";
 		Weapon.SisterWeapon "EriImmolatorAshPowered";
 	}
@@ -91,6 +92,7 @@ class EriImmolatorAshPowered : EriImmolatorPowered
 {
 	Default
 	{
+		Weapon.AmmoUse 1;
 		Weapon.AmmoType "AshAmmo";
 		Weapon.SisterWeapon "EriImmolatorAsh";
 		+WEAPON.POWERED_UP;
@@ -101,6 +103,7 @@ class EriImmolatorMana : EriImmolator replaces FWeapAxe
 {
 	Default
 	{
+		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 25;
 		Weapon.AmmoType "Mana1";
 		Weapon.SisterWeapon "EriImmolatorManaPowered";
@@ -111,6 +114,7 @@ class EriImmolatorManaPowered : EriImmolatorPowered
 {
 	Default
 	{
+		Weapon.AmmoUse 1;
 		Weapon.AmmoType "Mana1";
 		Weapon.SisterWeapon "EriImmolatorMana";
 		+WEAPON.POWERED_UP;
