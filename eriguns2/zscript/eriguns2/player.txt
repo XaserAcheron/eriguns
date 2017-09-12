@@ -13,20 +13,19 @@ class HellPlayer : DoomPlayer
 		Player.StartItem "EriFist";
 		Player.StartItem "FlameAmmo", 50;
 		Player.StartItem "AshAmmo", 25;
-		Player.WeaponSlot 1, "EriFist"      , "EriBlade";
-		Player.WeaponSlot 2, "EriImmolator" , "EriImmolatorMana" , "EriImmolatorAsh";
-		Player.WeaponSlot 3, "EriBloodbane" , "EriBloodbaneMana";
-		Player.WeaponSlot 4, "EriNailgun"   , "EriNailgunMana";
-		Player.WeaponSlot 5, "EriMauler"    , "EriMaulerMana";
-		Player.WeaponSlot 6, "EriIrebolt"   , "EriIreboltMana"   , "EriIreboltBolt";
-		Player.WeaponSlot 7, "EriCaster"    , "EriCasterMana";
-		Player.WeaponSlot 8, "EriBasilisk"  , "EriBasiliskMana";
-		Player.WeaponSlot 9, "EriSoulreaver", "EriSoulreaverMana";
+		Player.WeaponSlot 1, "EriFist", "EriBlade";
+		Player.WeaponSlot 2, "EriImmolator";
+		Player.WeaponSlot 3, "EriBloodbane";
+		Player.WeaponSlot 4, "EriNailgun";
+		Player.WeaponSlot 5, "EriMauler";
+		Player.WeaponSlot 6, "EriIrebolt";
+		Player.WeaponSlot 7, "EriCaster";
+		Player.WeaponSlot 8, "EriBasilisk";
+		Player.WeaponSlot 9, "EriSoulreaver";
 		Player.WeaponSlot 0, "Sigil";
 		Player.FlechetteType "EriSoulBomb";
 		Player.HexenArmor 0, 50, 50, 50, 50; // HELLA ARMOR
 		Player.SpawnClass "Any";
-		Player.JumpZ 9; // Needed for Hexen compat.
 	}
 	States
 	{
@@ -40,6 +39,43 @@ class HellPlayer : DoomPlayer
 		PLAY TUV 5;
 		PLAY W -1;
 		Stop;
+	}
+}
+
+class HellPlayerHeretic : HellPlayer
+{
+	Default
+	{
+		Player.StartItem "EriImmolatorAsh";
+		Player.StartItem "EriFist";
+		Player.StartItem "AshAmmo", 25;
+		Player.WeaponSlot 1, "EriFist", "EriBlade";
+		Player.WeaponSlot 2, "EriImmolatorAsh";
+		Player.WeaponSlot 3, "EriBloodbane";
+		Player.WeaponSlot 4, "EriNailgun";
+		Player.WeaponSlot 5, "EriMauler";
+		Player.WeaponSlot 6, "EriIreboltBolt";
+		Player.WeaponSlot 7, "EriCaster";
+		Player.WeaponSlot 8, "EriBasilisk";
+		Player.WeaponSlot 9, "EriSoulreaver";
+	}
+}
+
+class HellPlayerHexen : HellPlayer
+{
+	Default
+	{
+		Player.StartItem "EriBlade";
+		Player.WeaponSlot 1, "EriBlade";
+		Player.WeaponSlot 2, "EriImmolatorMana";
+		Player.WeaponSlot 3, "EriBloodbaneMana";
+		Player.WeaponSlot 4, "EriNailgunMana";
+		Player.WeaponSlot 5, "EriMaulerMana";
+		Player.WeaponSlot 6, "EriIreboltMana";
+		Player.WeaponSlot 7, "EriCasterMana";
+		Player.WeaponSlot 8, "EriBasiliskMana";
+		Player.WeaponSlot 9, "EriSoulreaverMana";
+		Player.JumpZ 9;
 	}
 }
 

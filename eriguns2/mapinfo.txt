@@ -1,8 +1,7 @@
-gameinfo
-{
-	playerclasses = "HellPlayer"
-	norandomplayerclass = true
-}
+/*
+ * eriguns2: skill / doomednum defs
+ * (c) xaser 2017
+ */
 
 clearskills
 

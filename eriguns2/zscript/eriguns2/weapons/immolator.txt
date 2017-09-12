@@ -29,7 +29,6 @@ class EriImmolator : DoomWeapon replaces Pistol
 		HIMG AABBCCDDCCBB 1 A_Lower();
 		Loop;
 	Select:
-		HIMG A 0 ACS_NamedExecute("ImmolatorReplace",0,0,0,0);
 		HIMG AABBCCDDCCBB 1 A_Raise();
 		Wait;
 	Fire:
@@ -86,12 +85,6 @@ class EriImmolatorAsh : EriImmolator replaces GoldWand
 		Weapon.AmmoType "AshAmmo";
 		Weapon.SisterWeapon "EriImmolatorAshPowered";
 	}
-	States
-	{
-	Select:
-		HIMG AABBCCDDCCBB 1 A_Raise();
-		Wait;
-	}
 }
 
 class EriImmolatorAshPowered : EriImmolatorPowered
@@ -101,12 +94,6 @@ class EriImmolatorAshPowered : EriImmolatorPowered
 		Weapon.AmmoType "AshAmmo";
 		Weapon.SisterWeapon "EriImmolatorAsh";
 		+WEAPON.POWERED_UP;
-	}
-	States
-	{
-	Select:
-		HIMG AABBCCDDCCBB 1 A_Raise();
-		Wait;
 	}
 }
 
@@ -118,12 +105,6 @@ class EriImmolatorMana : EriImmolator replaces FWeapAxe
 		Weapon.AmmoType "Mana1";
 		Weapon.SisterWeapon "EriImmolatorManaPowered";
 	}
-	States
-	{
-	Select:
-		HIMG AABBCCDDCCBB 1 A_Raise();
-		Wait;
-	}
 }
 
 class EriImmolatorManaPowered : EriImmolatorPowered
@@ -133,12 +114,6 @@ class EriImmolatorManaPowered : EriImmolatorPowered
 		Weapon.AmmoType "Mana1";
 		Weapon.SisterWeapon "EriImmolatorMana";
 		+WEAPON.POWERED_UP;
-	}
-	States
-	{
-	Select:
-		HIMG AABBCCDDCCBB 1 A_Raise();
-		Wait;
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- * eriguns2: doom sbarinfo
+ * eriguns2: base sbarinfo
  * (c) xaser 2017
  */
 

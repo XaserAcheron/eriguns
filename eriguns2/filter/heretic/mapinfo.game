@@ -1,0 +1,10 @@
+/*
+ * eriguns2: heretic gameinfo defs
+ * (c) xaser 2017
+ */
+
+gameinfo
+{
+	playerclasses = "HellPlayerHeretic"
+	norandomplayerclass = true
+}
