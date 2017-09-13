@@ -48,7 +48,7 @@ class HellPlayerHeretic : HellPlayer
 	{
 		Player.StartItem "EriImmolatorAsh";
 		Player.StartItem "EriFist";
-		Player.StartItem "AshAmmo", 25;
+		Player.StartItem "AshAmmo", 30;
 		Player.WeaponSlot 1, "EriFist", "EriBlade";
 		Player.WeaponSlot 2, "EriImmolatorAsh";
 		Player.WeaponSlot 3, "EriBloodbane";

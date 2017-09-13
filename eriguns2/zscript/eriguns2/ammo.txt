@@ -176,10 +176,10 @@ class AshAmmo : Ammo replaces GoldWandAmmo
 	{
 		Tag "$TAG_ASHAMMO";
 		Inventory.PickupMessage "$GOTASHAMMO";
-		Inventory.Amount 5;
-		Inventory.MaxAmount 50;
-		Ammo.BackpackAmount 5;
-		Ammo.BackpackMaxAmount 100;
+		Inventory.Amount 3;
+		Inventory.MaxAmount 60;
+		Ammo.BackpackAmount 3;
+		Ammo.BackpackMaxAmount 120;
 		Inventory.Icon "ASHAB0";
 		Scale 0.8;
 	}
@@ -196,7 +196,7 @@ class AshHefty : AshAmmo replaces GoldWandHefty
 	Default
 	{
 		Inventory.PickupMessage "$GOTASHHEFTY";
-		Inventory.Amount 40;
+		Inventory.Amount 30;
 		Scale 0.8;
 	}
 	States
