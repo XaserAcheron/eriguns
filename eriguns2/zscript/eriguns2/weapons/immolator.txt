@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriImmolator : DoomWeapon replaces Pistol
+class EriImmolator : HellWeapon replaces Pistol
 {
 	Default
 	{

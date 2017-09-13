@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriBasilisk : DoomWeapon replaces PlasmaRifle
+class EriBasilisk : HellWeapon replaces PlasmaRifle
 {
 	Default
 	{

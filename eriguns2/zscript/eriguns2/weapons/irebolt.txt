@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriIrebolt : DoomWeapon replaces SuperShotgun
+class EriIrebolt : HellWeapon replaces SuperShotgun
 {
 	Default
 	{

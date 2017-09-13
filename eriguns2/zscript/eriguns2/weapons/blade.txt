@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriBlade : DoomWeapon replaces Chainsaw
+class EriBlade : HellWeapon replaces Chainsaw
 {
 	Default
 	{

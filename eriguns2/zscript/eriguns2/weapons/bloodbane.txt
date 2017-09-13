@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriBloodbane : DoomWeapon replaces Shotgun
+class EriBloodbane : HellWeapon replaces Shotgun
 {
 	Default
 	{
@@ -23,34 +23,47 @@ class EriBloodbane : DoomWeapon replaces Shotgun
 	Ready:
 		HBBG AAAAAAAAAAAAAAAAAAAAAAAA 1 A_WeaponReady();
 	Beat:
-		HBBG B 0 A_PlaySound("weapons/bloodbaneheart");
+		HBBG B 0 X_BloodbaneHeartbeat();
 		HBBG BBBBCCCCDDDD 1 A_WeaponReady();
 		Goto Ready;
 	Deselect:
-		HBBG A 1 A_StopSound(CHAN_BODY);
 		HBBG A 1 A_Lower();
-		Wait;
+		Loop;
 	Select:
 		HBBG A 1 A_Raise();
 		Loop;
 	Fire:
-		HBBG A 0 Bright A_GunFlash();
-		HBBG E 3 Bright A_PlaySound("weapons/bloodbanescream", CHAN_AUTO);
-		HBBG F 0 Bright A_PlaySound("weapons/bloodbanestab", CHAN_WEAPON);
-		HBBG F 0 Bright A_PlaySound("weapons/bloodbanefire", CHAN_AUTO);
-		HBBG FFFFFF 0 Bright A_FireProjectile("BloodShot", frandom(5, -5), 0, 0, 0, 1, frandom(-8, -3));
-		HBBG F      3 Bright A_FireProjectile("BloodShot", frandom(5, -5), 1, 0, 0, 1, frandom(-8, -3));
+		HBBG E 3 Bright X_BloodbaneScream();
+		HBBG F 3 Bright X_FireBloodbane();
 		HBBG G 3 Bright;
 		HBBG H 3;
-		HBBG B 3 A_PlaySound("weapons/bloodbaneheart", CHAN_WEAPON);
+		HBBG B 3 X_BloodbaneHeartbeat();
 		HBBG CDA 3;
-		HBBG B 3 A_PlaySound("weapons/bloodbaneheart", CHAN_WEAPON);
+		HBBG B 3 X_BloodbaneHeartbeat();
 		HBBG CD 3;
 		HBBG A 3 A_Refire();
 		Goto Beat;
 	Spawn:
 		HEBB A -1;
 		Stop;
+	}
+
+	action void X_BloodbaneHeartbeat()
+	{
+		A_PlaySound("weapons/bloodbaneheart", CHAN_WEAPON);
+	}
+
+	action void X_BloodbaneScream()
+	{
+		A_GunFlash();
+		A_PlaySound("weapons/bloodbanescream", CHAN_AUTO);
+	}
+
+	action void X_FireBloodbane()
+	{
+		A_PlaySound("weapons/bloodbanestab", CHAN_WEAPON);
+		A_PlaySound("weapons/bloodbanefire", CHAN_AUTO);
+		X_FireProjectileSpread("BloodShot", 7, (5, -5), 1, 0, 0, 1, (-8, -3));
 	}
 }
 
@@ -64,15 +77,19 @@ class EriBloodbanePowered : EriBloodbane
 	States
 	{
 	Fire:
-		HBBF F 0 Bright A_GunFlash();
-		HBBF F 0 Bright A_PlaySound("weapons/bloodbanepow", CHAN_AUTO);
-		HBBF F 0 Bright A_PlaySound("weapons/bloodbanepow3", CHAN_AUTO);
-		HBBF FFFFFFFFFFF 0 Bright A_FireProjectile("BloodPowShot", frandom(5, -5), 0, 0, 0, 1, frandom(-8, -3));
-		HBBF F           3 Bright A_FireProjectile("BloodPowShot", frandom(5, -5), 1, 0, 0, 1, frandom(-8, -3));
+		HBBF F 3 Bright X_FireBloodbanePow();
 		HBBF GHI 3 Bright;
 		HBBF J 2 Bright A_PlaySound("weapons/bloodbanezap", CHAN_AUTO);
 		HBBF KLMNOPQ 2 Bright;
 		Goto Beat;
+	}
+
+	action void X_FireBloodbanePow()
+	{
+		A_GunFlash();
+		A_PlaySound("weapons/bloodbanepow", CHAN_AUTO);
+		A_PlaySound("weapons/bloodbanepow3", CHAN_AUTO);
+		X_FireProjectileSpread("BloodPowShot", 12, (5, -5), 1, 0, 0, 1, (-8, -3));
 	}
 }
 
@@ -205,8 +222,7 @@ class BloodSpurt : Actor
 	States
 	{
 	Spawn:
-		BLFX ABCBABCBABCD 1 A_SpawnItemEx("BloodSmear",0.05*random(-10,10),0.05*random(-10,10),0.05*random(-10,10),0,0,0,0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
-		BLFX EEFF 1 A_SpawnItemEx("BloodSmear",0.05*random(-10,10),0.05*random(-10,10),0.05*random(-10,10),0,0,0,0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
+		BLFX ABCBABCBABCDEEFF 1 A_SpawnItemEx("BloodSmear",0.05*random(-10,10),0.05*random(-10,10),0.05*random(-10,10),0,0,0,0, SXF_TRANSFERTRANSLATION | SXF_CLIENTSIDE,0);
 		Stop;
 	}
 }

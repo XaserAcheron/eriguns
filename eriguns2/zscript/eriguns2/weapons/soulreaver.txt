@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriSoulReaver : DoomWeapon replaces BFG9000
+class EriSoulReaver : HellWeapon replaces BFG9000
 {
 	Default
 	{

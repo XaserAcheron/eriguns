@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriCaster : DoomWeapon replaces RocketLauncher
+class EriCaster : HellWeapon replaces RocketLauncher
 {
 	Default
 	{
