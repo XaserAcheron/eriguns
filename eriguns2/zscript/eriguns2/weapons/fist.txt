@@ -29,16 +29,17 @@ class EriFist : HellWeapon replaces Fist
 		Loop;
 	Fire:
 		PUNG B 4;
-		PUNG C 0 A_JumpIfInventory("PowerStrength", 1, "Zerk");
-		PUNG C 4 A_CustomPunch(2*random(1, 10), 1, 0, "FistPuff");
-		Goto Swing;
-	Zerk:
-		PUNG C 4 A_CustomPunch(20*random(1, 10), 1, 0, "FistPuff");
-	Swing:
+		PUNG C 4 X_Punch();
 		PUNG D 5;
 		PUNG C 4;
 		PUNG B 5 A_ReFire();
 		Goto Ready;
+	}
+
+	action void X_Punch()
+	{
+		int baseDamage = FindInventory("PowerStrength") ? 20 : 2;
+		A_CustomPunch(baseDamage * random(1, 10), 1, 0, "FistPuff", meleesound: "weapons/fist");
 	}
 }
 

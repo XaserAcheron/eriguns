@@ -1,5 +1,7 @@
 // hellguy gunsounds
 
+weapons/fist            dspunch
+
 weapons/bladeswing      dsbswing
 weapons/bladesplat1     dsbsplt1
 weapons/bladesplat2     dsbsplt2
