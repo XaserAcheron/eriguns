@@ -46,3 +46,41 @@ class EriToken : Inventory
 		+INVENTORY.UNDROPPABLE;
 	}
 }
+
+class EriStickyMissile : Actor
+{
+	Vector3 stickPosition;
+	float minZ;
+	
+	Property MinZ:minZ;
+
+	Default
+	{
+		Projectile;
+	}
+
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		bool canCollide = Super.CanCollideWith(other, passive);
+		if(canCollide && other && other.bShootable && other != self.target) {
+			// stick the projectile; this just sets the tracer
+			// and position; it's up to the calling actor to call
+			// X_StickyWarp whenever warping is desired, for full control.
+			self.tracer = other;
+
+			// store the relative offset for use in X_StickyWarp later. We'll
+			// treat the actor as 3/4 its actual size (except for z) so the
+			// missile will physically "stick" inside the actor they hit.
+			self.stickPosition = self.tracer.Vec3To(self);
+			self.stickPosition.x = self.stickPosition.x * 3 / 4;
+			self.stickPosition.y = self.stickPosition.y * 3 / 4;
+		}
+		return canCollide;
+	}
+
+	void X_StickyWarp()
+	{
+		// actually make the projectile stick to the tracer.
+		A_Warp(AAPTR_TRACER, stickPosition.x, stickPosition.y, max(stickPosition.z, self.minZ), 0, WARPF_ABSOLUTEOFFSET|WARPF_USECALLERANGLE|WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
+	}
+}
