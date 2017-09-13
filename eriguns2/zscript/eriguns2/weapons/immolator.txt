@@ -183,7 +183,7 @@ class ImmolatorFireball : EriStickyMissile
     States
     {
     Spawn:
-        HFBL A 1 Bright A_SpawnItemEx("ImmolatorTrail",0,0,0,0,frandom(-0.05,0.25),frandom(-0.25,0.25),0,SXF_CLIENTSIDE,0);
+        HFBL A 1 Bright X_FlameTrail();
         Loop;
     Death:
 		HPUF ABCDEFG 3 Bright;
@@ -201,6 +201,11 @@ class ImmolatorFireball : EriStickyMissile
 		HFLM KLM 3 Bright;
 		Stop;
     }
+	
+	void X_FlameTrail(class<Actor> spawnClass = "ImmolatorTrail")
+	{
+		A_SpawnItemEx(spawnClass, 0, 0, 0, 0, frandom(-0.05,0.25), frandom(-0.25,0.25), 0, SXF_CLIENTSIDE, 0);
+	}
 
 	void X_FlameStick()
 	{
@@ -252,7 +257,7 @@ class ImmolatorFirestream : ImmolatorFireball
 	States
 	{
 	Spawn:
-		HFLM AAABBBCCCIIIJJJKKKLLLMMM 1 Bright A_SpawnItemEx("ImmolatorTrail2",0,0,0,0,frandom(-0.05,0.25),frandom(-0.25,0.25),0,SXF_CLIENTSIDE,0);
+		HFLM AAABBBCCCIIIJJJKKKLLLMMM 1 Bright X_FlameTrail("ImmolatorTrail2");
 		Stop;
     Death:
 		HFLM KLM 3 Bright;
