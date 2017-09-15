@@ -54,9 +54,6 @@ class EriMachinegun : EriWeapon replaces Chaingun
 	AmmoCounterR:
 		DMGN A 1 Bright X_AmmoCounter(AMMO_OVERLAY_R, 0, 5);
 		Loop;
-	DeadLowered:
-		TNT1 A -1;
-		Stop;
 	Spawn:
 		DEMG A -1;
 		Stop;

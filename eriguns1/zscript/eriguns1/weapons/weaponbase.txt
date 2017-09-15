@@ -17,6 +17,9 @@ class EriWeapon : DoomWeapon
 	}
 	States
 	{
+	DeadLowered:
+		TNT1 A -1;
+		Stop;
 	DoReload:
 		#### # 1 A_Print("You forgot to add a DoReload state, dummy!");
 		Goto ResolveReady;
