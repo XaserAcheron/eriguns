@@ -6,6 +6,13 @@
 
 class HellWeapon : DoomWeapon
 {
+	States
+	{
+	DeadLowered:
+		TNT1 A -1;
+		Stop;
+	}
+
 	// handy shortcut for firing a spray of projectiles with the same arguments.
 	// only uses a single "unit" of ammo (whatever AmmoUse is defined as).
 	action void X_FireProjectileSpread(class<Actor> missiletype, int amount = 1, Vector2 spreadAngle = (0, 0), bool useammo = true, double spawnofs_xy = 0, double spawnheight = 0, int flags = 0, Vector2 spreadPitch = (0, 0))

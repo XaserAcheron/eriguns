@@ -31,19 +31,16 @@ class EriIrebolt : HellWeapon replaces SuperShotgun
 		HIRG A 1 A_Raise();
 		Loop;
 	Fire:
-		HIRF A 0 Bright A_JumpIfNoAmmo("Nope");
-		HIRF A 3 Bright A_GunFlash();
-		HIRF B 0 Bright A_Recoil(5.0);
-		HIRF B 0 Bright A_PlaySound("weapons/ireboltfire", CHAN_WEAPON);
-		HIRF B 3 Bright A_FireProjectile("IreboltShot");
+		HIRF A 3 Bright X_IreboltFlash();
+		HIRF B 3 Bright X_FireIrebolt();
 		HIRF CD 3 Bright;
 		HIRF E 3;
 	Nope:
 		HIRG EFG 3;
-		HIRG A 0 A_ReFire();
+		HIRG A 0 A_Refire();
 		Goto Ready;
 	AltFire:
-		HIRG A 1 Bright ACS_NamedExecute("IreboltDetonate", 0, 0, 0, 0);
+		HIRG A 1 Bright X_DetonateBolts();
 		Goto Ready;
 	Flash:
 		TNT1 A 3 Bright A_Light(1);
@@ -54,6 +51,35 @@ class EriIrebolt : HellWeapon replaces SuperShotgun
 	Spawn:
 		HEIR A -1;
 		Stop;
+	}
+
+	action state X_IreboltFlash()
+	{
+		// abort early if we're out of ammo.
+		if(invoker.Ammo1 && invoker.Ammo1.amount == 0) {
+			return ResolveState("Nope");
+		}
+		A_GunFlash();
+		return null;
+	}
+
+	action void X_FireIrebolt()
+	{
+		A_Recoil(5.0);
+		A_PlaySound("weapons/ireboltfire", CHAN_WEAPON);
+		A_FireProjectile("IreboltShot");
+	}
+
+	action void X_DetonateBolts()
+	{
+		// iterate through each bolt that belongs to the player and nuke it.
+		ThinkerIterator boltIterator = ThinkerIterator.Create("IreboltShot");
+		IreboltShot bolt;
+		while(bolt = IreboltShot(boltIterator.Next() ) ) {
+			if(bolt.master == self) {
+				bolt.X_BoltDetonate();
+			}
+		}
 	}
 }
 
@@ -67,16 +93,21 @@ class EriIreboltPowered : EriIrebolt
 	States
 	{
 	Fire:
-		HIRF A 0 Bright A_JumpIfNoAmmo("Nope");
-		HIRF A 3 Bright A_GunFlash();
-		HIRF B 0 Bright A_Recoil(2.0);
-		HIRF B 0 Bright A_PlaySound("weapons/ireboltfire", CHAN_AUTO);
-		HIRF BB 0 Bright A_FireProjectile("IreboltMine", frandom(-3.5, 3.5), 0, 0, 0, 1, frandom(-5, 0));
-		HIRF B  3 Bright A_FireProjectile("IreboltMine", frandom(-3.5, 3.5), 1, 0, 0, 1, frandom(-5, 0));
+		HIRF A 3 Bright X_IreboltFlash();
+		HIRF B 3 Bright X_FireIreboltPow();
 		HIRF CD 3 Bright;
 		HIRF E 3;
-		HIRG A 0 A_ReFire();
+		HIRG A 0 A_Refire();
 		Goto Ready;
+	}
+
+	action void X_FireIreboltPow(int amount = 3)
+	{
+		A_Recoil(2.0);
+		A_PlaySound("weapons/ireboltfire", CHAN_AUTO);
+		for(int i = 0; i < amount; i++) {
+			A_FireProjectile("IreboltMine", frandom(-3.5, 3.5), 1, 0, 0, 1, frandom(-5, 0));
+		}
 	}
 }
 
@@ -140,158 +171,124 @@ class EriIreboltBoltGiver : WeaponGiver
 
 class EriIreboltStrife : EriIreboltBoltGiver replaces StrifeGrenadeLauncher {}
 
-class IreboltShot : Actor
+class IreboltShot : EriStickyMissile
 {
-	int user_playernum;
-	int user_dead;
+	bool isDetonated;
 
 	Default
 	{
 		Radius 4;
 		Height 8;
 		Speed 50;
-		Damage 0;
-		Projectile;
+		DamageFunction (1);
 		DamageType "Explosive";
 		Obituary "$OB_MPIREBOLT";
 		Decal "BulletChip";
+		EriStickyMissile.StickFactor 0.5;
 		+FORCERADIUSDMG;
-		+SEEKERMISSILE;
 	}
 	States
 	{
 	Spawn:
-		ISPK A 0;
-		ISPK A 0 { user_playernum = CallACS("IreboltFire"); }
-		ISPK A 0 A_PlaySound("weapons/irebolthum", CHAN_BODY, 0.35, 1, ATTN_NORM);
-	Fly:
-		ISPK A 1 Bright A_SpawnItemEx("IreboltTrail",-12,0,-2,-2,0,0,0,0);
-		Loop;
-	XDeath:
-		ISPK B 0 Bright A_PlaySound("weapons/ireboltspike", CHAN_BODY);
-		ISPK B 0 Bright A_SeekerMissile(90,90,SMF_LOOK,256,1);
-		ISPK B 0 Bright A_Stop();
-		ISPK B 0 Bright A_Warp(AAPTR_TRACER, -8, 0, 24, 180, WARPF_NOCHECKPOSITION|WARPF_TESTONLY, "Stick");
-		Goto Fall;
+		ISPK A 0 NoDelay X_BoltHum();
+		ISPK A 1 Bright X_BoltTrail();
+		Wait;
 	Death:
-		ISPK B 0 Bright A_RearrangePointers(AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_NULL, 0);
-		ISPK B 0 Bright { user_dead = 1; }
-		ISPK B 0 Bright A_PlaySound("weapons/ireboltwall", CHAN_BODY);
-	Stick:
-		ISPK "#" 0 Bright ACS_NamedExecuteAlways("IreboltHit", 0, user_playernum, 0, 0);
-	Stuck:
-		ISPK "#" 1 Bright A_Warp(AAPTR_TRACER, -8, 0, 24, 180, WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
-		ISPK "#" 0 Bright A_JumpIf(user_dead == 1, 2);
-		ISPK "#" 0 Bright A_SpawnItemEx("IreboltTrail",-12,0,-2,frandom(-1,0),frandom(-0.5,0.5),3,0,0) ;
-		ISPK "#" 0 Bright A_JumpIfInventory("IreboltDetonator", 1, "Boom");
-		Loop;
-	Fall:
-		ISPK A 0 Bright { user_dead = 1; }
-		ISPK A 0 Bright A_Gravity();
-		Goto Stick;
+		ISPK B 0 Bright X_BoltStick();
+		ISPK # 1 Bright X_BoltStuck();
+		Wait;
 	Boom:
-		HEXP A 0 Bright A_SetTranslucent(1.0,1);
-		HEXP A 0 Bright A_PlaySound("weapons/ireboltfly", CHAN_AUTO);
-	    HEXP A 0 Bright A_PlaySound("weapons/ireboltdetonate", CHAN_AUTO);
-		HEXP A 3 Bright A_Explode(150, 128, XF_HURTSOURCE);
+		HEXP A 3 Bright X_BoltExplode();
 		HEXP BCDEFG 3 Bright;
 		Stop;
 	}
+
+	void X_BoltHum()
+	{
+		A_PlaySound("weapons/irebolthum", CHAN_BODY, 0.35, 1, ATTN_NORM);
+	}
+
+	void X_BoltTrail(Vector3 trailOfs = ( -12, 0, -2), Vector3 trailVel = (-2, 0, 0))
+	{
+		A_SpawnItemEx("IreboltTrail", trailOfs.x, trailOfs.y, trailOfs.z, trailVel.x, trailVel.y, trailVel.z);
+	}
+
+	void X_BoltStick()
+	{
+		A_Stop();
+		A_PlaySound(self.tracer ? "weapons/ireboltspike" : "weapons/ireboltwall", CHAN_BODY);
+		self.bNoGravity = true;
+
+		// register the target (the player who fired the bolt) as the master,
+		// thus making it visible to the remote-detonate altfire.
+		// this is done post-stick so one can't detonate bolts in flight.
+		self.master = self.target;
+	}
+
+	state X_BoltStuck(bool resetFrame = true, float trailOffset = -12)
+	{
+		if(self.tracer) {
+			if(self.tracer.health > 0) {
+				// stick to the tracer and spawn a cool trail.
+				X_StickyWarp();
+				X_BoltTrail((trailOffset, 0, -2), (frandom(-1, 0), frandom(-0.25, 0.25), 3));
+
+			} else {
+				// if we have a dead tracer, fall to the ground.
+				self.bNoGravity = false;
+				self.gravity = 1;
+				if(resetFrame) {
+					self.frame = 0;
+				}
+			}
+		}
+
+		// if the player who fired the missile is dead, auto-detonate.
+		if(!self.master || self.master.health <= 0) {
+			return ResolveState("Boom");
+		}
+		return null;
+	}
+
+	void X_BoltDetonate()
+	{
+		if(!self.isDetonated) {
+			self.isDetonated = true;
+			self.SetState(self.FindState("Boom"));
+		}
+	}
+
+	void X_BoltExplode(int damage = 150, int radius = 128)
+	{
+		A_SetTranslucent(1.0,1);
+		A_PlaySound("weapons/ireboltfly", CHAN_AUTO);
+	    A_PlaySound("weapons/ireboltdetonate", CHAN_AUTO);
+		A_Explode(damage, radius, XF_HURTSOURCE);
+	}
 }
 
-class IreboltDetonator : EriToken {}
-
-class IreboltMine : Actor
+class IreboltMine : IreboltShot
 {
-	int user_playernum;
-	int user_hitx;
-	int user_hity;
-	int user_hitz;
-
 	Default
 	{
-		Radius 4;
-		Height 8;
-		Speed 50;
-		Damage 0;
-		Projectile;
-		DamageType "Explosive";
+		EriStickyMissile.StickFactor 0.75;
 		Obituary "$OB_MPIREBOLTPOW";
-		Decal "BulletChip";
 		Gravity 0.5;
-		+FORCERADIUSDMG;
-		+SEEKERMISSILE;
 		-NOGRAVITY;
 	}
 	States
 	{
 	Spawn:
-		IBOM A 0 Bright;
-		IBOM A 0 Bright { user_playernum = CallACS("IreboltFire"); }
-		IBOM A 0 Bright A_Jump(256, 1, 2);
+		IBOM A 0 Bright NoDelay A_Jump(128, 2);
 	Fly:
 		IBOM AB 4 Bright;
 		Loop;
-	XDeath:
-		IBOM "#" 0 Bright {
-			user_hitx = CallACS("GetTracerX", 0, 0, 0, 0);
-			user_hity = CallACS("GetTracerY", 0, 0, 0, 0);
-			user_hitz = CallACS("GetTracerZ", 0, 0, 0, 0);
-			A_PlaySound("weapons/ireboltspike", CHAN_BODY);
-			A_SeekerMissile(90,90,SMF_LOOK,256,1);
-			A_Stop();
-			return A_Warp(AAPTR_TRACER, 0, 0, 0, 0, WARPF_NOCHECKPOSITION|WARPF_TESTONLY, "Stick");
-		}
-		Goto Stick+1;
 	Death:
-		IBOM "#" 0 Bright A_RearrangePointers(AAPTR_DEFAULT, AAPTR_DEFAULT, AAPTR_NULL, 0);
-		IBOM "#" 0 Bright A_PlaySound("weapons/ireboltwall", CHAN_BODY);
-	Stick:
-		IBOM "#" 0 Bright A_NoGravity();
-		IBOM "#" 0 Bright ACS_NamedExecuteAlways("IreboltHit", 0, user_playernum, 0, 0);
-	Stuck:
-		IBOM "#" 1 Bright A_Warp(AAPTR_TRACER, user_hitx, user_hity, user_hitz, 0, WARPF_ABSOLUTEOFFSET|WARPF_USECALLERANGLE|WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
-		IBOM "#" 0 Bright A_JumpIfInventory("IreboltDetonator", 1, "Boom");
-		Loop;
+		IBOM # 0 Bright X_BoltStick();
+		IBOM # 1 Bright X_BoltStuck(false, -0.01);
+		Wait;
 	Boom:
-		HEXP A 0 Bright A_SetTranslucent(1.0,1);
-		HEXP A 0 Bright A_PlaySound("weapons/ireboltfly", CHAN_AUTO);
-	    HEXP A 0 Bright A_PlaySound("weapons/ireboltdetonate", CHAN_AUTO);
-		HEXP A 3 Bright A_Explode(100, 128, XF_HURTSOURCE);
-		HEXP BCDEFG 3 Bright;
-		Stop;
-	}
-}
-
-class OldIreboltShot : Actor
-{
-	Default
-	{
-		Radius 11;
-		Height 8;
-		Speed 40;
-		Damage 20;
-		Projectile;
-		SeeSound "weapons/ireboltfly";
-		Obituary "$OB_MPIREBOLT";
-		Decal "Scorch";
-		Renderstyle "Translucent";
-		Alpha 0.85;
-		Scale 0.66;
-	}
-	States
-	{
-	Spawn:
-		HBAL A 0;
-		HBAL A 0 A_PlaySound("weapons/irebolthum", CHAN_BODY, 0.35, 1, ATTN_NORM);
-	Fly:
-		HBAL AAABBBCCCDDDEEEFFF 1 Bright A_SpawnItemEx("IreboltTrail",0,0,0,-5,0,0,0,0);
-		Loop;
-	Death:
-		HEXP A 0 Bright A_SetScale(1.0);
-		HEXP A 0 Bright A_SetTranslucent(1.0,1);
-	    HEXP A 0 Bright A_PlaySound("weapons/irebolthit", CHAN_BODY);
-		HEXP A 3 Bright A_Explode();
+		HEXP A 3 Bright X_BoltExplode(100, 128);
 		HEXP BCDEFG 3 Bright;
 		Stop;
 	}
@@ -308,7 +305,7 @@ class IreboltTrail : EriTrail
 	States
 	{
 	Spawn:
-		MTRL HABCDEFG 2 BRIGHT;
+		MTRL HABCDEFG 2 Bright;
 		Stop;
 	}
 }
