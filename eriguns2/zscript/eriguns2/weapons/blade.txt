@@ -23,62 +23,53 @@ class EriBlade : HellWeapon replaces Chainsaw
 	States
 	{
 	Ready:
-		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedReady");
-		HVBG A 1 A_WeaponReady();
+		HVBG A 1 X_BladeReady();
 		Loop;
 	Deselect:
-		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedDeselect");
-		HVBG A 1 A_Lower();
+		HVBG A 1 X_BladeLower();
 		Loop;
 	Select:
-		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedSelect");
-		HVBG A 1 A_Raise();
+		HVBG A 1 X_BladeRaise();
 		Loop;
 	Fire:
-		"####" A 1 Offset(16, 48);
-		"####" A 1 Offset(32, 64);
-		"####" A 1 Offset(48, 80);
-		"####" A 0 A_WeaponReady(WRF_NOFIRE);
+		#### A 1 A_WeaponOffset(16, 48);
+		#### A 1 A_WeaponOffset(32, 64);
+		#### A 1 A_WeaponOffset(48, 80);
+		#### A 0 A_WeaponOffset( 0, 32);
 	Hold:
-		HVBG B 3 A_JumpIfInventory("BladeCharge", 100, "ChargedHold");
+		HVBG B 3 X_JumpIfCharged("ChargedHold");
 		HVBG C 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
 		HVBG D 2;
-		HVBG E 0 A_JumpIfInventory("GameStrife", 1, "AttackSilent");
 		HVBG E 2 A_CustomPunch(10, 0, 0, "BladePuff", 96);
-	PostHold:
 		HVBG F 2;
 		TNT1 A 7;
 		Goto RaiseUp;
-	AttackSilent:
-		HVBG E 2 A_CustomPunch(10, 0, 0, "BladePuffSilent", 96);
-		Goto PostHold;
 	AltFire:
 	AltHold:
 		HVBP A 0 A_JumpIfNoAmmo("Nope");
-		HVBP A 1 Offset(16, 48);
-		HVBP A 1 Offset(32, 64);
-		HVBP A 1 Offset(48, 80);
+		HVBP A 1 A_WeaponOffset(16, 48);
+		HVBP A 1 A_WeaponOffset(32, 64);
+		HVBP A 1 A_WeaponOffset(48, 80);
 		HVBP A 0 A_WeaponReady(WRF_NOFIRE);
-	SuperSlashStart:
+	SuperSlash:
 		HVBG B 3;
 		HVBP E 2 A_PlaySound("weapons/bladepower2", CHAN_AUTO);
 		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
 		HVBP F 2;
-		HVBP A 0 A_Jump(256, "SuperSlash");
-	SuperSlash:
 		HVBP G 2 A_FireProjectile("BladeSlash", 0, 1);
 		HVBP HI 2;
 		TNT1 A 20;
+		TNT1 A 0 ResolveState("RaiseNope");
 		Goto RaiseNope;
 	RaiseUp:
 		HVBG A 0 A_Refire;
-		HVBG A 0 A_JumpIfInventory("BladeCharge", 100, "ChargedRaiseUp");
+		HVBG A 0 X_JumpIfCharged("ChargedRaiseUp");
 	RaiseNope:
-		HVBG A 1 Offset(10, 72);
-		HVBG A 1 Offset( 8, 64);
-		HVBG A 1 Offset( 6, 56);
-		HVBG A 1 Offset( 4, 48);
-		HVBG A 1 Offset( 2, 40);
+		HVBG A 1 A_WeaponOffset(10, 72);
+		HVBG A 1 A_WeaponOffset( 8, 64);
+		HVBG A 1 A_WeaponOffset( 6, 56);
+		HVBG A 1 A_WeaponOffset( 4, 48);
+		HVBG A 1 A_WeaponOffset( 2, 40);
 		Goto Ready;
 	Nope:
 		HVBG A 1 A_WeaponReady(WRF_NOFIRE);
@@ -89,6 +80,7 @@ class EriBlade : HellWeapon replaces Chainsaw
 		TNT1 A 3 Bright A_Light(2);
 		TNT1 A 3 Bright A_Light(1);
 		Goto LightDone;
+
 	ChargedReady:
 		HVBP AAABBBCCCDDDCCC 1 A_WeaponReady();
 		Loop;
@@ -102,25 +94,60 @@ class EriBlade : HellWeapon replaces Chainsaw
 		HVBG B 3;
 		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
 		HVBP F 2;
-		HVBP G 0 A_JumpIfInventory("GameStrife", 1, "ChargedAttackSilent");
 		HVBP G 2 A_CustomPunch(15, 0, 0, "BladePuffRed", 96);
-	ChargedPostHold:
 		HVBP HI 2;
 		TNT1 A 5;
 		Goto RaiseUp;
-	ChargedAttackSilent:
-		HVBP G 2 A_CustomPunch(15, 0, 0, "BladePuffRedSilent", 96);
-		Goto ChargedPostHold;
 	ChargedRaiseUp:
-		HVBP D 1 Offset(10, 72);
-		HVBP D 1 Offset( 8, 64);
-		HVBP C 1 Offset( 6, 56);
-		HVBP C 1 Offset( 4, 48);
-		HVBP C 1 Offset( 2, 40);
+		HVBP D 1 A_WeaponOffset(10, 72);
+		HVBP D 1 A_WeaponOffset( 8, 64);
+		HVBP C 1 A_WeaponOffset( 6, 56);
+		HVBP C 1 A_WeaponOffset( 4, 48);
+		HVBP C 1 A_WeaponOffset( 2, 40);
 		Goto Ready;
 	Spawn:
 		HEVB A -1;
 		Stop;
+	}
+	
+	bool X_BladeCharged()
+	{
+		return self.ammo2 && self.ammo2.amount >= 100;
+	}
+
+	action state X_BladeReady()
+	{
+		if(invoker.X_BladeCharged()) {
+			return ResolveState("ChargedReady");
+		}
+		A_WeaponReady();
+		return null;
+	}
+
+	action state X_BladeRaise()
+	{
+		if(invoker.X_BladeCharged()) {
+			return ResolveState("ChargedSelect");
+		}
+		A_Raise();
+		return null;
+	}
+
+	action state X_BladeLower()
+	{
+		if(invoker.X_BladeCharged()) {
+			return ResolveState("ChargedDeselect");
+		}
+		A_Lower();
+		return null;
+	}
+
+	action state X_JumpIfCharged(StateLabel state)
+	{
+		if(invoker.X_BladeCharged()) {
+			return ResolveState(state);
+		}
+		return null;
 	}
 }
 
@@ -129,43 +156,51 @@ class EriBladePowered : EriBlade
 	Default
 	{
 		Weapon.SisterWeapon "EriBlade";
+		Weapon.AmmoUse2 0;
 		Obituary "$OB_MPBLADEPOW";
 		+WEAPON.POWERED_UP;
 	}
 	States
 	{
 	Ready:
-		HVBG A 0 A_GiveInventory("BladeCharge", 100);
 		Goto ChargedReady;
 	Deselect:
-		HVBG A 0 A_GiveInventory("BladeCharge", 100);
 		Goto ChargedDeselect;
 	Select:
-		HVBG A 0 A_GiveInventory("BladeCharge", 100);
 		Goto ChargedSelect;
 	ChargedHold:
 		HVBG B 3;
-		HVBP E 0 A_PlaySound("weapons/bladepower", CHAN_AUTO);
-		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+		HVBP E 2 X_BladePowSwing();
 		HVBP F 2;
-		HVBP G 0 A_JumpIfInventory("GameStrife", 1, "AttackSilent");
-		HVBP G 0 A_CustomPunch(10, 1, 0, "BladePuffRed", 128, 1, 200);
-		HVBP G 2 A_CustomPunch(20, 0, 0, "BladePuffRed", 128);
-	PostChargedHold:
+		HVBP G 2 X_BladePowAttack();
 		HVBP HI 2;
 		TNT1 A 5;
 		Goto RaiseUp;
-	AttackSilent:
-		HVBP G 0 A_CustomPunch(10, 1, 0, "BladePuffRedSilent", 128, 1, 200);
-		HVBP G 2 A_CustomPunch(20, 0, 0, "BladePuffRedSilent", 128);
-		Goto PostChargedHold;
 	AltHold:
-		Goto SuperSlashStart;
-	SuperSlash:
-		HVBP G 2 A_FireProjectile("BladeSlash", 0, 0);
-		HVBP HI 2;
-		TNT1 A 20;
+		Goto SuperSlash;
+	RaiseNope:
 		Goto RaiseUp;
+	}
+
+	override void DoEffect()
+	{
+		Super.DoEffect();
+		// [TODO] abstract part of this to an "IsSelected" virtual or somesuch.
+		if(self.owner && self.owner.player && (self.owner.player.ReadyWeapon == self) && self.ammo2) {
+			self.ammo2.amount = 100;
+		}
+	}
+
+	action void X_BladePowSwing()
+	{
+		A_PlaySound("weapons/bladepower", CHAN_AUTO);
+		A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
+	}
+
+	action void X_BladePowAttack()
+	{
+		A_CustomPunch(10, 1, 0, "BladePuffRed", 128, 1, 200);
+		A_CustomPunch(20, 0, 0, "BladePuffRed", 128);
 	}
 }
 
@@ -211,55 +246,34 @@ class BladePuff : EriPuff
 	{	
 	Spawn:
 	Melee:
-		BSMK A 0;
-		BSMK A 2 A_AlertMonsters();
+		BSMK A 2 NoDelay X_BladeHit();
 		BSMK BCDEFG 2;
 		Stop;
 	XDeath:
-		FAXE F 0;
-		FAXE F 0 A_AlertMonsters();
-		FAXE F 3 A_GiveToTarget("BladeCharge", 10);
+		FAXE F 3 X_BladeHit(true);
 		FAXE GHIJK 3;
 		Stop;
 	}
+	
+	void X_BladeHit(bool hitMonster = false)
+	{
+		if(hitMonster) {
+			A_GiveToTarget("BladeCharge", 10);
+		}
+		if(gameinfo.gameType != GAME_STRIFE) {
+			A_AlertMonsters();
+		}
+	}
 }
 
-class BladePuffSilent : BladePuff
+class BladePuffRed : BladePuff
 {
 	States
 	{	
 	Spawn:
 	Melee:
-		BSMK ABCDEFG 2;
-		Stop;
-	XDeath:
-		FAXE F 0;
-		FAXE F 3 A_GiveToTarget("BladeCharge", 10);
-		FAXE GHIJK 3;
-		Stop;
-	}
-}
-
-class BladePuffRed : BladePuffSilent
-{
-	States
-	{	
-	Spawn:
-	Melee:
-		BSMR A 0;
-		BSMR A 2 A_AlertMonsters();
+		BSMR A 2 NoDelay X_BladeHit();
 		BSMR BCDEFG 2;
-		Stop;
-	}
-}
-
-class BladePuffRedSilent : BladePuffRed
-{
-	States
-	{	
-	Spawn:
-	Melee:
-		BSMR ABCDEFG 2;
 		Stop;
 	}
 }
