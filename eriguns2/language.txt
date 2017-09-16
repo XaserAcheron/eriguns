@@ -6,12 +6,15 @@ SKILL_VERYHARD  = "Man and a Half!";
 
 TAG_BLADE       = "Vorpal Blade";
 TAG_IMMOLATOR   = "Immolator";
+TAG_SUPERLATOR  = "Super Immolator";
 TAG_BLOODBANE   = "Bloodbane";
 TAG_NAILGUN     = "Nailgun";
 TAG_MAULER      = "Mauler";
 TAG_IREBOLT     = "Irebolt";
+TAG_HELLFORGE   = "Hellforge"
 TAG_CASTER      = "Soulcaster";
 TAG_BASILISK    = "Basilisk";
+TAG_HYDRA       = "Hydra";
 TAG_SOULREAVER  = "Soul Reaver";
 
 TAG_NAILAMMO    = "Nails";
@@ -26,12 +29,15 @@ TAG_SOULBOMB    = "Soul Bomb";
 
 GOTBLADE        = "You got the vorpal blade!";
 GOTIMMOLATOR    = "You got the immolator!";
+GOTSUPERLATOR   = "You got the super immolator!";
 GOTBLOODBANE    = "You got the bloodbane!";
 GOTNAILGUN      = "You got the nailgun!";
 GOTMAULER       = "You got the mauler!";
 GOTIREBOLT      = "You got the irebolt!";
+GOTHELLFORGE    = "You got the hellforge!";
 GOTCASTER       = "You got the soulcaster!";
 GOTBASILISK     = "You got the basilisk!";
+GOTHYDRA        = "You got the hydra!";
 GOTSOULREAVER   = "You got the soul reaver! Make 'em pay!";
 GOTSOULREAVERPIECE = "You got a piece of the soul reaver... just a few to go.";
 
@@ -66,20 +72,28 @@ GOTSOULBOMB     = "Picked up a soul bomb.";
 
 OB_MPBLADE      = "%o was slashed in half by %k's vorpal blade."
 OB_MPIMMOLATOR  = "%o was lit ablaze by %k's immolator."
+OB_MPSUPERLATOR = "%o was roasted alive by %k's super immolator."
 OB_MPBLOODBANE  = "%o was given a hearty thrashing by %k's bloodbane.";
 OB_MPNAILGUN    = "%o was pinned to the wall by %k's nailgun.";
-OB_MPMAULER     = "%o was speared by %k's mauler.";
+OB_MPMAULER     = "%o was pincushioned by %k's mauler.";
+OB_MPIREBOLT    = "%o was speared by %k's irebolt.";
+OB_MPHELLFORGE  = "%o was shafted by %k's hellforge.";
 OB_MPCASTER     = "%o was banished by %k's soulcaster.";
-OB_MPBASILISK   = "%o was shredded like cheese by %k's basilisk";
+OB_MPBASILISK   = "%o was shredded by %k's basilisk.";
+OB_MPHYDRA      = "%o was eaten alive by %k's hydra.";
 OB_MPSOULREAVER = "%o was raptured by %k's soul reaver.";
 
 OB_MPBLADEPOW      = "%o was minced by %k's powered vorpal blade."
 OB_MPIMMOLATORPOW  = "%o was broiled by %k's powered immolator."
+OB_MPSUPERLATORPOW = "%o was overcooked by %k's powered super immolator."
 OB_MPBLOODBANEPOW  = "%o was gored by %k's powered bloodbane.";
 OB_MPNAILGUNPOW    = "%o was eviscerated by %k's powered nailgun.";
 OB_MPMAULERPOW     = "%o was violently disassembled by %k's powered mauler.";
+OB_MPIREBOLTPOW    = "%o was structurally inverted by %k's powered irebolt.";
+OB_MPHELLFORGEPOW  = "%o was reduced to ashes by %k's powered hellforge.";
 OB_MPCASTERPOW     = "%o was erased by %k's powered soulcaster.";
-OB_MPBASILISKPOW   = "%o was demolished by %k's powered basilisk";
+OB_MPBASILISKPOW   = "%o was demolished by %k's powered basilisk.";
+OB_MPHYDRAPOW      = "%o was fangoriously devoured by %k's powered hydra.";
 OB_MPSOULREAVERPOW = "%o was cast to hell by %k's powered soul reaver.";
 
 // Stylistically consistent(-ish) pickup messages for Raven games.
