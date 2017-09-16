@@ -73,6 +73,13 @@ weapons/ireboltwall2    dsirewl2
 $random weapons/ireboltwall { weapons/ireboltwall1 weapons/ireboltwall2 }
 weapons/ireboltdetonate dsiredet
 
+weapons/hellforgefire    dsfrgfir
+weapons/hellforgehit     dsfrghit
+weapons/hellforgeexplode dsfrgexp
+weapons/hellforgenuke    dsfrgnuk
+weapons/hellforgeball    dsfrgbal
+$alias weapons/hellforgefly weapons/ireboltfly
+
 weapons/castercharge    dscaschg
 weapons/casterloop      dscaslop
 weapons/casterloop2     dscaslo2

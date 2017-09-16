@@ -14,13 +14,13 @@ class HellPlayer : DoomPlayer
 		Player.StartItem "FlameAmmo", 60;
 		Player.StartItem "AshAmmo", 25;
 		Player.WeaponSlot 1, "EriFist", "EriBlade";
-		Player.WeaponSlot 2, "EriImmolator";
+		Player.WeaponSlot 2, "EriImmolator", "EriSuperImmolator";
 		Player.WeaponSlot 3, "EriBloodbane";
 		Player.WeaponSlot 4, "EriNailgun";
 		Player.WeaponSlot 5, "EriMauler";
-		Player.WeaponSlot 6, "EriIrebolt";
+		Player.WeaponSlot 6, "EriIrebolt", "EriHellforge";
 		Player.WeaponSlot 7, "EriCaster";
-		Player.WeaponSlot 8, "EriBasilisk";
+		Player.WeaponSlot 8, "EriBasilisk", "EriHydra";
 		Player.WeaponSlot 9, "EriSoulreaver";
 		Player.WeaponSlot 0, "Sigil";
 		Player.FlechetteType "EriSoulBomb";
@@ -50,13 +50,13 @@ class HellPlayerHeretic : HellPlayer
 		Player.StartItem "EriFist";
 		Player.StartItem "AshAmmo", 30;
 		Player.WeaponSlot 1, "EriFist", "EriBlade";
-		Player.WeaponSlot 2, "EriImmolatorAsh";
+		Player.WeaponSlot 2, "EriImmolatorAsh", "EriSuperImmolatorAsh";
 		Player.WeaponSlot 3, "EriBloodbane";
 		Player.WeaponSlot 4, "EriNailgun";
 		Player.WeaponSlot 5, "EriMauler";
-		Player.WeaponSlot 6, "EriIreboltBolt";
+		Player.WeaponSlot 6, "EriIreboltBolt", "EriHellforgeBolt";
 		Player.WeaponSlot 7, "EriCaster";
-		Player.WeaponSlot 8, "EriBasilisk";
+		Player.WeaponSlot 8, "EriBasilisk", "EriHydra";
 		Player.WeaponSlot 9, "EriSoulreaver";
 	}
 }
@@ -67,13 +67,13 @@ class HellPlayerHexen : HellPlayer
 	{
 		Player.StartItem "EriBlade";
 		Player.WeaponSlot 1, "EriBlade";
-		Player.WeaponSlot 2, "EriImmolatorMana";
+		Player.WeaponSlot 2, "EriImmolatorMana", "EriSuperImmolatorMana";
 		Player.WeaponSlot 3, "EriBloodbaneMana";
 		Player.WeaponSlot 4, "EriNailgunMana";
 		Player.WeaponSlot 5, "EriMaulerMana";
-		Player.WeaponSlot 6, "EriIreboltMana";
+		Player.WeaponSlot 6, "EriIreboltMana", "EriHellforgeMana";
 		Player.WeaponSlot 7, "EriCasterMana";
-		Player.WeaponSlot 8, "EriBasiliskMana";
+		Player.WeaponSlot 8, "EriBasiliskMana", "EriHydraMana";
 		Player.WeaponSlot 9, "EriSoulreaverMana";
 		Player.JumpZ 9;
 	}

@@ -4,4 +4,128 @@
  * sprites by Amuscaria
  */
 
-// [TODO] this
+class EriHellforge : HellWeapon
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 2500;
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 8;
+		Weapon.AmmoType "BloodAmmo";
+		Weapon.SisterWeapon "EriHellforgePowered";
+		Inventory.PickupMessage "$GOTHELLFORGE";
+		Tag "$TAG_HELLFORGE";
+		+WEAPON.NOAUTOFIRE;
+	}
+	States
+	{
+	Ready:
+		HELG BBBCCCAAA 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HELG A 1 A_Lower();
+		Loop;
+	Select:
+		HELG A 1 A_Raise();
+		Loop;
+	Fire:
+		HELF A 3 Bright X_HellforgeFlash();
+		HELF B 3 Bright X_FireHellforge();
+		HELF CD 3 Bright;
+		HELF E 3;
+		HELG CABC 3;
+		HELG A 0 A_Refire();
+		Goto Ready;
+	Flash:
+		TNT1 A 3 Bright A_Light(1);
+		TNT1 A 3 Bright A_Light(2);
+		TNT1 A 3 Bright A_Light(3);
+		TNT1 A 3 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HEEL A -1;
+		Stop;
+	}
+
+	action void X_HellforgeFlash()
+	{
+		// abort early if we're out of ammo.
+		A_PlaySound("weapons/hellforgefly", CHAN_AUTO);
+		A_GunFlash();
+	}
+
+	action void X_FireHellforge()
+	{
+		A_Recoil(5.0);
+		A_PlaySound("weapons/hellforgefire", CHAN_WEAPON);
+		A_RailAttack(0, useammo: false, flags: RGF_SILENT | RGF_NOPIERCING, pufftype: null, sparsity: 16, spawnclass: "HellforgeTrail");
+		A_FireBullets(0, 0, 1, 0, "HellforgePuff", 1, 0);
+	}
+}
+
+class EriHellforgePowered : EriHellforge
+{
+	Default
+	{
+		Weapon.SisterWeapon "EriHellforge";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class HellforgePuff : EriPuff
+{
+	Default
+	{
+		Decal "Scorch";
+		RenderStyle "Add";
+		Alpha 1.0;
+		Scale 0.5;
+		+FORCERADIUSDMG;
+	}
+	States
+	{
+	Spawn:
+		GEXP A 2 Bright;
+		GEXP A 3 Bright X_HellforgeExplode();
+		GEXP BCDEFGHIJ 3 Bright;
+		Stop;
+	}
+
+	void X_HellforgeExplode(int damage = 150, int radius = 128)
+	{
+		A_SetScale(1.0, 1.0);
+		A_PlaySound("weapons/hellforgeexplode", CHAN_AUTO);
+		A_PlaySound("weapons/hellforgehit"    , CHAN_AUTO);
+		A_Explode(damage, radius, XF_HURTSOURCE);
+		A_Blast(BF_NOIMPACTDAMAGE, 255, radius, 20, "Nothing", "");
+	}
+}
+
+class HellforgeTrail : EriTrail
+{
+	const DISPERSION_SPEED = 0.25;
+
+	Default
+	{
+		RenderStyle "Translucent";
+		Scale 0.33;
+		Alpha 0.33;
+	}
+	States
+	{	
+	Spawn:
+		BSMK ABCDEFG 2;
+		Stop;
+	}
+
+	override void PostBeginPlay()
+	{
+		self.angle = self.AngleTo(self.target);
+		Vector2 dispersion = (frandom(-1, 1), frandom(-1, 1)).Unit() * DISPERSION_SPEED;
+		Vector2 velVec = RotateVector((0, dispersion.x), self.angle);
+		self.vel.x = velVec.x;
+		self.vel.y = velVec.y;
+		self.vel.z = dispersion.y;
+	}
+}
