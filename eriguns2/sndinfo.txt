@@ -21,6 +21,7 @@ weapons/immolatorpow1   dsimpow1
 weapons/immolatorpow2   dsimpow2
 weapons/immolatorpow3   dsimpow3
 weapons/immolatorsuper  dsimosup
+weapons/immolatorstart  dsimostr
 
 weapons/bloodbaneheart  dsheart
 weapons/bloodbanestab   dsbanstb
