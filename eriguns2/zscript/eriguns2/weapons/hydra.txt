@@ -6,6 +6,8 @@
 
 class EriHydra : HellWeapon
 {
+	bool fireSide;
+
 	Default
 	{
 		Scale 0.8;
@@ -29,20 +31,25 @@ class EriHydra : HellWeapon
 		HYDG A 1 A_Raise();
 		Loop;
 	Fire:
-		HYDG A 2 X_FireHydra(-8, "weapons/hydrafire1", "Flash1");
+		HYDG A 0 X_HydraSide(); 
+	FireLeft:
+		HYDG A 2 X_FireHydra(-8, "weapons/hydrafire1", "FlashLeft");
 		HYDG B 2 X_FireHydra(-8, "weapons/hydrafire3");
 		HYDG CB 2;
-		HYDG A 2 X_FireHydra( 8, "weapons/hydrafire1", "Flash2");
+		HYDG A 0 A_Refire();
+		Goto Ready;
+	FireRight:
+		HYDG A 2 X_FireHydra( 8, "weapons/hydrafire1", "FlashRight");
 		HYDG D 2 X_FireHydra( 8, "weapons/hydrafire2");
 		HYDG ED 2;
-		HYDG A 0 X_HydraRefire();
+		HYDG A 0 A_Refire();
 		Goto Ready;
-	Flash1:
+	FlashLeft:
 		HYDF A 2 Bright A_Light(1);
 		HYDF B 2 Bright A_Light(2);
 		HYDF C 2 Bright A_Light(1);
 		Goto LightDone;
-	Flash2:
+	FlashRight:
 		HYDF D 2 Bright A_Light(1);
 		HYDF E 2 Bright A_Light(2);
 		HYDF F 2 Bright A_Light(1);
@@ -52,21 +59,23 @@ class EriHydra : HellWeapon
 		Stop;
 	}
 
-	action void X_FireHydra(int spawnOffset, sound fireSound, statelabel flashState = null)
+	action state X_HydraSide()
 	{
-		A_Recoil(0.25);
-		A_PlaySound("weapons/hydrafire", CHAN_WEAPON);
-		A_PlaySound(fireSound, CHAN_AUTO);
-		A_FireProjectile("HydraRocket", frandom(0, spawnOffset/2), 1, spawnOffset);
-		if(flashState) {
-			A_GunFlash(flashState);
-		}
+		invoker.fireSide = !invoker.fireSide;
+		return invoker.fireSide ? ResolveState("FireLeft") : ResolveState("FireRight");
 	}
 
-	action void X_HydraRefire()
+	action void X_FireHydra(int spawnOffset, sound fireSound, statelabel flashState = null)
 	{
-		A_StopSound(CHAN_WEAPON);
-		A_ReFire();
+		if(!invoker.ammo1 || invoker.ammo1.amount > 0) {
+			A_Recoil(0.25);
+			A_PlaySound("weapons/hydrafire", CHAN_WEAPON);
+			A_PlaySound(fireSound, CHAN_AUTO);
+			A_FireProjectile("HydraRocket", frandom(0, spawnOffset/2), 1, spawnOffset);
+			if(flashState) {
+				A_GunFlash(flashState);
+			}
+		}
 	}
 }
 
@@ -84,7 +93,7 @@ class HydraRocket : FastProjectile
 {
 	Default
 	{
-		Damage 8;
+		Damage 6;
 		Radius 8;
 		Height 8;
 		Speed 30;

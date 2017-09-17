@@ -103,7 +103,7 @@ $limit weapons/basiliskbounce 0
 $volume weapons/basiliskfly 0.5
 $rolloff weapons/basiliskfly 100 600
 
-weapons/hydrafire       dsirefir
+weapons/hydrafire       dsfrghit
 weapons/hydrafire1      dshydfr1
 weapons/hydrafire3      dshydfr2
 weapons/hydrafire3      dshydfr3
