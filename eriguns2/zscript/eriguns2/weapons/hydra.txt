@@ -4,4 +4,128 @@
  * sprites by Amuscaria
  */
 
-// [TODO] this
+class EriHydra : HellWeapon
+{
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 100;
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "FlameAmmo";
+		Weapon.SisterWeapon "EriHydraPowered";
+		Inventory.PickupMessage "$GOTHYDRA";
+		Tag "$TAG_HYDRA";
+	}
+	States
+	{
+	Ready:
+		HYDG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HYDG A 1 A_Lower();
+		Loop;
+	Select:
+		HYDG A 1 A_Raise();
+		Loop;
+	Fire:
+		HYDG A 2 X_FireHydra(-8, "weapons/hydrafire1", "Flash1");
+		HYDG B 2 X_FireHydra(-8, "weapons/hydrafire3");
+		HYDG CB 2;
+		HYDG A 2 X_FireHydra( 8, "weapons/hydrafire1", "Flash2");
+		HYDG D 2 X_FireHydra( 8, "weapons/hydrafire2");
+		HYDG ED 2;
+		HYDG A 0 X_HydraRefire();
+		Goto Ready;
+	Flash1:
+		HYDF A 2 Bright A_Light(1);
+		HYDF B 2 Bright A_Light(2);
+		HYDF C 2 Bright A_Light(1);
+		Goto LightDone;
+	Flash2:
+		HYDF D 2 Bright A_Light(1);
+		HYDF E 2 Bright A_Light(2);
+		HYDF F 2 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HEYD A -1;
+		Stop;
+	}
+
+	action void X_FireHydra(int spawnOffset, sound fireSound, statelabel flashState = null)
+	{
+		A_Recoil(0.25);
+		A_PlaySound("weapons/hydrafire", CHAN_WEAPON);
+		A_PlaySound(fireSound, CHAN_AUTO);
+		A_FireProjectile("HydraRocket", frandom(0, spawnOffset/2), 1, spawnOffset);
+		if(flashState) {
+			A_GunFlash(flashState);
+		}
+	}
+
+	action void X_HydraRefire()
+	{
+		A_StopSound(CHAN_WEAPON);
+		A_ReFire();
+	}
+}
+
+class EriHydraPowered : EriHydra
+{
+	Default
+	{
+		Weapon.AmmoGive 0;
+		Weapon.SisterWeapon "EriHydra";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class HydraRocket : FastProjectile
+{
+	Default
+	{
+		Damage 8;
+		Radius 8;
+		Height 8;
+		Speed 30;
+		Scale 0.5;
+		DeathSound "weapons/hydrahit";
+		Decal "PlasmaScorchLower";
+		MissileType "HydraTrail";
+		MissileHeight 8;
+	}
+
+	States
+	{
+	Spawn:
+		HYRK A -1 Bright;
+		Stop;
+	Death:
+		HYRK B 3 Bright X_HydraExplode();
+		HYRK CDEF 3 Bright;
+		Stop;
+	}
+
+	void X_HydraExplode()
+	{
+		A_Explode(20, 64, XF_HURTSOURCE);
+		A_SetScale(random(0, 1)*2-1, random(0, 1)*2-1);
+		A_SetTranslucent(1.0, 1);
+	}
+}
+
+class HydraTrail : EriTrail
+{
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 0.2;
+		Scale 0.2;
+	}
+	States
+	{
+	Spawn:
+		MTRL HBDFG 1 Bright;
+		Stop;
+	}
+}

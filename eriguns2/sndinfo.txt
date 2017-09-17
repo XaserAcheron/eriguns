@@ -20,6 +20,7 @@ weapons/immolatorout    dsimbout
 weapons/immolatorpow1   dsimpow1
 weapons/immolatorpow2   dsimpow2
 weapons/immolatorpow3   dsimpow3
+weapons/immolatorsuper  dsimosup
 
 weapons/bloodbaneheart  dsheart
 weapons/bloodbanestab   dsbanstb
@@ -101,6 +102,12 @@ weapons/basiliskbounce  dsbasbnc
 $limit weapons/basiliskbounce 0
 $volume weapons/basiliskfly 0.5
 $rolloff weapons/basiliskfly 100 600
+
+weapons/hydrafire       dsirefir
+weapons/hydrafire1      dshydfr1
+weapons/hydrafire3      dshydfr2
+weapons/hydrafire3      dshydfr3
+weapons/hydrahit        dsirehit
 
 weapons/reaverfire      dssolfir
 weapons/reaverhit       dssolhit
