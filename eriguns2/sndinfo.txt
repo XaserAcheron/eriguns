@@ -80,7 +80,9 @@ weapons/hellforgehit     dsfrghit
 weapons/hellforgeexplode dsfrgexp
 weapons/hellforgenuke    dsfrgnuk
 weapons/hellforgeball    dsfrgbal
+weapons/hellforgeburn    dsirehum
 $alias weapons/hellforgefly weapons/ireboltfly
+$limit weapons/hellforgeball 0
 
 weapons/castercharge    dscaschg
 weapons/casterloop      dscaslop

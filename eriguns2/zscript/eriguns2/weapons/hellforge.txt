@@ -32,6 +32,7 @@ class EriHellforge : HellWeapon
 	Fire:
 		HELF A 3 Bright X_HellforgeFlash();
 		HELF B 3 Bright X_FireHellforge();
+	AfterFire:
 		HELF CD 3 Bright;
 		HELF E 3;
 		HELG CABC 3;
@@ -50,17 +51,16 @@ class EriHellforge : HellWeapon
 
 	action void X_HellforgeFlash()
 	{
-		// abort early if we're out of ammo.
 		A_PlaySound("weapons/hellforgefly", CHAN_AUTO);
 		A_GunFlash();
 	}
 
-	action void X_FireHellforge()
+	action void X_FireHellforge(class<Actor> puffClass = "HellforgeBoom", float recoil = 5.0)
 	{
-		A_Recoil(5.0);
+		A_Recoil(recoil);
 		A_PlaySound("weapons/hellforgefire", CHAN_WEAPON);
 		A_RailAttack(0, useammo: false, flags: RGF_SILENT | RGF_NOPIERCING, pufftype: null, sparsity: 16, spawnclass: "HellforgeTrail");
-		A_FireBullets(0, 0, 1, 0, "HellforgePuff", 1, 0);
+		A_FireBullets(0, 0, 1, 0, puffClass, 1, 0);
 	}
 }
 
@@ -71,9 +71,16 @@ class EriHellforgePowered : EriHellforge
 		Weapon.SisterWeapon "EriHellforge";
 		+WEAPON.POWERED_UP;
 	}
+	States
+	{
+	Fire:
+		HELF A 3 Bright X_HellforgeFlash();
+		HELF B 3 Bright X_FireHellforge("HellforgeNuke", 8.0);
+		Goto AfterFire;
+	}
 }
 
-class HellforgePuff : EriPuff
+class HellforgeBoom : EriPuff
 {
 	Default
 	{
@@ -81,6 +88,7 @@ class HellforgePuff : EriPuff
 		RenderStyle "Add";
 		Alpha 1.0;
 		Scale 0.5;
+		Obituary "$OB_MPHELLFORGE";
 		+FORCERADIUSDMG;
 	}
 	States
@@ -92,13 +100,15 @@ class HellforgePuff : EriPuff
 		Stop;
 	}
 
-	void X_HellforgeExplode(int damage = 150, int radius = 128)
+	void X_HellforgeExplode(int damage = 150, int radius = 128, bool blast = true)
 	{
 		A_SetScale(1.0, 1.0);
 		A_PlaySound("weapons/hellforgeexplode", CHAN_AUTO);
 		A_PlaySound("weapons/hellforgehit"    , CHAN_AUTO);
 		A_Explode(damage, radius, XF_HURTSOURCE);
-		A_Blast(BF_NOIMPACTDAMAGE, 255, radius, 20, "Nothing", "");
+		if(blast) {
+			A_Blast(BF_NOIMPACTDAMAGE, 255, radius, 20, "Nothing", "");
+		}
 	}
 }
 
@@ -127,5 +137,116 @@ class HellforgeTrail : EriTrail
 		self.vel.x = velVec.x;
 		self.vel.y = velVec.y;
 		self.vel.z = dispersion.y;
+	}
+}
+
+class HellforgeNuke : HellforgeBoom
+{
+	const fragCount = 10;
+
+	Default
+	{
+		Obituary "$OB_MPHELLFORGEPOW";
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Scale 0.75;
+	}
+	States
+	{
+	Spawn:
+		GEXP A 2 Bright;
+		GEXP A 3 Bright X_HellforgeNuke();
+		GEXP BCDE 3 Bright;
+		GEXP FGHIJ 3 Bright A_FadeOut(0.1);
+		Stop;
+	}
+	
+	void X_HellforgeNuke()
+	{
+		X_HellforgeExplode(160, 160, false);
+		for(int i = 0; i < fragCount; i++) {
+			A_SpawnItemEx("HellforgeFrag", 0, 0, frandom(14, 18), frandom(4, 6), 0, frandom(8, 12), frandom(0, 360), SXF_TRANSFERPOINTERS);
+		}
+	}
+}
+
+class HellforgeFrag : Actor
+{
+	Default
+	{
+		Radius 2;
+		Height 4;
+		Projectile;
+		Damage 20;
+		DeathSound "weapons/hellforgeball";
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Scale 0.33;
+		Gravity 0.85;
+		-NOGRAVITY;
+		+BOUNCEONCEILINGS;
+		+BOUNCEONWALLS;
+	}
+	States
+	{
+	Spawn:
+		HBAL A 0 NoDelay {
+			A_PlaySound("weapons/hellforgeburn", CHAN_VOICE, 1.0, true);
+			return A_Jump(256, random(1, 16));
+		}
+	Fly:
+		HBAL AABBCCDDEEFFGGHH 1 Bright X_HellforgeFragTrail();
+		Loop;
+	Death:
+		HBXP A 2 Bright X_HellforgeFragHit();
+		HBXP B 3 Bright X_HellforgeFragExplode();
+		HBXP CDEFGHIJ 2 Bright;
+		Stop;
+	}
+
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		// only collide with actors when moving downwards. This gives the
+		// fragments a chance to spread a bit instead of insta-sploding on
+		// the first thing they hit. Ceiling-ricochet shots are devastating.
+		return (self.vel.z < 0) ? Super.CanCollideWith(other, passive) : false;
+	}
+
+	void X_HellforgeFragTrail()
+	{
+		bool ok;
+		Actor newTrail;
+		[ok, newTrail] = A_SpawnItemEx("HellforgeFragTrail", flags: SXF_NOCHECKPOSITION);
+		if(ok) {
+			newTrail.frame = self.frame;
+		}
+	}
+
+	void X_HellforgeFragHit()
+	{
+		A_SetScale(1.0, 1.0);
+		A_NoGravity();
+	}
+
+	void X_HellforgeFragExplode(int damage = 64, float radius = 64, float fullradius = 48)
+	{
+		A_Explode(damage, radius, false, false, fullradius);
+		A_Blast(BF_NOIMPACTDAMAGE, damage, radius, 10, "Nothing", "");
+	}
+}
+
+class HellforgeFragTrail : EriTrail
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Scale 0.33;
+		Alpha 0.6;
+	}
+	States
+	{	
+	Spawn:
+		HBAL A 1 Bright A_FadeOut(0.05);
+		Loop;
 	}
 }
