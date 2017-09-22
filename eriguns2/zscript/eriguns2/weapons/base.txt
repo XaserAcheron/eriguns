@@ -32,8 +32,3 @@ class Nothing : Actor
 		Stop;
 	}
 }
-class HexenNothing0 : Nothing replaces QuietusDrop   {}
-class HexenNothing1 : Nothing replaces FWeaponPiece1 {}
-class HexenNothing2 : Nothing replaces FWeaponPiece2 {}
-class HexenNothing3 : Nothing replaces FWeaponPiece3 {}
-class HexenNothing4 : Nothing replaces FWeapQuietus  {}
