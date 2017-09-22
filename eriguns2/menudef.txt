@@ -1,0 +1,29 @@
+AddOptionMenu "OptionsMenu"
+{
+	StaticText " "
+	Submenu "Eriguns2 Options", "Eriguns2Options"
+}
+
+OptionValue "DamWeaponSlot6"
+{
+	0, "Irebolt"
+	1, "Hellforge"
+}
+
+OptionValue "DamWeaponSlot8"
+{
+	0, "Basilisk"
+	1, "Hydra"
+}
+
+OptionMenu "Eriguns2Options"
+{
+	Position -15
+	Title       "Eriguns2 Options"
+	StaticText 	"Weapon Selection", 1
+	Option		"Slot 6 Weapon", "eri_altslot6", "DamWeaponSlot6"
+	Option		"Slot 8 Weapon", "eri_altslot8", "DamWeaponSlot8"
+	StaticText 	""
+	StaticText 	"Settings will only take effect after", "Brown"
+	StaticText 	"changing maps or starting a new game.", "Brown"
+}

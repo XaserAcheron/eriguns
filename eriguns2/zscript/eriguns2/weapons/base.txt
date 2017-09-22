@@ -32,3 +32,41 @@ class Nothing : Actor
 		Stop;
 	}
 }
+
+class ActorSpawner : Nothing
+{
+	Class<Actor> spawnClass;
+
+	Property SpawnClass:spawnClass;
+
+	override void PostBeginPlay()
+	{
+		let actor = Spawn(spawnClass, pos);
+		if(actor) {
+			actor.bDropped = bDropped;
+		}
+	}
+}
+
+class CvarToggleSpawner : Nothing
+{
+	String toggleCvar;
+	Class<Actor> onClass;
+	Class<Actor> offClass;
+
+	Property Cvar:toggleCvar;
+	Property OnClass:onClass;
+	Property OffClass:offClass;
+
+	override void PostBeginPlay()
+	{
+		let cv = CVar.GetCvar(toggleCvar);
+		if(cv) {
+			class<Actor> actorClass = cv.GetInt() ? onClass : offClass;
+			let actor = Spawn(actorClass, pos);
+			if(actor) {
+				actor.bDropped = bDropped;
+			}
+		}
+	}
+}

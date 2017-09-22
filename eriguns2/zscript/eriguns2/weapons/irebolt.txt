@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriIrebolt : HellWeapon replaces SuperShotgun
+class EriIrebolt : HellWeapon
 {
 	Default
 	{
@@ -152,22 +152,23 @@ class EriIreboltManaPowered : EriIreboltPowered
 	}
 }
 
-class EriIreboltBoltGiver : WeaponGiver
+class EriIreboltOrHellforgeSpawner : CvarToggleSpawner replaces SuperShotgun
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTIREBOLT";
-		DropItem "EriIreboltBolt";
-	}
-	States
-	{
-	Spawn:
-		HEIR A -1;
-		Stop;
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIrebolt";
+		CvarToggleSpawner.OnClass "EriHellforge";
 	}
 }
 
-class EriIreboltStrife : EriIreboltBoltGiver replaces StrifeGrenadeLauncher {}
+class EriIreboltStrifeSpawner : ActorSpawner replaces StrifeGrenadeLauncher
+{
+	Default
+	{
+		ActorSpawner.SpawnClass "EriIreboltBolt";
+	}
+}
 
 class IreboltShot : EriStickyMissile
 {

@@ -1,0 +1,2 @@
+server bool eri_altslot6 = false;
+server bool eri_altslot8 = false;
