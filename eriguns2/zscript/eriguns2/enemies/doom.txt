@@ -355,6 +355,7 @@ class EriCyberdemon : Cyberdemon replaces Cyberdemon
 	Default
 	{
 		DamageFactor "Explosive", 0.75;
+		DropItem "EriSuperImmolator";
 	}
 	States
 	{

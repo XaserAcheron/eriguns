@@ -13,7 +13,7 @@ class EriSuperImmolator : HellWeapon
 		Scale 0.8;
 		Weapon.SelectionOrder 1900;
 		Weapon.AmmoUse 2;
-		Weapon.AmmoGive 0;
+		Weapon.AmmoGive 20;
 		Weapon.AmmoType "FlameAmmo";
 		Weapon.SisterWeapon "EriSuperImmolatorPowered";
 		Inventory.Pickupmessage "$GOTSUPERLATOR";
@@ -26,8 +26,9 @@ class EriSuperImmolator : HellWeapon
 		HSIG A 1 A_WeaponReady();
 		Loop;
 	Deselect:
+		HSIG A 0 X_SuperImmolatorEnd();
 		HSIG A 1 A_Lower();
-		Loop;
+		Wait;
 	Select:
 		HSIG A 1 A_Raise();
 		Wait;
