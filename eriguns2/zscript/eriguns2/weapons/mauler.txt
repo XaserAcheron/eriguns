@@ -138,6 +138,7 @@ class EriMaulerHexen0 : EriMaulerManaGiver replaces BloodscourgeDrop {}
 class EriMaulerHexen1 : EriMaulerManaGiver replaces MWeaponPiece1    {}
 class EriMaulerHexen2 : EriMaulerManaGiver replaces MWeaponPiece2    {}
 class EriMaulerHexen3 : EriMaulerManaGiver replaces MWeaponPiece3    {}
+class EriMaulerHexen4 : EriMaulerManaGiver replaces MWeapStaff       {}
 
 class MaulerNail : QNail
 {

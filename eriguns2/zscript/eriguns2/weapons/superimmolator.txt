@@ -133,6 +133,70 @@ class EriSuperImmolatorPowered : EriSuperImmolator
 	}
 }
 
+class EriSuperImmolatorAsh : EriSuperImmolator
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "AshAmmo";
+		Weapon.SisterWeapon "EriSuperImmolatorAshPowered";
+	}
+}
+
+class EriSuperImmolatorAshPowered : EriSuperImmolatorPowered
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "AshAmmo";
+		Weapon.SisterWeapon "EriSuperImmolatorAsh";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriSuperImmolatorMana : EriSuperImmolator replaces FighterWeaponPiece
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriSuperImmolatorManaPowered";
+	}
+}
+
+class EriSuperImmolatorManaPowered : EriSuperImmolatorPowered
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriSuperImmolatorMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriSuperImmolatorManaGiver : WeaponGiver
+{
+	Default
+	{
+		Inventory.PickupMessage "$GOTSUPERLATOR";
+		DropItem "EriSuperImmolatorMana";
+	}
+	States
+	{
+	Spawn:
+		HESI A -1;
+		Stop;
+	}
+}
+
+class EriSuperImmolatorHexen0 : EriSuperImmolatorManaGiver replaces QuietusDrop   {}
+class EriSuperImmolatorHexen1 : EriSuperImmolatorManaGiver replaces FWeaponPiece1 {}
+class EriSuperImmolatorHexen2 : EriSuperImmolatorManaGiver replaces FWeaponPiece2 {}
+class EriSuperImmolatorHexen3 : EriSuperImmolatorManaGiver replaces FWeaponPiece3 {}
+class EriSuperImmolatorHexen4 : EriSuperImmolatorManaGiver replaces FWeapQuietus  {}
+
 class SuperImmolatorFireball : ImmolatorFireball
 {
 	Default
