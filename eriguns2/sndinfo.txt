@@ -16,6 +16,7 @@ weapons/bladepower2     dsbpowr2
 weapons/immolatorfire   dsimofir
 weapons/immolatorhit    dsimohit
 weapons/immolatorburn   dsimburn
+weapons/immolatorburn2  dsimbrn2
 weapons/immolatorout    dsimbout
 weapons/immolatorpow1   dsimpow1
 weapons/immolatorpow2   dsimpow2
