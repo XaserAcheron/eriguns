@@ -16,6 +16,9 @@ class EriMissileLauncher : EriWeapon
 		Weapon.AmmoType "RocketAmmo";
 		Inventory.PickupMessage "$GOTMISSILE";
 		Tag "$TAG_MISSILE";
+		VisibleToPlayerClass "AltPlayer";
+		Inventory.RestrictedTo "AltPlayer";
+		+INVENTORY.RESTRICTABSOLUTELY;
 		+WEAPON.NOAUTOFIRE;
 	}
 	States
@@ -93,28 +96,6 @@ class EriMissileLauncher : EriWeapon
 				missile.X_MissileSplit();
 			}
 		}
-	}
-}
-
-class EriMissileLauncherPickup : CustomInventory
-{
-	Default
-	{
-		Inventory.PickupSound "misc/w_pkup";
-		Inventory.PickupMessage "$GOTMISSILE";
-		VisibleToPlayerClass "AltPlayer";
-		Scale 0.8;
-	}
-	States
-	{
-	Spawn:
-		DEML A -1;
-		Stop;
-	Pickup:
-		TNT1 A 0 A_JumpIfInventory("AltToken",1,1);
-		Stop;
-		TNT1 A 0 A_GiveInventory("EriMissileLauncher",1);
-		Stop;
 	}
 }
 

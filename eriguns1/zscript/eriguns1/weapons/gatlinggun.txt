@@ -16,6 +16,9 @@ class EriGatlingGun : EriWeapon
 		Obituary "$OB_MPGATLINGGUN";
 		Tag "$TAG_GATLINGGUN";
 		Decal "BulletChip";
+		VisibleToPlayerClass "AltPlayer";
+		Inventory.RestrictedTo "AltPlayer";
+		+INVENTORY.RESTRICTABSOLUTELY;
 	}
 	States
 	{
@@ -71,27 +74,5 @@ class EriGatlingGun : EriWeapon
 		if(!pending && invoker.ammo1 && invoker.ammo1.amount > 0) {
 			A_WeaponReady(WRF_NOBOB | WRF_NOSWITCH);
 		}
-	}
-}
-
-class EriGatlingGunPickup : CustomInventory
-{
-	Default
-	{
-		Inventory.PickupSound "misc/w_pkup";
-		Inventory.PickupMessage "$GOTGATLINGGUN";
-		VisibleToPlayerClass "AltPlayer";
-		Scale 0.8;
-	}
-	States
-	{
-	Spawn:
-		DEGT A -1;
-		Stop;
-	Pickup:
-		TNT1 A 0 A_JumpIfInventory("AltToken",1,1);
-		Stop;
-		TNT1 A 0 A_GiveInventory("EriGatlingGun",1);
-		Stop;
 	}
 }

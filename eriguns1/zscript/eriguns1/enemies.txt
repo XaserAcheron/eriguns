@@ -8,7 +8,7 @@ class EriSpiderMastermind : SpiderMastermind replaces SpiderMastermind
 {
 	Default
 	{
-		DropItem "EriGatlingGunPickup";
+		DropItem "EriGatlingGun";
 	}
 }
 
@@ -16,6 +16,6 @@ class EriCyberdemon : Cyberdemon replaces Cyberdemon
 {
 	Default
 	{
-		DropItem "EriMissileLauncherPickup";
+		DropItem "EriMissileLauncher";
 	}
 }
