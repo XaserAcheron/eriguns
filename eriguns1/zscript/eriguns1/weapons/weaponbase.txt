@@ -65,4 +65,17 @@ class EriWeapon : DoomWeapon
 		}
 		return null;
 	}
+	
+	// temporary pow() function since the ** operator crashes gzdoom 3.1.0
+	// thanks, Gutawer!
+	double pow(double base, double power)
+	{
+		if (power == 0) {
+			return 1;
+		}
+		if (base == 0) {
+			return 0;
+		}
+		return exp(power * log(base));
+	}
 }

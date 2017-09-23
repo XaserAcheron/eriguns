@@ -96,9 +96,8 @@ class EriMachinegun : EriWeapon replaces Chaingun
 		A_OverlayOffset(layer, xoffset, invoker.counteryoffset);
 		
 		// set the digit
-		// [TODO] replace StupidPow with ** when it stops crashing 9_6.
 		int ammoCount = invoker.ammo1 ? invoker.ammo1.amount : 0;
-		int div = EriMachinegun.StupidPow(10, place);
+		int div = invoker.pow(10, place);
 		int frame = ammoCount / div % 10;
 
 		// [TODO] generalize this into an "A_SetOverlayFrame" since that'll be useful
@@ -107,21 +106,6 @@ class EriMachinegun : EriWeapon replaces Chaingun
 			if(psp && psp.CurState != null) {
 				psp.frame = frame;
 			}
-		}
-	}
-
-	// [XA] stupid pow function; just doing ints for now because that's
-	// all I need at present. Will remove this if the crash gets fixed.
-	static int StupidPow(int a, int b)
-	{
-		if(b > 0) {
-			int v = a;
-			for(int i = 1; i < b; i++) {
-				v *= a;
-			}
-			return v;
-		} else {
-			return 1;
 		}
 	}
 }
