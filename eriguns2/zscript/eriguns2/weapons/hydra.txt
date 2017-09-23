@@ -121,6 +121,28 @@ class EriHydraPowered : EriHydra
 	}
 }
 
+class EriHydraMana : EriHydra
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriHydraManaPowered";
+	}
+}
+
+class EriHydraManaPowered : EriHydraPowered
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriHydraMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
 class HydraRocket : FastProjectile
 {
 	Default

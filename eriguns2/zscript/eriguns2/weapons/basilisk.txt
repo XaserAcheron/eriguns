@@ -96,7 +96,7 @@ class EriBasiliskPowered : EriBasilisk
 	}
 }
 
-class EriBasiliskMana : EriBasilisk replaces CWeapFlame
+class EriBasiliskMana : EriBasilisk
 {
 	Default
 	{
@@ -127,8 +127,18 @@ class EriBasiliskOrHydraSpawner : CvarToggleSpawner replaces PlasmaRifle
 	}
 }
 
-class EriBasiliskHeretic : EriBasiliskOrHydraSpawner replaces SkullRod     {}
-class EriBasiliskStrife  : EriBasiliskOrHydraSpawner replaces Flamethrower {}
+class EriBasiliskOrHydraSpawnerHexen : CvarToggleSpawner replaces CWeapFlame
+{
+	Default
+	{
+		CvarToggleSpawner.Cvar "eri_altslot8";
+		CvarToggleSpawner.OffClass "EriBasiliskMana";
+		CvarToggleSpawner.OnClass "EriHydraMana";
+	}
+}
+
+class EriBasiliskOrHydraSpawnerHeretic : EriBasiliskOrHydraSpawner replaces SkullRod     {}
+class EriBasiliskOrHydraSpawnerStrife  : EriBasiliskOrHydraSpawner replaces Flamethrower {}
 
 class BasiliskShot : Actor
 {

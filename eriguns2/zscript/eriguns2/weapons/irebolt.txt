@@ -109,7 +109,7 @@ class EriIreboltPowered : EriIrebolt
 	}
 }
 
-class EriIreboltBolt : EriIrebolt replaces PhoenixRod
+class EriIreboltBolt : EriIrebolt
 {
 	Default
 	{
@@ -130,7 +130,7 @@ class EriIreboltBoltPowered : EriIreboltPowered
 	}
 }
 
-class EriIreboltMana : EriIrebolt replaces FWeapHammer
+class EriIreboltMana : EriIrebolt
 {
 	Default
 	{
@@ -162,13 +162,27 @@ class EriIreboltOrHellforgeSpawner : CvarToggleSpawner replaces SuperShotgun
 	}
 }
 
-class EriIreboltStrifeSpawner : ActorSpawner replaces StrifeGrenadeLauncher
+class EriIreboltOrHellforgeSpawnerHeretic : CvarToggleSpawner replaces PhoenixRod
 {
 	Default
 	{
-		ActorSpawner.SpawnClass "EriIreboltBolt";
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIreboltBolt";
+		CvarToggleSpawner.OnClass "EriHellforgeBolt";
 	}
 }
+
+class EriIreboltOrHellforgeSpawnerHexen : CvarToggleSpawner replaces FWeapHammer
+{
+	Default
+	{
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIreboltMana";
+		CvarToggleSpawner.OnClass "EriHellforgeMana";
+	}
+}
+
+class EriIreboltOrHellforgeSpawnerStrife : EriIreboltOrHellforgeSpawnerHeretic replaces StrifeGrenadeLauncher {}
 
 class IreboltShot : EriStickyMissile
 {

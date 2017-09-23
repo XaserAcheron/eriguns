@@ -80,6 +80,49 @@ class EriHellforgePowered : EriHellforge
 	}
 }
 
+class EriHellforgeBolt : EriHellforge
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "BoltAmmo";
+		Weapon.SisterWeapon "EriHellforgeBoltPowered";
+	}
+}
+
+class EriHellforgeBoltPowered : EriHellforgePowered
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "BoltAmmo";
+		Weapon.SisterWeapon "EriHellforgeBolt";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class EriHellforgeMana : EriHellforge
+{
+	Default
+	{
+		Weapon.AmmoGive 25;
+		Weapon.AmmoUse 5;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriHellforgeManaPowered";
+	}
+}
+
+class EriHellforgeManaPowered : EriHellforgePowered
+{
+	Default
+	{
+		Weapon.AmmoUse 5;
+		Weapon.AmmoType "Mana2";
+		Weapon.SisterWeapon "EriHellforgeMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
 class HellforgeBoom : EriPuff
 {
 	Default
