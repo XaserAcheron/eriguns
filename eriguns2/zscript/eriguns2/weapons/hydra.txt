@@ -1,0 +1,219 @@
+/*
+ * eriguns2: hydra
+ * (c) xaser 2017
+ * sprites by Amuscaria
+ */
+
+class EriHydra : HellWeapon
+{
+	bool fireSide;
+
+	Default
+	{
+		Scale 0.8;
+		Weapon.SelectionOrder 100;
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "FlameAmmo";
+		Weapon.SisterWeapon "EriHydraPowered";
+		Inventory.PickupMessage "$GOTHYDRA";
+		Tag "$TAG_HYDRA";
+		Obituary "$OB_MPHYDRA";
+	}
+	States
+	{
+	Ready:
+		HYDG A 1 A_WeaponReady();
+		Loop;
+	Deselect:
+		HYDG A 1 A_Lower();
+		Loop;
+	Select:
+		HYDG A 1 A_Raise();
+		Loop;
+	Fire:
+		HYDG A 0 X_HydraSide(); 
+	FireLeft:
+		HYDG A 2 X_FireHydra(-8, "weapons/hydrafire1", "FlashLeft");
+		HYDG B 2 X_FireHydra(-8, "weapons/hydrafire3");
+		HYDG CB 2;
+		HYDG A 0 A_Refire();
+		Goto Ready;
+	FireRight:
+		HYDG A 2 X_FireHydra( 8, "weapons/hydrafire1", "FlashRight");
+		HYDG D 2 X_FireHydra( 8, "weapons/hydrafire2");
+		HYDG ED 2;
+		HYDG A 0 A_Refire();
+		Goto Ready;
+	FlashLeft:
+		HYDF A 2 Bright A_Light(1);
+		HYDF B 2 Bright A_Light(2);
+		HYDF C 2 Bright A_Light(1);
+		Goto LightDone;
+	FlashRight:
+		HYDF D 2 Bright A_Light(1);
+		HYDF E 2 Bright A_Light(2);
+		HYDF F 2 Bright A_Light(1);
+		Goto LightDone;
+	Spawn:
+		HEYD A -1;
+		Stop;
+	}
+
+	action state X_HydraSide()
+	{
+		invoker.fireSide = !invoker.fireSide;
+		return invoker.fireSide ? ResolveState("FireLeft") : ResolveState("FireRight");
+	}
+
+	action void X_FireHydra(int spawnOffset, sound fireSound, statelabel flashState = null)
+	{
+		if(!invoker.ammo1 || invoker.ammo1.amount > 0) {
+			A_Recoil(0.25);
+			A_PlaySound("weapons/hydrafire", CHAN_WEAPON);
+			A_PlaySound(fireSound, CHAN_AUTO);
+			A_FireProjectile("HydraRocket", frandom(0, spawnOffset/2), 1, spawnOffset);
+			if(flashState) {
+				A_GunFlash(flashState);
+			}
+		}
+	}
+}
+
+class EriHydraPowered : EriHydra
+{
+	Default
+	{
+		Weapon.AmmoGive 0;
+		Weapon.SisterWeapon "EriHydra";
+		Obituary "$OB_MPHYDRAPOW";
+		+WEAPON.POWERED_UP;
+	}
+	States
+	{
+	Fire:
+		HYDG A 2 X_FireHydraPow(8, false, "weapons/hydrafire2", "Flash");
+		HYDG F 2 X_FireHydraPow(8, true , "weapons/hydrafire3");
+		HYDG GF 2;
+		HYDG A 0 A_Refire();
+		Goto Ready;
+	Flash:
+		HYDF G 2 Bright A_Light(1);
+		HYDF H 2 Bright A_Light(2);
+		HYDF I 2 Bright A_Light(1);
+		Goto LightDone;
+	}
+
+	action void X_FireHydraPow(int spawnOffset, bool seek, sound fireSound, statelabel flashState = null)
+	{
+		if(!invoker.ammo1 || invoker.ammo1.amount > 0) {
+			A_Recoil(0.5);
+			A_PlaySound("weapons/hydrafire" , CHAN_WEAPON);
+			A_PlaySound("weapons/hydrafire1", CHAN_5);
+			A_PlaySound(fireSound, CHAN_AUTO);
+			class<Actor> shotClass = seek ? "HydraSeeker" : "HydraRocket";
+			A_FireProjectile(shotClass, frandom(0, spawnOffset), 0, spawnOffset);
+			A_FireProjectile(shotClass, frandom(0,-spawnOffset), 1,-spawnOffset);
+			if(flashState) {
+				A_GunFlash(flashState);
+			}
+		}
+	}
+}
+
+class EriHydraMana : EriHydra
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 25;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriHydraManaPowered";
+	}
+}
+
+class EriHydraManaPowered : EriHydraPowered
+{
+	Default
+	{
+		Weapon.AmmoUse 1;
+		Weapon.AmmoType "Mana1";
+		Weapon.SisterWeapon "EriHydraMana";
+		+WEAPON.POWERED_UP;
+	}
+}
+
+class HydraRocket : FastProjectile
+{
+	Default
+	{
+		Damage 6;
+		Radius 8;
+		Height 8;
+		Speed 30;
+		Scale 0.5;
+		DeathSound "weapons/hydrahit";
+		Decal "PlasmaScorchLower";
+		MissileType "HydraRocketTrail";
+		MissileHeight 8;
+	}
+
+	States
+	{
+	Spawn:
+		HYRK A -1 Bright;
+		Stop;
+	Death:
+		HYRK B 3 Bright X_HydraExplode();
+		HYRK CDEF 3 Bright;
+		Stop;
+	}
+
+	void X_HydraExplode()
+	{
+		A_Explode(20, 64, XF_HURTSOURCE);
+		A_SetScale(random(0, 1)*2-1, random(0, 1)*2-1);
+		A_SetTranslucent(1.0, 1);
+	}
+}
+
+class HydraRocketTrail : EriTrail
+{
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 0.2;
+		Scale 0.2;
+	}
+	States
+	{
+	Spawn:
+		MTRL HBDFG 1 Bright;
+		Stop;
+	}
+}
+
+class HydraSeeker : HydraRocket
+{
+	Default
+	{
+		MissileType "HydraSeekerTrail";
+		+SEEKERMISSILE;
+	}
+	States
+	{
+	Spawn:
+		HYRK A 1 Bright A_SeekerMissile(8, 8, SMF_LOOK | SMF_PRECISE, 256, 16);
+		Loop;
+	}
+}
+
+class HydraSeekerTrail : HydraRocketTrail
+{
+	States
+	{
+	Spawn:
+		MTRL HABDFG 1 Bright;
+		Stop;
+	}
+}

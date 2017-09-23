@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriBasilisk : HellWeapon replaces PlasmaRifle
+class EriBasilisk : HellWeapon
 {
 	Default
 	{
@@ -96,7 +96,7 @@ class EriBasiliskPowered : EriBasilisk
 	}
 }
 
-class EriBasiliskMana : EriBasilisk replaces CWeapFlame
+class EriBasiliskMana : EriBasilisk
 {
 	Default
 	{
@@ -117,23 +117,28 @@ class EriBasiliskManaPowered : EriBasiliskPowered
 	}
 }
 
-class EriBasiliskGiver : WeaponGiver
+class EriBasiliskOrHydraSpawner : CvarToggleSpawner replaces PlasmaRifle
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTBASILISK";
-		DropItem "EriBasilisk";
-	}
-	States
-	{
-	Spawn:
-		HEBA A -1;
-		Stop;
+		CvarToggleSpawner.Cvar "eri_altslot8";
+		CvarToggleSpawner.OffClass "EriBasilisk";
+		CvarToggleSpawner.OnClass "EriHydra";
 	}
 }
 
-class EriBasiliskHeretic : EriBasiliskGiver replaces SkullRod     {}
-class EriBasiliskStrife  : EriBasiliskGiver replaces Flamethrower {}
+class EriBasiliskOrHydraSpawnerHexen : CvarToggleSpawner replaces CWeapFlame
+{
+	Default
+	{
+		CvarToggleSpawner.Cvar "eri_altslot8";
+		CvarToggleSpawner.OffClass "EriBasiliskMana";
+		CvarToggleSpawner.OnClass "EriHydraMana";
+	}
+}
+
+class EriBasiliskOrHydraSpawnerHeretic : EriBasiliskOrHydraSpawner replaces SkullRod     {}
+class EriBasiliskOrHydraSpawnerStrife  : EriBasiliskOrHydraSpawner replaces Flamethrower {}
 
 class BasiliskShot : Actor
 {

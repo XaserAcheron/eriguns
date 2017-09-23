@@ -4,7 +4,7 @@
 //
 // --------------------------------------------------------------------------
 
-class EriIrebolt : HellWeapon replaces SuperShotgun
+class EriIrebolt : HellWeapon
 {
 	Default
 	{
@@ -105,13 +105,11 @@ class EriIreboltPowered : EriIrebolt
 	{
 		A_Recoil(2.0);
 		A_PlaySound("weapons/ireboltfire", CHAN_AUTO);
-		for(int i = 0; i < amount; i++) {
-			A_FireProjectile("IreboltMine", frandom(-3.5, 3.5), 1, 0, 0, 1, frandom(-5, 0));
-		}
+		X_FireProjectileSpread("IreboltMine", amount, (-3.5, 3.5), 1, 0, 0, 1, (-5, 0));
 	}
 }
 
-class EriIreboltBolt : EriIrebolt replaces PhoenixRod
+class EriIreboltBolt : EriIrebolt
 {
 	Default
 	{
@@ -132,7 +130,7 @@ class EriIreboltBoltPowered : EriIreboltPowered
 	}
 }
 
-class EriIreboltMana : EriIrebolt replaces FWeapHammer
+class EriIreboltMana : EriIrebolt
 {
 	Default
 	{
@@ -154,22 +152,37 @@ class EriIreboltManaPowered : EriIreboltPowered
 	}
 }
 
-class EriIreboltBoltGiver : WeaponGiver
+class EriIreboltOrHellforgeSpawner : CvarToggleSpawner replaces SuperShotgun
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTIREBOLT";
-		DropItem "EriIreboltBolt";
-	}
-	States
-	{
-	Spawn:
-		HEIR A -1;
-		Stop;
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIrebolt";
+		CvarToggleSpawner.OnClass "EriHellforge";
 	}
 }
 
-class EriIreboltStrife : EriIreboltBoltGiver replaces StrifeGrenadeLauncher {}
+class EriIreboltOrHellforgeSpawnerHeretic : CvarToggleSpawner replaces PhoenixRod
+{
+	Default
+	{
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIreboltBolt";
+		CvarToggleSpawner.OnClass "EriHellforgeBolt";
+	}
+}
+
+class EriIreboltOrHellforgeSpawnerHexen : CvarToggleSpawner replaces FWeapHammer
+{
+	Default
+	{
+		CvarToggleSpawner.Cvar "eri_altslot6";
+		CvarToggleSpawner.OffClass "EriIreboltMana";
+		CvarToggleSpawner.OnClass "EriHellforgeMana";
+	}
+}
+
+class EriIreboltOrHellforgeSpawnerStrife : EriIreboltOrHellforgeSpawnerHeretic replaces StrifeGrenadeLauncher {}
 
 class IreboltShot : EriStickyMissile
 {

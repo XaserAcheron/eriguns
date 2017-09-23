@@ -222,6 +222,7 @@ class EriMinotaur : Minotaur replaces Minotaur
 	Default
 	{
 		DropItem "EriSoulReaver";
+		DropItem "EriSuperImmolator";
 	}
 	States
 	{

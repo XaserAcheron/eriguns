@@ -16,10 +16,13 @@ weapons/bladepower2     dsbpowr2
 weapons/immolatorfire   dsimofir
 weapons/immolatorhit    dsimohit
 weapons/immolatorburn   dsimburn
+weapons/immolatorburn2  dsimbrn2
 weapons/immolatorout    dsimbout
 weapons/immolatorpow1   dsimpow1
 weapons/immolatorpow2   dsimpow2
 weapons/immolatorpow3   dsimpow3
+weapons/immolatorsuper  dsimosup
+weapons/immolatorstart  dsimostr
 
 weapons/bloodbaneheart  dsheart
 weapons/bloodbanestab   dsbanstb
@@ -73,6 +76,15 @@ weapons/ireboltwall2    dsirewl2
 $random weapons/ireboltwall { weapons/ireboltwall1 weapons/ireboltwall2 }
 weapons/ireboltdetonate dsiredet
 
+weapons/hellforgefire    dsfrgfir
+weapons/hellforgehit     dsfrghit
+weapons/hellforgeexplode dsfrgexp
+weapons/hellforgenuke    dsfrgnuk
+weapons/hellforgeball    dsfrgbal
+weapons/hellforgeburn    dsirehum
+$alias weapons/hellforgefly weapons/ireboltfly
+$limit weapons/hellforgeball 0
+
 weapons/castercharge    dscaschg
 weapons/casterloop      dscaslop
 weapons/casterloop2     dscaslo2
@@ -94,6 +106,12 @@ weapons/basiliskbounce  dsbasbnc
 $limit weapons/basiliskbounce 0
 $volume weapons/basiliskfly 0.5
 $rolloff weapons/basiliskfly 100 600
+
+weapons/hydrafire       dsfrghit
+weapons/hydrafire1      dshydfr1
+weapons/hydrafire3      dshydfr2
+weapons/hydrafire3      dshydfr3
+weapons/hydrahit        dsirehit
 
 weapons/reaverfire      dssolfir
 weapons/reaverhit       dssolhit
