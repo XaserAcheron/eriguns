@@ -1,2 +1,2 @@
-server bool eri_altslot6 = false;
-server bool eri_altslot8 = false;
+server int eri_altslot6 = 0;
+server int eri_altslot8 = 0;

@@ -33,6 +33,9 @@ class Nothing : Actor
 	}
 }
 
+// lightweight RandomSpawner alternative; spawns an actor unconditionally.
+// provided as a more convenient alternative to WeaponGivers so one doesn't
+// have to duplicate the pickup sprite/message/sound.
 class ActorSpawner : Nothing
 {
 	Class<Actor> spawnClass;
@@ -48,6 +51,8 @@ class ActorSpawner : Nothing
 	}
 }
 
+// coolio cvar-based spawner. Spawns Actor A if cvar is 0, Actor B if it's 1,
+// or randomly chooses between the two if it's 2.
 class CvarToggleSpawner : Nothing
 {
 	String toggleCvar;
@@ -62,7 +67,11 @@ class CvarToggleSpawner : Nothing
 	{
 		let cv = CVar.GetCvar(toggleCvar);
 		if(cv) {
-			class<Actor> actorClass = cv.GetInt() ? onClass : offClass;
+			int cvalue = cv.GetInt();
+			if(cvalue == 2) {
+				cvalue = random(0, 1);
+			}
+			class<Actor> actorClass = cvalue ? onClass : offClass;
 			let actor = Spawn(actorClass, pos);
 			if(actor) {
 				actor.bDropped = bDropped;

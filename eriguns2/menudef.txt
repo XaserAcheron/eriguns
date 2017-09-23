@@ -8,12 +8,14 @@ OptionValue "DamWeaponSlot6"
 {
 	0, "Irebolt"
 	1, "Hellforge"
+	2, "Random"
 }
 
 OptionValue "DamWeaponSlot8"
 {
 	0, "Basilisk"
 	1, "Hydra"
+	2, "Random"
 }
 
 OptionMenu "Eriguns2Options"
