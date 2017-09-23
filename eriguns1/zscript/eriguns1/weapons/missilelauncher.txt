@@ -6,6 +6,8 @@
 
 class EriMissileLauncher : EriWeapon
 {
+	const SPLIT_TRIGGER_OVERLAY = 10;
+
 	Default
 	{
 		Weapon.SelectionOrder 2500;
@@ -25,14 +27,13 @@ class EriMissileLauncher : EriWeapon
 		DMLG A 1 A_Lower();
 		Loop;
 	Select:
+		DMLG A 0 X_InitSplitTrigger();
 		DMLG A 1 A_Raise();
 		Loop;
 	Fire:
 		DMLG A 2 A_GunFlash();
 		DMLF AB 2 Bright;
-		DMLF C 0 Bright A_PlaySound("weapons/missilefire");
-		DMLF C 0 Bright A_FireProjectile("EriMissileLeft", 0,0,-2,0);
-		DMLF C 2 Bright A_FireProjectile("EriMissileRight",0,1, 2,0);
+		DMLF C 2 Bright X_FireMissileLauncher();
 		DMLF DE 2;
 		DMLG C 6;
 		DMLG B 3;
@@ -46,9 +47,52 @@ class EriMissileLauncher : EriWeapon
 		TNT1 A 2 Bright A_Light(2);
 		TNT1 A 2 Bright A_Light(1);
 		Goto LightDone;
+	SplitTrigger:
+		TNT1 A 1 X_CheckSplit();
+		Loop;
 	Spawn:
 		DEML A -1;
 		Stop;
+	}
+
+	action void X_FireMissileLauncher()
+	{
+		A_PlaySound("weapons/missilefire");
+		X_FireSplitMissile(false, -2, 45);
+		X_FireSplitMissile(true ,  2,-45);
+	}
+
+	action void X_FireSplitMissile(bool useAmmo, double spawnofs_xy, double splitAngle)
+	{
+		let missile = EriMissile(A_FireProjectile("EriMissile", 0, useAmmo, spawnofs_xy));
+		if(missile) {
+			missile.splitAngle = splitAngle;
+			missile.master = self;
+		}
+	}
+
+	action void X_InitSplitTrigger()
+	{
+		A_Overlay(SPLIT_TRIGGER_OVERLAY, "SplitTrigger");
+	}
+
+	action void X_CheckSplit()
+	{
+		if(self.player && (self.player.buttons & BT_ALTATTACK) && !(self.player.oldbuttons & BT_ALTATTACK)) {
+			X_SplitMissiles();
+		}
+	}
+
+	action void X_SplitMissiles()
+	{
+		// iterate through each missile that belongs to the player and split 'em.
+		ThinkerIterator missileIterator = ThinkerIterator.Create("EriMissile");
+		EriMissile missile;
+		while(missile = EriMissile(missileIterator.Next() ) ) {
+			if(missile.master == self) {
+				missile.X_MissileSplit();
+			}
+		}
 	}
 }
 
@@ -74,9 +118,10 @@ class EriMissileLauncherPickup : CustomInventory
 	}
 }
 
-class EriMissileLeft : EriRocket
+class EriMissile : EriRocket
 {
-	int user_explode;
+	int splitAngle;
+	bool isSeeking;
 
 	Default
 	{
@@ -91,47 +136,40 @@ class EriMissileLeft : EriRocket
 	States
 	{
 	Spawn:
-		XMIS A 0;
-		XMIS A 0 A_PlaySound("weapons/missilefly", CHAN_BODY, 0.35, 1, ATTN_NORM);
-		XMIS A 0 ACS_NamedExecuteAlways("SplitMissile",0,0,0,0);
-	Fly:
-		XMIS A 1 Bright A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
-		Loop;
-	Split:
-		XMIS A 0 Bright A_PlaySound("weapons/missilelock", CHAN_AUTO);
-		XMIS A 0 Bright A_SetAngle(angle + 45);
-		Goto PreSeek;
-	PreSeek:
-		XMIS A 0 Bright { user_explode = 1; }
-		XMIS A 0 Bright A_ChangeVelocity(vel.x + (25*cos(angle)), vel.y + (25*sin(angle)), vel.z, CVF_REPLACE);
-		XMIS A 1 Bright A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
-		Goto Seek;
-	Seek:
-		XMIS A 0 A_SeekerMissile(8,8, SMF_LOOK | SMF_PRECISE, 256, 16);
-		XMIS A 1 Bright A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
-		Loop;
+		XMIS A 0 Bright NoDelay A_PlaySound("weapons/missilefly", CHAN_BODY, 0.35, 1, ATTN_NORM);
+		XMIS A 1 Bright X_MissileFly();
+		Wait;
 	Death:
-		XMIS B 0 Bright Thing_ChangeTID(0,0);
-		XMIS B 0 Bright A_SetTranslucent(1.0,1);
-	    XMIS B 0 Bright A_StopSound(CHAN_BODY);
-		XMIS B 0 Bright A_JumpIf(user_explode == 1, 2);
-		XMIS B 3 Bright A_Explode(64,128,1);
-		Goto EndBoom;
-		XMIS B 3 Bright A_Explode(128,128,1);
-	EndBoom:
+		XMIS B 3 Bright X_MissileExplode();
 		XMIS CDEFG 3 Bright;
 		Stop;
 	}
-}
 
-class EriMissileRight : EriMissileLeft
-{
-	States
+	void X_MissileFly()
 	{
-	Split:
-		XMIS A 0 Bright A_SetAngle(angle - 45);
-		Goto PreSeek;
-	}	
+		if(self.isSeeking) {
+			A_SeekerMissile(8,8, SMF_LOOK | SMF_PRECISE, 256, 16);
+		}
+		A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
+	}
+
+	void X_MissileSplit()
+	{
+		if(!self.isSeeking) {
+			A_PlaySound("weapons/missilelock", CHAN_AUTO, 0.5);
+			self.angle += splitAngle;
+			self.vel = (vel.x + (speed * cos(angle)), vel.y + (speed * sin(angle)), vel.z);
+			self.isSeeking = true;
+		}
+	}
+
+	void X_MissileExplode()
+	{
+		// deal more damage post-split, a la ROTT
+		A_Explode(self.isSeeking ? 128 : 64, 128, 1);
+		A_SetTranslucent(1.0,1);
+	    A_StopSound(CHAN_BODY);
+	}
 }
 
 class MissileTrail : PlasmaBall
