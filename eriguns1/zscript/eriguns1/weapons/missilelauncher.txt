@@ -139,7 +139,7 @@ class EriMissile : EriRocket
 		if(!self.isSplit) {
 			A_PlaySound("weapons/missilelock", CHAN_AUTO, 0.5);
 			self.angle += splitAngle;
-			self.vel = (vel.x + (speed * cos(angle)), vel.y + (speed * sin(angle)), vel.z);
+			self.vel = (speed * cos(angle), speed * sin(angle), vel.z);
 			self.isSplit = true;
 		}
 	}
@@ -149,7 +149,7 @@ class EriMissile : EriRocket
 		// deal more damage post-split, a la ROTT
 		A_Explode(self.isSplit ? 128 : 64, 128, 1);
 		A_SetTranslucent(1.0,1);
-	    A_StopSound(CHAN_BODY);
+		A_StopSound(CHAN_BODY);
 		self.isSplit = true; // to prevent being able to split an exploded missile.
 	}
 }
