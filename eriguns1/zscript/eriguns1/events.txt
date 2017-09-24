@@ -1,0 +1,37 @@
+/*
+ * eriguns1: events
+ * (c) xaser 2017
+ */
+
+class EriEventHandler : StaticEventHandler
+{
+	override void WorldThingDied(WorldEvent e)
+	{
+		X_UniDrop(e.Thing);
+	}
+
+	// quasi-universal item drops. No custom actors required!
+	void X_UniDrop(Actor subject)
+	{
+		if(subject) {
+			class<Actor> subjectClass = Actor.GetReplacee(subject.GetClass());
+			class<Actor> dropClass;
+			
+			// get the class to drop from LANGUAGE. Hooray shenanigans. :P
+			// [TODO] support a comma-separated list
+			string lookupString = ("UNIDROP_" .. subjectClass.GetClassName());
+			string dropClassName = StringTable.Localize("$" .. lookupString);
+			
+			// if we got a match from LANGUAGE, continue; otherwise, idgaf.
+			if(dropClassName != lookupString) {
+				dropClass = dropClassName;
+				if(dropClass) {
+					// [TODO] delay the drop until A_NoBlocking is called.
+					subject.A_DropItem(dropClass);
+				} else {
+					subject.A_Log("[UNIDROP] Unknown actor class '" .. dropClassName .. "'");
+				}
+			}
+		}
+	}
+}

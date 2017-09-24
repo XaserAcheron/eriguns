@@ -24,3 +24,6 @@ OB_MPCHAINGUN   = "%o was mowed down by %k's machinegun.";
 OB_MPGATLINGGUN = "%o was turned to swiss cheese by %k's gatling gun.";
 OB_MPMISSILE    = "%o was mutilated by %k's missile.";
 OB_MPGRENADE    = "%o was turned inside-out by %k's grenade.";
+
+UNIDROP_CYBERDEMON       = "EriMissileLauncher";
+UNIDROP_SPIDERMASTERMIND = "EriGatlingGun";

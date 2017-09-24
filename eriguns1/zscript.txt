@@ -1,7 +1,7 @@
 version "2.5"
 
 #include "zscript/eriguns1/player.txt"
-#include "zscript/eriguns1/enemies.txt"
+#include "zscript/eriguns1/events.txt"
 #include "zscript/eriguns1/ammo.txt"
 
 #include "zscript/eriguns1/weapons/weaponbase.txt"

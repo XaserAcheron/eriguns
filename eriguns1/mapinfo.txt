@@ -1,6 +1,7 @@
 gameinfo
 {
 	playerclasses = "EriPlayer", "AltPlayer"
+	addeventhandlers = "EriEventHandler"
 	norandomplayerclass = true
 }
 
