@@ -102,7 +102,7 @@ class EriMissileLauncher : EriWeapon
 class EriMissile : EriRocket
 {
 	int splitAngle;
-	bool isSeeking;
+	bool isSplit;
 
 	Default
 	{
@@ -128,7 +128,7 @@ class EriMissile : EriRocket
 
 	void X_MissileFly()
 	{
-		if(self.isSeeking) {
+		if(self.isSplit) {
 			A_SeekerMissile(8,8, SMF_LOOK | SMF_PRECISE, 256, 16);
 		}
 		A_SpawnItemEx("MissileTrail",0,0,0,-5,0,0,0,0);
@@ -136,20 +136,21 @@ class EriMissile : EriRocket
 
 	void X_MissileSplit()
 	{
-		if(!self.isSeeking) {
+		if(!self.isSplit) {
 			A_PlaySound("weapons/missilelock", CHAN_AUTO, 0.5);
 			self.angle += splitAngle;
 			self.vel = (vel.x + (speed * cos(angle)), vel.y + (speed * sin(angle)), vel.z);
-			self.isSeeking = true;
+			self.isSplit = true;
 		}
 	}
 
 	void X_MissileExplode()
 	{
 		// deal more damage post-split, a la ROTT
-		A_Explode(self.isSeeking ? 128 : 64, 128, 1);
+		A_Explode(self.isSplit ? 128 : 64, 128, 1);
 		A_SetTranslucent(1.0,1);
 	    A_StopSound(CHAN_BODY);
+		self.isSplit = true; // to prevent being able to split an exploded missile.
 	}
 }
 
