@@ -29,7 +29,6 @@ class AltPlayer : DoomPlayer
 	Default
 	{
 		Player.DisplayName "Extended";
-		Player.StartItem "AltToken";
 		Player.StartItem "AltPistol";
 		Player.StartItem "EriFist";
 		Player.StartItem "Clip", 50;
@@ -42,12 +41,5 @@ class AltPlayer : DoomPlayer
 		Player.WeaponSlot 7, "EriBFG9000";
 		Player.WeaponSlot 8, "EriGrenadeLauncher";
 		Damagefactor "Missile", 0.5;
-	}
-}
-
-class AltToken : Inventory {
-	Default
-	{
-		+INVENTORY.UNDROPPABLE;
 	}
 }

@@ -76,6 +76,17 @@ class EriWeapon : DoomWeapon
 		}
 	}
 
+	action state X_TradeWeapon(bool alt)
+	{
+		if(invoker.SisterWeaponType) {
+			if((alt && CheckClass("AltPlayer")) || (!alt && !CheckClass("AltPlayer"))) {
+				A_SelectWeapon(invoker.SisterWeaponType);
+				return ResolveState("Deselect");
+			}
+		}
+		return null;
+	}
+
 	// temporary pow() function since the ** operator crashes gzdoom 3.1.0
 	// thanks, Gutawer!
 	double pow(double base, double power)
