@@ -68,6 +68,7 @@ class AltSuperShotgun : EriSuperShotgun
 		Weapon.AmmoType2 "Shell";
 		Weapon.AmmoUse2 2;
 		Weapon.SisterWeapon "EriSuperShotgun";
+		EriWeapon.MagSize 2;
 		+WEAPON.NOAUTOFIRE;
 	}
 	States
@@ -80,54 +81,64 @@ class AltSuperShotgun : EriSuperShotgun
 		DSSG A 1 A_Raise();
 		Wait;
 	Fire:
-		DSSF A 0 A_GunFlash();
-		DSSF A 0 A_PlaySound("weapons/sshot1bar", CHAN_AUTO);
-		DSSF A 0 A_CheckForReload(2, "Fire1");
-		DSSF G 2 Bright A_FireBullets(6.0, 3.0, 10, 5, "BulletPuff");
-		DSSF H 2 Bright;
-		DSSF IJ 2;
-		Goto DoReload;
+		DSSF A 0 X_FireSuperShotgunSingle();
 	Fire1:
-		DSSF D 2 Bright A_FireBullets(6.0, 3.0, 10, 5, "BulletPuff");
-		DSSF E 2 Bright;
+		DSSF DE 2 Bright;
 		DSSF FJ 2;
 		DSSG A 2;
 		Goto Ready;
+	Fire2:
+		DSSF GH 2 Bright;
+		DSSF IJ 2;
+		Goto FullReload;
 	AltFire:
-		DSSG A 0 A_JumpIfInventory("Shell",2,1);
-		Goto Ready;
-		DSSF A 0 A_CheckForReload(2, "AF", 1);
-		Goto ReloadAlt;
-	   AF:
-		DSSF A 0 A_GunFlash();
-		DSSF A 0 A_PlaySound("weapons/sshotf", CHAN_AUTO);
-		DSSF A 2 Bright A_FireBullets(11.2, 7.1, 20, 5, "BulletPuff");
+		DSSF A 2 Bright X_FireSuperShotgunDouble();
 		DSSF B 2 Bright;
 		DSSF CJ 2;
-		Goto DoReload;
+		Goto FullReload;
 	DoReload:
-		DSSG B 2 A_CheckReload();
-		DSSG CD 2 A_ResetReloadCounter();
+		DSSG CD 2;
 		DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_WEAPON);
-		DSSG FGHIJK 2;
-		DSSG L 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
-		DSSG MNOP 2;
-	   RL2:
+		DSSG VWOP 2;
+	EndReload:
+		DSSG Q 0 X_SuperShotgunReload();
 		DSSG Q 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
 		DSSG RS 2;
 		DSSG T 2 A_PlaySound("weapons/sshotc", CHAN_WEAPON);
 		DSSG UC 2;
 		Goto Ready;
-	ReloadAlt:
-		DSSG CD 2 A_ResetReloadCounter();
+	FullReload:
+		DSSG B 2 A_CheckReload();
+		DSSG C 2 X_SuperShotgunReload();
+		DSSG D 2;
 		DSSG E 2 A_PlaySound("weapons/sshoto", CHAN_WEAPON);
-		DSSG VWOP 2;
-		Goto RL2;
-	Reload:
-		DSSG A 0 A_CheckForReload(2, "Nope", 1);
-		Goto ReloadAlt;
-	Nope:
-		DSSG A 1 A_WeaponReady();
-		Goto Ready;
+		DSSG FGHIJK 2;
+		DSSG L 2 A_PlaySound("weapons/sshotl", CHAN_WEAPON);
+		DSSG MNOP 2;
+		Goto EndReload;
+	}
+
+	action state X_FireSuperShotgunSingle()
+	{
+		A_GunFlash();
+		A_PlaySound("weapons/sshot1bar", CHAN_AUTO);
+		A_FireBullets(6.0, 3.0, 10, 5, "BulletPuff");
+		return (invoker.reloadcounter == 0) ? ResolveState("Fire2") : null;
+	}
+
+	action state X_FireSuperShotgunDouble()
+	{
+		if(invoker.reloadcounter < 2) {
+			return ResolveState("DoReload");
+		}
+		A_GunFlash();
+		A_PlaySound("weapons/sshotf", CHAN_AUTO);
+		A_FireBullets(11.2, 7.1, 20, 5, "BulletPuff");
+		return null;
+	}
+
+	action void X_SuperShotgunReload()
+	{
+		invoker.reloadcounter = 2;
 	}
 }
