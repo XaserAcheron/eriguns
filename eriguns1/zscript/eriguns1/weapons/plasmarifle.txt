@@ -6,6 +6,8 @@
 
 class EriPlasmaRifle : EriWeapon replaces PlasmaRifle
 {
+	const AMMO_OVERLAY = 1015;
+
 	Default
 	{
 		Weapon.SelectionOrder 100;
@@ -24,30 +26,71 @@ class EriPlasmaRifle : EriWeapon replaces PlasmaRifle
 		DPGG A 1 A_Lower();
 		Loop;
 	Select:
+		DPGG A 0 X_InitPlasmaAmmoMeter();
 		DPGG A 1 A_Raise();
-		Loop;
+		Wait;
 	Fire:
-		DPGG A 0 A_GunFlash();
-		DPGG A 0 A_FireProjectile("EriPlasmaBall",0,1,0,0);
-		DPGG A 0 A_Jump(128,"Fire2");
-	Fire1:
-		DPGF AB 1 Bright;
-		Goto FireEnd;
-	Fire2:
-		DPGF CD 1 Bright;
-	FireEnd:
-		DPGG A 1;
-		DPGG B 3 A_ReFire();
-		DPGG C 16; 
-		DPGG B 3;
+		DPGG A 1 X_FirePlasma();
+		DPGG BA 1;
+		DPGG C 3 A_ReFire();
+		DPGG D 16; 
+		DPGG C 3;
 		Goto Ready;
-	Flash:
-		TNT1 A 1 Bright A_Light(2);
-		TNT1 B 1 Bright A_Light(1);
+	Flash1:
+		DPGF A 1 Bright A_Light(2);
+		DPGF B 1 Bright A_Light(1);
 		Goto LightDone;
+	Flash2:
+		DPGF C 1 Bright A_Light(2);
+		DPGF D 1 Bright A_Light(1);
+		Goto LightDone;
+	AmmoMeter:
+		DPNA A 1 Bright X_PlasmaAmmoMeter();
+		Loop;
+	AmmoMeterFire:
+		DPNA A 1 Bright X_PlasmaAmmoMeter();
+		DPNB # 1 Bright;
+		DPNA # 1 Bright X_PlasmaAmmoMeterEmptyCheck();
+		DPNC # 3 Bright;
+		DPND # 16 Bright;
+		DPNC # 3 Bright;
+		Goto AmmoMeter;
 	Spawn:
 		DEPG A -1;
 		Stop;
+	}
+
+	action void X_FirePlasma()
+	{
+		A_Overlay(AMMO_OVERLAY, "AmmoMeterFire");
+		A_FireProjectile("EriPlasmaBall",0,1,0,0);
+		if(random(0,1)) {
+			A_GunFlash("Flash1");
+		} else {
+			A_GunFlash("Flash2");
+		}
+	}
+
+	action void X_InitPlasmaAmmoMeter()
+	{
+		A_Overlay(AMMO_OVERLAY, "AmmoMeter");
+	}
+
+	action void X_PlasmaAmmoMeter()
+	{
+		if(invoker.ammo1) {
+			int ammoUsed = invoker.ammo1.maxAmount - invoker.ammo1.amount;
+			int frame = min(ammoUsed * 8 / invoker.ammo1.maxAmount, 7);
+			X_SetOverlayFrame(AMMO_OVERLAY, frame);
+		}
+	}
+
+	action state X_PlasmaAmmoMeterEmptyCheck()
+	{
+		if(invoker.ammo1 && invoker.ammo1.amount == 0) {
+			return ResolveState("AmmoMeter");
+		}
+		return null;
 	}
 }
 
@@ -71,8 +114,7 @@ class EriPlasmaBall : Actor replaces PlasmaBall
 	States
 	{
 	Spawn:
-		PLSS A 0;
-		PLSS A 1 A_PlaySound("weapons/plasmafly", CHAN_BODY, 0.5, 1, ATTN_STATIC);
+		PLSS A 0 NoDelay A_PlaySound("weapons/plasmafly", CHAN_BODY, 0.5, 1, ATTN_STATIC);
 	Fly:
 		PLSS ACBD 1 Bright;
 		Goto Fly;

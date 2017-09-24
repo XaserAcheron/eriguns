@@ -65,7 +65,17 @@ class EriWeapon : DoomWeapon
 		}
 		return null;
 	}
-	
+
+	action void X_SetOverlayFrame(int layer, int frame)
+	{
+		if(self.player) {
+			PSprite psp = self.player.GetPSprite(layer);
+			if(psp && psp.CurState != null) {
+				psp.frame = frame;
+			}
+		}
+	}
+
 	// temporary pow() function since the ** operator crashes gzdoom 3.1.0
 	// thanks, Gutawer!
 	double pow(double base, double power)

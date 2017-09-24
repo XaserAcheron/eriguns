@@ -94,18 +94,11 @@ class EriMachinegun : EriWeapon replaces Chaingun
 	action void X_AmmoCounter(int layer, int place, float xoffset)
 	{
 		A_OverlayOffset(layer, xoffset, invoker.counteryoffset);
-		
+
 		// set the digit
 		int ammoCount = invoker.ammo1 ? invoker.ammo1.amount : 0;
 		int div = invoker.pow(10, place);
 		int frame = ammoCount / div % 10;
-
-		// [TODO] generalize this into an "A_SetOverlayFrame" since that'll be useful
-		if(self.player) {
-			PSprite psp = self.player.GetPSprite(layer);
-			if(psp && psp.CurState != null) {
-				psp.frame = frame;
-			}
-		}
+		X_SetOverlayFrame(layer, frame);
 	}
 }
