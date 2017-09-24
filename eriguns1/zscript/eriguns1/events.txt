@@ -35,53 +35,33 @@ class EriEventHandler : StaticEventHandler
 	}
 }
 
-// special dropper actor: this is given to a UniDrop-assigned enemy upon death,
+// special dropper thinker: this is given to a UniDrop-assigned enemy upon death,
 // which waits patiently until the actor becomes non-solid; this emulates the
 // behavior of regular DropItems (i.e. dropping them when A_NoBlocking is called).
-// yeah, it's a good ol' inventory trick, but it's composition, yo.
-class UniDropper : Inventory
+class UniDropper : Thinker
 {
+	Actor subject;
 	class<Actor> dropClass;
-
-	Default
-	{
-		+INVENTORY.UNDROPPABLE;
-	}
-	States
-	{
-	Spawn:
-		TNT1 A 0;
-		Stop;
-	}
 
 	static void X_Create(Actor subject, class<Actor> dropClass)
 	{
 		if(subject && dropClass) {
-			subject.A_SetInventory("UniDropper", 1);
-			let dropper = UniDropper(subject.FindInventory("UniDropper"));
+			let dropper = new("UniDropper");
 			if (dropper) {
+				dropper.subject = subject;
 				dropper.dropClass = dropClass;
 			}
 		}
 	}
 
-	override void DoEffect()
+	override void Tick()
 	{
 		// if we've got a valid owner and dropclass, check if the owner is dead
 		// and non-solid. If so, spawn the item and remove oneself.
-		if(!self.owner || !self.dropClass) {
-			X_RemoveSelf();
-		} else if (self.owner.health <= 0 && !self.owner.bSolid) {
-			self.owner.A_DropItem(self.dropClass);
-			X_RemoveSelf();
-		}
-	}
-
-	void X_RemoveSelf()
-	{
-		if(self.owner) {
-			self.owner.A_TakeInventory(self.GetClass());
-		} else {
+		if(!self.subject || !self.dropClass) {
+			self.Destroy();
+		} else if (self.subject.health <= 0 && !self.subject.bSolid) {
+			self.subject.A_DropItem(self.dropClass);
 			self.Destroy();
 		}
 	}
