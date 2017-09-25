@@ -334,6 +334,7 @@ class CasterPuff1 : EriPuff
 		RenderStyle "Add";
 		DamageType "Soul";
 		+ALWAYSPUFF;
+		+EXTREMEDEATH;
 	}
 	States
 	{
@@ -362,3 +363,80 @@ class CasterPuff3 : CasterPuff1
 class CasterPPuff1 : CasterPuff1 { Default { Obituary "$OB_MPCASTERPOW"; } }
 class CasterPPuff2 : CasterPuff2 { Default { Obituary "$OB_MPCASTERPOW"; } }
 class CasterPPuff3 : CasterPuff3 { Default { Obituary "$OB_MPCASTERPOW"; } }
+
+class EriSoulExplosion : Actor
+{
+	int soulDamage;
+	int soulRadius;
+
+	Default
+	{
+		Alpha 1.0;
+		Scale 0.75;
+		RenderStyle "Add";
+		DamageType "Soul";
+		-RANDOMIZE;
+		+FORCERADIUSDMG;
+		+FORCEXYBILLBOARD;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+	}
+	States
+	{
+	Spawn:
+		TNT1 AAAAAAAA 1 NoDelay A_Warp(AAPTR_TRACER);
+		SOLX A 3 Bright;
+		SOLX B 3 Bright A_PlaySound("weapons/casterboom");
+		SOLX C 3 Bright A_Explode(soulDamage, soulRadius, 0, 0, soulRadius);
+		SOLX DEFGH 3 Bright;
+		Stop;
+	}
+
+	static void X_SoulSplosion(Actor target, Actor inflictor)
+	{
+		if(target) {
+			// spawn an explosion on the target and set its damage/radius
+			// to a factor of the actor's start health & radius. Pakoosh!
+			let splosion = EriSoulExplosion(Spawn("EriSoulExplosion", target.pos));
+			splosion.target = inflictor;
+			splosion.tracer = target;
+			splosion.soulRadius = target.radius * 3;
+			splosion.soulDamage = 64 + (target.startHealth / 4);
+			double sScale = target.height / 56;
+			splosion.scale = (sScale, sScale);
+
+			// a e s t h e t i c   effect
+			let vapor = EriSoulVapor(Spawn("EriSoulVapor", target.pos));
+			vapor.tracer = target;
+			vapor.scale = splosion.scale;
+		}
+	}
+}
+
+class EriSoulVapor : Actor
+{
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 1.0;
+		Scale 0.75;
+		-RANDOMIZE;
+		+FORCEXYBILLBOARD;
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+	}
+	States
+	{
+	Spawn:
+		TNT1 AAAAAAAAAAAAAAAA 1 NoDelay A_Warp(AAPTR_TRACER, 0, 0, 24);
+		SPIR E 4 Bright X_SoulRise();
+		SPIR F 4 Bright A_PlaySound("weapons/castersoul");
+		SPIR GHIJ 4 Bright;
+		Stop;
+	}
+
+	void X_SoulRise()
+	{
+		self.vel.z = 4;
+	}
+}

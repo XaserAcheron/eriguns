@@ -4,77 +4,6 @@
 //
 // --------------------------------------------------------------------------
 
-class EriZombieman : Zombieman replaces Zombieman
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		POSS M 4;
-		POSS N 4 A_XScream();
-		POSS O 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		POSS P 4 A_NoBlocking();
-		POSS Q 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		POSS RST 4;
-		POSS U -1;
-		Stop;
-	}
-}
-
-class EriShotgunGuy : ShotgunGuy replaces ShotgunGuy
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		SPOS M 4;
-		SPOS N 4 A_XScream();
-		SPOS O 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SPOS P 4 A_NoBlocking();
-		SPOS Q 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		SPOS RST 4;
-		SPOS U -1;
-		Stop;
-	}
-}
-
-class EriChaingunGuy : ChaingunGuy replaces ChaingunGuy
-{
-	Default
-	{
-		DropItem "EriNailgun";
-	}
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		CPOS O 4;
-		CPOS P 4 A_XScream();
-		CPOS Q 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		CPOS R 4 A_NoBlocking();
-		CPOS S 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		CPOS T -1;
-		Stop;
-	}
-}
-
-class EriImp : DoomImp replaces DoomImp
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		TROO N 4;
-		TROO O 4 A_XScream();
-		TROO P 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		TROO Q 4 A_NoBlocking();
-		TROO R 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		TROO ST 4;
-		TROO U -1;
-		Stop;
-	}
-}
-
 class EriDemon : Demon replaces Demon
 {
 	States
@@ -85,17 +14,6 @@ class EriDemon : Demon replaces Demon
 		SARG P 4 A_Scream();
 		SARG Q 4 A_NoBlocking();
 		SARG RSTUV 4;
-		SARG W -1;
-		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		SARG O 4;
-		SARG P 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		SARG P 4 A_Scream();
-		SARG Q 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SARG R 4 A_NoBlocking();
-		SARG S 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3);
-		SARG TUV 4;
 		SARG W -1;
 		Stop;
 	}
@@ -117,22 +35,6 @@ class EriSpectre : EriDemon replaces Spectre
 	}
 }
 
-class EriLostSoul : LostSoul replaces LostSoul
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		SKUL F 3 Bright;
-		SKUL G 3 Bright A_Scream();
-		SKUL H 3 Bright A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SKUL I 3 Bright A_NoBlocking();
-		SKUL J 3 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		SKUL K 3;
-		Stop;
-	}
-}
-
 class EriCaco : Cacodemon replaces Cacodemon
 {
 	Default
@@ -147,18 +49,6 @@ class EriCaco : Cacodemon replaces Cacodemon
 		HEAD N 4 A_Scream();
 		HEAD O 4 A_NoBlocking();
 		HEAD P 4;
-		HEAD Q 3 A_Gravity();
-		HEAD RSTUVW 3;
-		HEAD X -1;
-		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		HEAD M 4 A_NoGravity();
-		HEAD N 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		HEAD N 4 A_Scream();
-		HEAD O 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		HEAD P 4 A_NoBlocking();
-		HEAD Q 0 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3);
 		HEAD Q 3 A_Gravity();
 		HEAD RSTUVW 3;
 		HEAD X -1;
@@ -182,17 +72,6 @@ class EriHellKnight : HellKnight replaces HellKnight
 		BOS2 STU 5;
 		BOS2 V -1;
 		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		BOS2 P 4;
-		BOS2 Q 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		BOS2 Q 4 A_Scream();
-		BOS2 R 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		BOS2 S 4 A_NoBlocking();
-		BOS2 T 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3);
-		BOS2 U 4;
-		BOS2 V -1;
-		Stop;
 	}
 }
 
@@ -212,17 +91,6 @@ class EriBaron : BaronOfHell replaces BaronOfHell
 		BOSS STU 5;
 		BOSS V -1;
 		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		BOSS P 4;
-		BOSS Q 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		BOSS Q 4 A_Scream();
-		BOSS R 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		BOSS S 4 A_NoBlocking();
-		BOSS T 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4);
-		BOSS U 4;
-		BOSS V -1;
-		Stop;
 	}
 }
 
@@ -237,17 +105,6 @@ class EriRevenant : Revenant replaces Revenant
 		SKEL T 5;
 		SKEL U 5 A_NoBlocking();
 		SKEL VWX 5;
-		SKEL Y -1;
-		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		SKEL R 4;
-		SKEL S 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		SKEL S 4 A_Scream();
-		SKEL T 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SKEL U 4 A_NoBlocking();
-		SKEL V 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3);
-		SKEL WX 4;
 		SKEL Y -1;
 		Stop;
 	}
@@ -272,17 +129,6 @@ class EriMancubus : Fatso replaces Fatso
 		FATG GHI 5;
 		FATG J -1;
 		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		FATG A 4;
-		FATG B 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		FATG B 4 A_Scream();
-		FATG C 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		FATG E 4 A_NoBlocking();
-		FATG F 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4);
-		FATG GHI 4;
-		FATG J -1;
-		Stop;
 	}
 }
 
@@ -292,34 +138,6 @@ class EriArachnotron : Arachnotron replaces Arachnotron
 	{
 		DamageFactor "SoulRipper", 0.5;
 		DamageFactor "Ripper", 0.5;
-	}
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		BSPI J 10 A_Scream();
-		BSPI K 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		BSPI L 4 A_NoBlocking();
-		BSPI M 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4);
-		BSPI NO 4;
-		BSPI P -1;
-		Stop;
-	}
-}
-
-class EriPainElemental : PainElemental replaces PainElemental
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		PAIN H 8 Bright;
-		PAIN I 8 Bright A_Scream();
-		PAIN J 8 Bright A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		PAIN K 8 Bright A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4);
-		PAIN L 8 Bright A_PainDie();
-		PAIN M 8 Bright A_NoBlocking();
-		Stop;
 	}
 }
 
@@ -336,17 +154,6 @@ class EriArchvile : Archvile replaces Archvile
 		VILG EFGH 5;
 		VILG I -1;
 		Stop;
-	Death.Soul:
-	Death.SoulRipper:
-		VILG A 4;
-		VILG B 0 A_PlaySound("misc/gibbed", CHAN_AUTO);
-		VILG B 4 A_Scream();
-		VILG C 4 A_SpawnItemEx("SoulExplosionLarge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		VILG D 4 A_NoBlocking();
-		VILG E 4 A_SpawnItemEx("SoulVaporLarge", 0, 0, 24, 0, 0, 4);
-		VILG FGH 4;
-		VILG I -1;
-		Stop;
 	}
 }
 
@@ -357,21 +164,6 @@ class EriCyberdemon : Cyberdemon replaces Cyberdemon
 		DamageFactor "Explosive", 0.75;
 		DropItem "EriSuperImmolator";
 	}
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		CYBR H 5;
-		CYBR I 5 A_Scream();
-		CYBR JK 5;
-		CYBR L 5 A_SpawnItemEx("SoulExplosionHuge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		CYBR M 5 A_NoBlocking();
-		CYBR N 5 A_SpawnItemEx("SoulVaporHuge", 0, 0, 24, 0, 0, 5);
-		CYBR O 5;
-		CYBR P 30;
-		CYBR P -1 A_BossDeath();
-		Stop;
-	}
 }
 
 class EriSpiderMastermind : SpiderMastermind replaces SpiderMastermind
@@ -381,37 +173,5 @@ class EriSpiderMastermind : SpiderMastermind replaces SpiderMastermind
 		DamageFactor "Explosive", 0.75;
 		DamageFactor "SoulRipper", 0.5;
 		DamageFactor "Ripper", 0.5;
-	}
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		SPID J 20 A_Scream();
-		SPID K 5 A_NoBlocking();
-		SPID LM 5;
-		SPID N 5 A_SpawnItemEx("SoulExplosionHuge", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SPID O 5;
-		SPID P 5 A_SpawnItemEx("SoulVaporHuge", 0, 0, 24, 0, 0, 5);
-		SPID QR 5;
-		SPID S 30;
-		SPID S -1 A_BossDeath();
-		Stop;
-	}
-}
-
-class EriNazi : WolfensteinSS replaces WolfensteinSS
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		SSWV N 4;
-		SSWV O 4 A_XScream();
-		SSWV P 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		SSWV Q 4 A_NoBlocking();
-		SSWV R 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		SSWV STU 4;
-		SSWV V -1;
-		Stop;
 	}
 }

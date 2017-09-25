@@ -27,19 +27,6 @@ class HellPlayer : DoomPlayer
 		Player.HexenArmor 0, 50, 50, 50, 50; // HELLA ARMOR
 		Player.SpawnClass "Any";
 	}
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		PLAY O 4;
-		PLAY P 4 A_XScream();
-		PLAY Q 4 A_SpawnItemEx("SoulExplosionMedium", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		PLAY R 4 A_NoBlocking();
-		PLAY S 4 A_SpawnItemEx("SoulVaporMedium", 0, 0, 24, 0, 0, 3);
-		PLAY TUV 5;
-		PLAY W -1;
-		Stop;
-	}
 }
 
 class HellPlayerHeretic : HellPlayer
@@ -76,22 +63,5 @@ class HellPlayerHexen : HellPlayer
 		Player.WeaponSlot 8, "EriBasiliskMana", "EriHydraMana";
 		Player.WeaponSlot 9, "EriSoulreaverMana";
 		Player.JumpZ 9;
-	}
-}
-
-class EriChickenPlayer : ChickenPlayer
-{
-	States
-	{
-	Death.Soul:
-	Death.SoulRipper:
-		CHKN E 4 A_Scream();
-		CHKN F 4 A_Feathers();
-		CHKN G 4 A_SpawnItemEx("SoulExplosionSmall", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
-		CHKN H 4 A_NoBlocking();
-		CHKN I 4 A_SpawnItemEx("SoulVaporSmall", 0, 0, 24, 0, 0, 2);
-		CHKN JK 4;
-		CHKN L -1;
-		Stop;
 	}
 }

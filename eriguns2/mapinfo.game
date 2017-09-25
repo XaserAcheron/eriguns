@@ -6,5 +6,6 @@
 gameinfo
 {
 	playerclasses = "HellPlayer"
+	addeventhandlers = "EriEventHandler"
 	norandomplayerclass = true
 }

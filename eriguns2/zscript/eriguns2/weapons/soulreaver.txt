@@ -198,6 +198,7 @@ class SoulReaverShot : Actor
 		Obituary "$OB_MPSOULREAVER";
 		Decal "Scorch";
 		DamageType "Soul";
+		+EXTREMEDEATH;
 	}
 	States
 	{

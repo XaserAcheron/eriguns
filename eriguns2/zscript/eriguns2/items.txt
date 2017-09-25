@@ -196,7 +196,7 @@ class ActivatedSoulBomb : Actor
 		Stop;
 	}
 }
-
+/*
 class EriEggFX : EggFX replaces EggFX
 {
 	Default
@@ -205,7 +205,7 @@ class EriEggFX : EggFX replaces EggFX
 		MorphProjectile.MonsterClass "EriChicken";
 	}
 }
-
+*/
 /*
 ACTOR EriPorkFX : PorkFX replaces PorkFX
 {
