@@ -35,7 +35,7 @@ class Nothing : Actor
 // lightweight RandomSpawner alternative; spawns an actor unconditionally.
 // provided as a more convenient alternative to WeaponGivers so one doesn't
 // have to duplicate the pickup sprite/message/sound.
-class ActorSpawner : Nothing
+class ActorSpawner : Actor
 {
 	Class<Actor> spawnClass;
 
@@ -43,16 +43,69 @@ class ActorSpawner : Nothing
 
 	override void PostBeginPlay()
 	{
-		let actor = Spawn(spawnClass, pos);
-		if(actor) {
-			actor.bDropped = bDropped;
+		X_SpawnReplacement(spawnClass);
+	}
+
+	void X_SpawnReplacement(class<Actor> spawnClass)
+	{
+		// Spawn an actor and copy map-modifiable actor properties. This code
+		// is taken from RandomSpawner, so it covers most bases.
+		let newmobj = Spawn(spawnClass, pos);
+		if(newmobj) {
+			newmobj.SpawnAngle = SpawnAngle;
+			newmobj.Angle      = Angle;
+			newmobj.Pitch      = Pitch;
+			newmobj.Roll       = Roll;
+			newmobj.Vel	       = Vel;
+			newmobj.SpawnPoint = SpawnPoint;
+			newmobj.special    = special;
+			newmobj.args[0]    = args[0];
+			newmobj.args[1]    = args[1];
+			newmobj.args[2]    = args[2];
+			newmobj.args[3]    = args[3];
+			newmobj.args[4]    = args[4];
+			newmobj.special1   = special1;
+			newmobj.special2   = special2;
+			newmobj.SpawnFlags = SpawnFlags & ~MTF_SECRET;
+			newmobj.HandleSpawnFlags();
+			newmobj.SpawnFlags = SpawnFlags;
+			newmobj.ChangeTid(tid);
+			newmobj.master = master;	// For things such as DamageMaster/DamageChildren, transfer mastery.
+			newmobj.target = target;
+			newmobj.tracer = tracer;
+			newmobj.CopyFriendliness(self, false);
+
+			// This handles things such as projectiles with the MF4_SPECTRAL flag that have
+			// a health set to -2 after spawning, for internal reasons.
+			if (health != SpawnHealth()) newmobj.health = health;
+			if (!bDropped) newmobj.bDropped = false;
+
+			// Handle special altitude flags
+			if (newmobj.bSpawnCeiling) {
+				newmobj.SetZ(newmobj.ceilingz - newmobj.Height - SpawnPoint.Z);
+			}
+			else if (newmobj.bSpawnFloat) {
+				double space = newmobj.ceilingz - newmobj.Height - newmobj.floorz;
+				if (space > 48) {
+					space -= 40;
+					newmobj.SetZ((space * random[randomspawn]()) / 256. + newmobj.floorz + 40);
+				}
+				newmobj.AddZ(SpawnPoint.Z);
+			}
+
+			// [XA] I've elected not to bother with reimplementing missile/boss
+			//      handling since these aren't used anywhere in the mod.
+			//      Take a look at RandomSpawner if you want to yoink this for
+			//      something uber-robust (or, better yet, inherit from it if
+			//      you can get away with the restrictions imposed by DropItem).
 		}
+		self.Destroy();
 	}
 }
 
 // coolio cvar-based spawner. Spawns Actor A if cvar is 0, Actor B if it's 1,
 // or randomly chooses between the two if it's 2.
-class CvarToggleSpawner : Nothing
+class CvarToggleSpawner : ActorSpawner
 {
 	String toggleCvar;
 	Class<Actor> onClass;
@@ -71,10 +124,7 @@ class CvarToggleSpawner : Nothing
 				cvalue = random(0, 1);
 			}
 			class<Actor> actorClass = cvalue ? onClass : offClass;
-			let actor = Spawn(actorClass, pos);
-			if(actor) {
-				actor.bDropped = bDropped;
-			}
+			X_SpawnReplacement(actorClass);
 		}
 	}
 }
