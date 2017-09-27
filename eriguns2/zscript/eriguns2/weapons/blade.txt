@@ -1,7 +1,7 @@
 /*
  * eriguns2: vorpal blade
  * (c) xaser 2017
- * sprites by Amuscaria
+ * sprites (c) Amuscaria
  */
 
 class EriBlade : HellWeapon replaces Chainsaw

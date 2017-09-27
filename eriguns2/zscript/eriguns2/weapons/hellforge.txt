@@ -1,7 +1,7 @@
 /*
  * eriguns2: hellforge
  * (c) xaser 2017
- * sprites by Amuscaria
+ * sprites (c) Amuscaria
  */
 
 class EriHellforge : HellWeapon

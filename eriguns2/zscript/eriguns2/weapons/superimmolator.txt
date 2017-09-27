@@ -1,7 +1,7 @@
 /*
  * eriguns2: super immolator
  * (c) xaser 2017
- * sprites by Amuscaria
+ * sprites (c) Amuscaria
  */
 
 class EriSuperImmolator : HellWeapon

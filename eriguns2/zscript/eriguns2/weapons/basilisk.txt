@@ -1,7 +1,7 @@
 /*
  * eriguns2: basilisk
  * (c) xaser 2017
- * sprites by Amuscaria
+ * sprites (c) Amuscaria
  */
 
 class EriBasilisk : HellWeapon
