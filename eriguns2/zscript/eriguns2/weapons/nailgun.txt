@@ -130,9 +130,17 @@ class EriNailgunGiver : WeaponGiver
 	}
 }
 
-class EriNailgunHeretic : EriNailgunGiver replaces Blaster    {}
-class EriNailgunStrife  : EriNailgunGiver replaces AssaultGun {}
-class EriNailgunStrife2 : EriNailgunGiver replaces AssaultGunStanding
+class EriNailgunSpawner : ActorSpawner
+{
+	Default
+	{
+		ActorSpawner.SpawnClass "EriNailgun";
+	}
+}
+
+class EriNailgunHeretic : EriNailgunSpawner replaces Blaster    {}
+class EriNailgunStrife  : EriNailgunSpawner replaces AssaultGun {}
+class EriNailgunStrife2 : EriNailgunSpawner replaces AssaultGunStanding
 {
 	States
 	{

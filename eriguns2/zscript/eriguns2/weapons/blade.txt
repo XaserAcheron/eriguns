@@ -204,24 +204,18 @@ class EriBladePowered : EriBlade
 	}
 }
 
-class EriBladeGiver : WeaponGiver
+class EriBladeSpawner : ActorSpawner
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTBLADE";
-		DropItem "EriBlade";
-	}
-	States
-	{
-	Spawn:
-		HEVB A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriBlade";
 	}
 }
-class EriBladeHeretic : EriBladeGiver replaces Gauntlets {}
-class EriBladeHexen1  : EriBladeGiver replaces FWeapFist {}
-class EriBladeHexen2  : EriBladeGiver replaces CWeapMace {}
-class EriBladeHexen3  : EriBladeGiver replaces MWeapWand {}
+
+class EriBladeHeretic : EriBladeSpawner replaces Gauntlets {}
+class EriBladeHexen1  : EriBladeSpawner replaces FWeapFist {}
+class EriBladeHexen2  : EriBladeSpawner replaces CWeapMace {}
+class EriBladeHexen3  : EriBladeSpawner replaces MWeapWand {}
 
 class BladeCharge : Ammo
 {

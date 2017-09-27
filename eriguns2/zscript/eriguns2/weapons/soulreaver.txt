@@ -127,21 +127,6 @@ class EriSoulReaverManaPowered : EriSoulReaverPowered
 	}
 }
 
-class EriSoulReaverManaGiver : WeaponGiver
-{
-	Default
-	{
-		Inventory.PickupMessage "$GOTSOULREAVER";
-		DropItem "EriSoulReaverMana";
-	}
-	States
-	{
-	Spawn:
-		HESR A -1;
-		Stop;
-	}
-}
-
 class EriSoulReaverManaPiece : WeaponPiece
 {
 	Default
@@ -194,7 +179,13 @@ class EriSoulReaverManaPiece3 : EriSoulReaverManaPiece replaces CWeaponPiece3
 	}
 }
 
-class EriSoulReaverHexenDrop : EriSoulReaverManaGiver replaces WraithvergeDrop {}
+class EriSoulReaverHexenDrop : ActorSpawner replaces WraithvergeDrop
+{
+	Default
+	{
+		ActorSpawner.SpawnClass "EriSoulReaverMana";
+	}
+}
 
 class SoulReaverShot : Actor
 {

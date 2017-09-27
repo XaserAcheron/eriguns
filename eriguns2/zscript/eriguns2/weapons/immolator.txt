@@ -141,22 +141,13 @@ class EriImmolatorManaPowered : EriImmolatorPowered
 	}
 }
 
-class EriImmolatorAshGiver : WeaponGiver
+class EriImmolatorAshStrife : ActorSpawner replaces StrifeCrossbow
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTIMMOLATOR";
-		DropItem "EriImmolatorAsh";
-	}
-	States
-	{
-	Spawn:
-		HEIM A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriImmolatorAsh";
 	}
 }
-
-class EriImmolatorAshStrife  : EriImmolatorAshGiver replaces StrifeCrossbow {}
 
 class ImmolatorFireball : EriStickyMissile
 {

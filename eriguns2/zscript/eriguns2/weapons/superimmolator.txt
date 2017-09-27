@@ -176,26 +176,19 @@ class EriSuperImmolatorManaPowered : EriSuperImmolatorPowered
 	}
 }
 
-class EriSuperImmolatorManaGiver : WeaponGiver
+class EriSuperImmolatorManaSpawner : ActorSpawner
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTSUPERLATOR";
-		DropItem "EriSuperImmolatorMana";
-	}
-	States
-	{
-	Spawn:
-		HESI A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriSuperImmolatorMana";
 	}
 }
 
-class EriSuperImmolatorHexen0 : EriSuperImmolatorManaGiver replaces QuietusDrop   {}
-class EriSuperImmolatorHexen1 : EriSuperImmolatorManaGiver replaces FWeaponPiece1 {}
-class EriSuperImmolatorHexen2 : EriSuperImmolatorManaGiver replaces FWeaponPiece2 {}
-class EriSuperImmolatorHexen3 : EriSuperImmolatorManaGiver replaces FWeaponPiece3 {}
-class EriSuperImmolatorHexen4 : EriSuperImmolatorManaGiver replaces FWeapQuietus  {}
+class EriSuperImmolatorHexen0 : EriSuperImmolatorManaSpawner replaces QuietusDrop   {}
+class EriSuperImmolatorHexen1 : EriSuperImmolatorManaSpawner replaces FWeaponPiece1 {}
+class EriSuperImmolatorHexen2 : EriSuperImmolatorManaSpawner replaces FWeaponPiece2 {}
+class EriSuperImmolatorHexen3 : EriSuperImmolatorManaSpawner replaces FWeaponPiece3 {}
+class EriSuperImmolatorHexen4 : EriSuperImmolatorManaSpawner replaces FWeapQuietus  {}
 
 class SuperImmolatorFireball : ImmolatorFireball
 {

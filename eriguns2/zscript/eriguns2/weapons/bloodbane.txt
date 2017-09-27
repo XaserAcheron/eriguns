@@ -115,23 +115,16 @@ class EriBloodbaneManaPowered : EriBloodbanePowered
 	}
 }
 
-class EriBloodbaneGiver : WeaponGiver
+class EriBloodbaneSpawner : ActorSpawner
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTBLOODBANE";
-		DropItem "EriBloodbane";
-	}
-	States
-	{
-	Spawn:
-		HEBB A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriBloodbane";
 	}
 }
 
-class EriBloodbaneHeretic : EriBloodbaneGiver replaces Crossbow            {}
-class EriBloodbaneStrife  : EriBloodbaneGiver replaces MiniMissileLauncher {}
+class EriBloodbaneHeretic : EriBloodbaneSpawner replaces Crossbow {}
+class EriBloodbaneStrife  : EriBloodbaneSpawner replaces MiniMissileLauncher {}
 
 class BloodCharge : EriToken
 {

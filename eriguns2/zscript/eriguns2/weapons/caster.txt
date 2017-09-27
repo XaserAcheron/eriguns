@@ -241,24 +241,17 @@ class EriCasterManaPowered : EriCasterPowered
 	}
 }
 
-class EriCasterGiver : WeaponGiver
+class EriCasterSpawner : ActorSpawner
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTCASTER";
-		DropItem "EriCaster";
-	}
-	States
-	{
-	Spawn:
-		HECA A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriCaster";
 	}
 }
 
-class EriCasterHeretic  : EriCasterGiver replaces Mace        {}
-class EriCasterHeretic2 : EriCasterGiver replaces MaceSpawner {}
-class EriCasterStrife   : EriCasterGiver replaces Mauler      {}
+class EriCasterHeretic  : EriCasterSpawner replaces Mace        {}
+class EriCasterHeretic2 : EriCasterSpawner replaces MaceSpawner {}
+class EriCasterStrife   : EriCasterSpawner replaces Mauler      {}
 
 class CasterChargeToken : EriToken
 {

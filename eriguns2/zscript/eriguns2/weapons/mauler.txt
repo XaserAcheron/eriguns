@@ -131,26 +131,19 @@ class EriMaulerManaPowered : EriMaulerPowered
 	}
 }
 
-class EriMaulerManaGiver : WeaponGiver
+class EriMaulerManaSpawner : ActorSpawner
 {
 	Default
 	{
-		Inventory.PickupMessage "$GOTMAULER";
-		DropItem "EriMaulerMana";
-	}
-	States
-	{
-	Spawn:
-		HEMA A -1;
-		Stop;
+		ActorSpawner.SpawnClass "EriMaulerMana";
 	}
 }
 
-class EriMaulerHexen0 : EriMaulerManaGiver replaces BloodscourgeDrop  {}
-class EriMaulerHexen1 : EriMaulerManaGiver replaces MWeaponPiece1     {}
-class EriMaulerHexen2 : EriMaulerManaGiver replaces MWeaponPiece2     {}
-class EriMaulerHexen3 : EriMaulerManaGiver replaces MWeaponPiece3     {}
-class EriMaulerHexen4 : EriMaulerManaGiver replaces MWeapBloodscourge {}
+class EriMaulerHexen0 : EriMaulerManaSpawner replaces BloodscourgeDrop  {}
+class EriMaulerHexen1 : EriMaulerManaSpawner replaces MWeaponPiece1     {}
+class EriMaulerHexen2 : EriMaulerManaSpawner replaces MWeaponPiece2     {}
+class EriMaulerHexen3 : EriMaulerManaSpawner replaces MWeaponPiece3     {}
+class EriMaulerHexen4 : EriMaulerManaSpawner replaces MWeapBloodscourge {}
 
 class MaulerNail : Nail
 {
