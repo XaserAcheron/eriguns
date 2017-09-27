@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Rocket launcher
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: rawggit lawnchair
+ * (c) xaser 2017
+ * sprites (c) Amuscaria
+ */
 
 class EriRocketLauncher : EriWeapon replaces RocketLauncher
 {

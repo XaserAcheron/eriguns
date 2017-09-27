@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Super Shotgun
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: super shotgun bros
+ * (c) xaser 2017
+ * sprites (c) Amuscaria
+ */
 
 class EriSuperShotgun : EriWeapon replaces SuperShotgun
 {

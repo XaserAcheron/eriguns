@@ -1,8 +1,7 @@
-// --------------------------------------------------------------------------
-//
-// Fist 
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: fisp
+ * hey look its a pointless override with no changes
+ */
 
 class EriFist : EriWeapon replaces Fist
 {

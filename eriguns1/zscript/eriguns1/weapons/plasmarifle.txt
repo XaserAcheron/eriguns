@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Plasma rifle
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: plasma rifle
+ * (c) xaser 2017
+ * sprites (c) Amuscaria
+ */
 
 class EriPlasmaRifle : EriWeapon replaces PlasmaRifle
 {

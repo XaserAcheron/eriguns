@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Soul Reaver
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns2: soul reaver
+ * (c) xaser 2017
+ * sprites by Amuscaria
+ */
 
 class EriSoulReaver : HellWeapon replaces BFG9000
 {
@@ -36,16 +36,13 @@ class EriSoulReaver : HellWeapon replaces BFG9000
 		HSRF AB 3 Bright;
 		HSRF C 3 Bright A_PlaySound("weapons/reaverloop", CHAN_WEAPON, 1.0, 1);
 		HSRF DEFGH 3 Bright;
-		TNT1 A 0 A_GunFlash("Overlay");
+		TNT1 A 0 A_Overlay(PSP_FLASH, "Overlay");
 	Hold:
 		TNT1 A 1;
 		TNT1 A 0 A_Refire();
-		TNT1 A 0 A_Jump(256, "Release");
+		TNT1 A 0 ResolveState("Release");
 	Release:
-		HSRF I 0 Bright A_GunFlash("Flash");
-		HSRF I 0 Bright A_SetBlend("FF FF FF", 0.66, 15);
-		HSRF I 0 Bright A_PlaySound("weapons/reaverfire", CHAN_WEAPON);
-		HSRF I 4 Bright A_FireProjectile("SoulReaverShot", 0, 1);
+		HSRF I 4 Bright X_FireSoulReaver();
 		HSRF J 4 Bright;
 		HSRG B 8;
 		Goto Ready;
@@ -60,6 +57,14 @@ class EriSoulReaver : HellWeapon replaces BFG9000
 		HESR A -1;
 		Stop;
 	}
+
+	action void X_FireSoulReaver()
+	{
+		A_GunFlash("Flash");
+		A_SetBlend("FF FF FF", 0.66, 15);
+		A_PlaySound("weapons/reaverfire", CHAN_WEAPON);
+		A_FireProjectile("SoulReaverShot", 0, 1);
+	}
 }
 
 class EriSoulReaverPowered : EriSoulReaver
@@ -73,13 +78,18 @@ class EriSoulReaverPowered : EriSoulReaver
 	States
 	{
 	Release:
-		HSRF I 0 Bright A_GunFlash("Flash");
-		HSRF I 0 Bright A_SetBlend("FF FF FF", 1.0, 25);
-		HSRF I 0 Bright A_PlaySound("weapons/reaverpow", CHAN_WEAPON);
-		HSRF I 4 Bright A_FireProjectile("SuperSoulShot", 0, 1);
+		HSRF I 4 Bright X_FireSoulReaverPow();
 		HSRF J 4 Bright;
 		HSRG B 8;
 		Goto Ready;
+	}
+
+	action void X_FireSoulReaverPow()
+	{
+		A_GunFlash("Flash");
+		A_SetBlend("FF FF FF", 1.0, 25);
+		A_PlaySound("weapons/reaverpow", CHAN_WEAPON);
+		A_FireProjectile("SuperSoulShot", 0, 1);
 	}
 }
 
@@ -183,6 +193,8 @@ class EriSoulReaverHexenDrop : EriSoulReaverManaGiver replaces WraithvergeDrop {
 
 class SoulReaverShot : Actor
 {
+	const SOUL_COUNT = 5;
+
 	Default
 	{
 		Radius 11;
@@ -207,13 +219,16 @@ class SoulReaverShot : Actor
 		Loop;
 	Death:
 		REAX AB 3 Bright;
-		REAX C 0 Bright A_SpawnItemEx("SoulSpirit",0,0,0,12,0,0, 0   + random(-5,5),SXF_TRANSFERPOINTERS,0);
-		REAX C 0 Bright A_SpawnItemEx("SoulSpirit",0,0,0,12,0,0, 72  + random(-5,5),SXF_TRANSFERPOINTERS,0);
-		REAX C 0 Bright A_SpawnItemEx("SoulSpirit",0,0,0,12,0,0, 144 + random(-5,5),SXF_TRANSFERPOINTERS,0);
-		REAX C 0 Bright A_SpawnItemEx("SoulSpirit",0,0,0,12,0,0, 216 + random(-5,5),SXF_TRANSFERPOINTERS,0);
-		REAX C 3 Bright A_SpawnItemEx("SoulSpirit",0,0,0,12,0,0, 288 + random(-5,5),SXF_TRANSFERPOINTERS,0);
+		REAX C 3 Bright X_SoulReaverSpirits();
 		REAX DEFGHI 3 Bright;
 		Stop;
+	}
+
+	void X_SoulReaverSpirits()
+	{
+		for(int i = 0; i < SOUL_COUNT; i++) {
+			A_SpawnItemEx("SoulSpirit", xvel: 12, angle: (i * 360 / SOUL_COUNT) + frandom(-5, 5), flags: SXF_TRANSFERPOINTERS);
+		}
 	}
 }
 
@@ -236,7 +251,8 @@ class SoulReaverTrail : EriTrail
 
 class SoulSpirit : SoulReaverShot
 {
-	int user_seektics;
+	int seekTics;
+	property SeekTics:seekTics;
 
 	Default
 	{
@@ -251,26 +267,17 @@ class SoulSpirit : SoulReaverShot
 		SeeSound "weapons/reaversoulout";
 		Decal "PlasmaScorchLower";
 		DamageType "SoulRipper";
+		SoulSpirit.SeekTics 105;
 		+RIPPER;
 		+SEEKERMISSILE;
 	}
 	States
 	{
 	Spawn:
-		REAS A 0 Bright;
-		REAS A 0 Bright { user_seektics = 105; }
-	Seek:
-		REAS A 0 Bright A_JumpIf(user_seektics <= 1, "Debounce");
-		REAS A 0 Bright { user_seektics--; }
-		REAS A 0 Bright A_SeekerMissile(17, 17, SMF_LOOK | SMF_PRECISE);
-		REAS A 1 Bright A_SpawnItemEx("SoulReaverTrail", frandom(0.5, -0.5), 0, frandom(0.5, -0.5), 0, 0, 0, 0, SXF_CLIENTSIDE);
+		REAS A 1 Bright NoDelay X_SoulSeek();
 		Loop;
 	Debounce:
-		REAS A 0 Bright {
-			bBounceOnWalls   = false;
-			bBounceOnCeilings = false;
-			bBounceOnFloors   = false;
-		}
+		REAS A 0 Bright X_SoulDebounce();
 		REAS A 1 Bright A_SpawnItemEx("SoulReaverTrail", frandom(0.5, -0.5), 0, frandom(0.5, -0.5), 0, 0, 0, 0, SXF_CLIENTSIDE);
 		Wait;
 	Death:
@@ -279,7 +286,25 @@ class SoulSpirit : SoulReaverShot
 		REAX C 3 Bright;
 		REAX DEFGHI 3 Bright;
 		Stop;
-	}	
+	}
+
+	state X_SoulSeek()
+	{
+		if(self.seekTics <= 1) {
+			return ResolveState("Debounce");
+		}
+		self.seekTics--;
+		A_SeekerMissile(17, 17, SMF_LOOK | SMF_PRECISE);
+		A_SpawnItemEx("SoulReaverTrail", frandom(0.5, -0.5), 0, frandom(0.5, -0.5), 0, 0, 0, 0, SXF_CLIENTSIDE);
+		return null;
+	}
+
+	void X_SoulDebounce()
+	{
+		self.bBounceOnWalls    = false;
+		self.bBounceOnCeilings = false;
+		self.bBounceOnFloors   = false;
+	}
 }
 
 class SuperSoulShot : SoulReaverShot
@@ -296,8 +321,7 @@ class SuperSoulShot : SoulReaverShot
 	States
 	{
 	Spawn:
-		REAB A 0 Bright ;
-		REAB A 0 Bright A_PlaySound("weapons/reaverloop2", CHAN_BODY, 1.0, 1);
+		REAB A 0 Bright NoDelay A_PlaySound("weapons/reaverloop2", CHAN_BODY, 1.0, 1);
 	Fly:
 		REAB ABCDE 3 Bright A_SpawnItemEx("SuperSoulSpirit", 0, 0, 0, 12, 0, 0, random(1, 360), SXF_TRANSFERPOINTERS, 0);
 		Loop;

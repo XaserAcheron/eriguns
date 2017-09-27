@@ -1,3 +1,8 @@
+/*
+ * eriguns1: sound defs
+ * (c) xaser 2017
+ */
+
 // doomguy gunsounds
 
 weapons/pistolclipout   dsdbcls

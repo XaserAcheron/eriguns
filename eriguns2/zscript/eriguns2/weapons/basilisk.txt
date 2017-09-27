@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Basilisk
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns2: basilisk
+ * (c) xaser 2017
+ * sprites by Amuscaria
+ */
 
 class EriBasilisk : HellWeapon
 {
@@ -30,11 +30,10 @@ class EriBasilisk : HellWeapon
 		HBAG A 1 A_Raise();
 		Loop;
 	Fire:
-		HBAG C 0 Bright A_PlaySound("weapons/basiliskup", CHAN_AUTO);
-		HBAG BC 3 Bright;
+		HBAG B 3 Bright X_BasiliskSpinUp();
+		HBAG C 3 Bright;
 		HBAG D 2 Bright;
-		HBAG D 0 Bright A_PlaySound("weapons/basiliskspin", CHAN_BODY, 1.0, 1);
-		HBAG D 0 A_Jump(256, "Hold");
+		HBAG D 0 Bright X_BasiliskSpinLoop();
 	Hold:
 		HBAF A 1 Bright X_FireBasilisk(true);
 		HBAF B 1 Bright;
@@ -42,9 +41,9 @@ class EriBasilisk : HellWeapon
 		HBAF D 1 Bright;
 		HBAF E 0 A_ReFire();
 	Spindown:
-		HBAF A 0 Bright A_PlaySound("weapons/basiliskdown", CHAN_BODY);
-		HBAF BCD 1 ;
-		HBAF E 2 A_PlaySound("weapons/basilisksteam", CHAN_AUTO);
+		HBAF B 1 Bright X_BasiliskSpinDown();
+		HBAF CD 1;
+		HBAF E 2 X_BasiliskSteam();
 		HBAF FGH 2;
 		HBAG AB 3;
 		HBAG CD 4;
@@ -56,6 +55,27 @@ class EriBasilisk : HellWeapon
 	Spawn:
 		HEBA A -1;
 		Stop;
+	}
+
+	action void X_BasiliskSpinUp()
+	{
+		A_PlaySound("weapons/basiliskup", CHAN_AUTO);
+	}
+
+	action state X_BasiliskSpinLoop()
+	{
+		A_PlaySound("weapons/basiliskspin", CHAN_BODY, 1.0, 1);
+		return ResolveState("Hold");
+	}
+
+	action void X_BasiliskSpinDown()
+	{
+		A_PlaySound("weapons/basiliskdown", CHAN_BODY);
+	}
+
+	action void X_BasiliskSteam()
+	{
+		A_PlaySound("weapons/basilisksteam", CHAN_AUTO);
 	}
 
 	action void X_FireBasilisk(bool consumeMana = true)

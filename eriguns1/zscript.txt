@@ -1,3 +1,8 @@
+/*
+ * eriguns1: zscript root
+ * (c) xaser 2017
+ */
+
 version "2.5"
 
 #include "zscript/eriguns1/player.txt"

@@ -1,8 +1,8 @@
-// --------------------------------------------------------------------------
-//
-// Pistol 
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: pistol
+ * (c) xaser 2017
+ * sprites (c) Amuscaria
+ */
 
 class EriPistol : EriWeapon replaces Pistol
 {
@@ -75,7 +75,6 @@ class AltPistol : EriPistol
 		DPIF A 2 Bright X_FirePistol();
 		DPIG C 2;
 		DPIG B 2;
-//		DPIG B 1 X_ReloadIfEmpty();
 	Refire:
 		DPIG BAAAAAAA 1 A_WeaponReady(WRF_NOBOB | WRF_ALLOWRELOAD);
 		goto Ready;

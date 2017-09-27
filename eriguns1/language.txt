@@ -1,3 +1,8 @@
+/*
+ * eriguns1: language defs
+ * (c) xaser 2017
+ */
+
 [enu default]
 
 MNU_CHOOSECLASS	= "SELECT WEAPON SET";

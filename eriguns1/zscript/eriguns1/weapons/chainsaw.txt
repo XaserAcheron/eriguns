@@ -1,8 +1,7 @@
-// --------------------------------------------------------------------------
-//
-// Chainsaw
-//
-// --------------------------------------------------------------------------
+/*
+ * eriguns1: chain faw
+ * basically the same as doom's code, so welp
+ */
 
 class EriChainsaw : EriWeapon replaces Chainsaw
 {
