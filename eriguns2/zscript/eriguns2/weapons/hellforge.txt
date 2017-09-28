@@ -132,6 +132,7 @@ class HellforgeBoom : EriPuff
 		Alpha 1.0;
 		Scale 0.5;
 		Obituary "$OB_MPHELLFORGE";
+		DamageType "Explosive";
 		+FORCERADIUSDMG;
 	}
 	States
@@ -223,12 +224,14 @@ class HellforgeFrag : Actor
 		Damage 20;
 		DeathSound "weapons/hellforgeball";
 		RenderStyle "Translucent";
+		DamageType "Explosive";
 		Alpha 0.8;
 		Scale 0.33;
 		Gravity 0.85;
 		-NOGRAVITY;
 		+BOUNCEONCEILINGS;
 		+BOUNCEONWALLS;
+		+FORCERADIUSDMG;
 	}
 	States
 	{

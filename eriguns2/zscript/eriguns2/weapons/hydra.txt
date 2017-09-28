@@ -154,8 +154,10 @@ class HydraRocket : FastProjectile
 		Scale 0.5;
 		DeathSound "weapons/hydrahit";
 		Decal "PlasmaScorchLower";
+		DamageType "Explosive";
 		MissileType "HydraRocketTrail";
 		MissileHeight 8;
+		+FORCERADIUSDMG;
 	}
 
 	States

@@ -32,3 +32,7 @@ OB_MPGRENADE    = "%o was turned inside-out by %k's grenade.";
 
 UNIDROP_CYBERDEMON       = "EriMissileLauncher";
 UNIDROP_SPIDERMASTERMIND = "EriGatlingGun";
+
+// goddam damnums
+
+DAMNUM_TYPECOLOR_MISSILE = "DamGold";

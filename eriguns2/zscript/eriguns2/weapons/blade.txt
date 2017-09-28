@@ -199,8 +199,8 @@ class EriBladePowered : EriBlade
 
 	action void X_BladePowAttack()
 	{
-		A_CustomPunch(10, 1, 0, "BladePuffRed", 128, 1, 200);
-		A_CustomPunch(20, 0, 0, "BladePuffRed", 128);
+		A_CustomPunch(10, 1, 0, "BladePuffPow", 128, 1, 200);
+		A_CustomPunch(20, 0, 0, "BladePuffPow", 128);
 	}
 }
 
@@ -269,6 +269,14 @@ class BladePuffRed : BladePuff
 		BSMR A 2 NoDelay X_BladeHit();
 		BSMR BCDEFG 2;
 		Stop;
+	}
+}
+
+class BladePuffPow : BladePuffRed
+{
+	Default
+	{
+		DamageType "Drain";
 	}
 }
 

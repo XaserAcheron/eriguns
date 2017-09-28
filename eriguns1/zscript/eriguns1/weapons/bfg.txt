@@ -65,6 +65,7 @@ class EriBFGBall : Actor replaces BFGBall
 		DeathSound "weapons/bfgx";
 		Obituary "$OB_MPBFG_BOOM";
 		Decal "BFGLightning";
+		DamageType "BFG";
 		+RANDOMIZE;
 	}
 	States
@@ -88,6 +89,7 @@ class EriBFGExtra : Actor replaces BFGExtra
 	Default
 	{
 		RenderStyle "Add";
+		DamageType "BFGSplash";
 		Alpha 0.75;
 		+NOBLOCKMAP;
 		+NOGRAVITY;

@@ -152,3 +152,11 @@ TXT_KEY_RUSTED   = "Picked up a rusted key.";
 TXT_KEY_HORN     = "Picked up a horn key.";
 TXT_KEY_SWAMP    = "Picked up a swamp key.";
 TXT_KEY_CASTLE   = "Picked up a castle key.";
+
+// just a tiny bit o' damnums support.
+
+DAMNUM_TYPECOLOR_FIREBURN   = "DamOrange";
+DAMNUM_TYPECOLOR_RIPPER     = "DamRed";
+DAMNUM_TYPECOLOR_DRAIN      = "DamGreen";
+DAMNUM_TYPECOLOR_SOUL       = "DamWhite";
+DAMNUM_TYPECOLOR_SOULRIPPER = "DamWhite";

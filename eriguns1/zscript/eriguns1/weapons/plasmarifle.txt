@@ -109,6 +109,7 @@ class EriPlasmaBall : Actor replaces PlasmaBall
 		DeathSound "weapons/plasmax";
 		Obituary "$OB_MPPLASMARIFLE";
 		Decal "PlasmaScorch";
+		DamageType "Plasma";
 		+RANDOMIZE;
 	}
 	States

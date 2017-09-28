@@ -65,6 +65,7 @@ class EriRocket : Actor replaces Rocket
 		SeeSound "weapons/rocklf";
 		DeathSound "weapons/rocklx";
 		Obituary "$OB_MPROCKET";
+		DamageType "Rocket";
 		Decal "Scorch";
 	}
 	States
