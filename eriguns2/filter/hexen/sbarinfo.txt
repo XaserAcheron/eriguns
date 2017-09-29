@@ -134,7 +134,7 @@ statusbar normal
 statusbar Automap
 {
 	// key bar
-	drawimage "H2BARX", 0, 135;
+	drawimage "H2BARMAP", 0, 135;
 	drawimage "KEYBAR", 38, 162;
 	drawkeybar 5, horizontal, 20, 46, 164;
 	drawimage hexenarmor(armor, "ARMSLOT1"), 150, 164;

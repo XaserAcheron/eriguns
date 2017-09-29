@@ -8,6 +8,10 @@ Sprites:
 	- Amuscaria (nee Eriance)
 	- PillowBlaster (widescreen-friendly Vorpal Blade & Demonomicon)
 	
+Misc Graphics:
+	- Neoworm (Heretic widescreen statbar)
+	- Nash (Hexen widescreen statbar)
+
 Sounds - Various things from:
 	- Torchlight (Lots o' stuff)
 	- Descent: Freespace (Immolator firing sound)
