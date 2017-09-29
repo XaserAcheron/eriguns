@@ -84,12 +84,12 @@ statusbar normal
 	} else {
 		weaponammo BladeCharge {
 			// special bar for Vorpal Blade
-			drawimage "MANADIM1", 77, 164;
-			drawbar "MANAVL1D", "nullimage", ammo(Mana1), vertical, 94, 164, 1;
-			drawimage "MANADIM2", 110, 164;
-			drawbar "MANAVL2D", "nullimage", ammo(Mana2), vertical, 102, 164, 1;
-			drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana1), 91, 181;
-			drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(Mana2), 123, 181;
+			drawimage "H2BARAMM", 72, 161;
+			drawbar "H2AMBAR1", "H2AMBAR0", ammo(BladeCharge), horizontal, reverse, 78, 180;
+			drawnumber 3, INDEXFONT_RAVEN, untranslated, ammo(BladeCharge), 122, 168;
+			InInventory BladeCharge, 100 {
+				drawimage "H2AMBICO", 77, 164;
+			}
 		} else {
 			// no ammo
 			drawimage "HAMOBACK", 77, 164;
