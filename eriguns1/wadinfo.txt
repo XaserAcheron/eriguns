@@ -58,7 +58,20 @@ May Not Run With...     : Old versions of GZDoom. If you get some sort of
 ===========================================================================
 * Credits *
 
-[TODO] move stuff here
+Code:
+ - Xaser (das me)
+
+Sprites:
+ - Amuscaria (nee Eriance)
+
+Sounds:
+ - Per Kristian Risvik (HQ Doom sounds)
+ - Slipgate Studios (nee Interceptor Entertainment) (split missile sounds from ROTT2013)
+
+Testing n' bugfixing help:
+ - zrrion the insect
+ - Princess Viscra Maelstrom
+ - Blue Shadow
 
 ===========================================================================
 * Copyright / Permissions *

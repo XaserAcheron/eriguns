@@ -58,7 +58,28 @@ May Not Run With...     : Old versions of GZDoom. If you get some sort of
 ===========================================================================
 * Credits *
 
-[TODO] move stuff here
+Code:
+ - Xaser (das me)
+ - Woolie Wool (hell items)
+
+Sprites:
+ - Amuscaria (nee Eriance)
+ - PillowBlaster (widescreen-friendly Vorpal Blade & Demonomicon)
+
+Misc Graphics:
+ - Neoworm (Heretic widescreen statbar)
+ - Nash (Hexen widescreen statbar)
+
+Sounds - Various things from:
+ - Torchlight (Lots o' stuff)
+ - Descent: Freespace (Immolator firing sound)
+ - Devil May Cry (Vorpal Blade sounds)
+ - Prolly others
+
+Testing n' bugfixing help:
+ - zrrion the insect
+ - Princess Viscra Maelstrom
+ - Blue Shadow
 
 ===========================================================================
 * Copyright / Permissions *
