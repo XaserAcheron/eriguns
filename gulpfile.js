@@ -1,7 +1,11 @@
-const gulp   = require('gulp');
-const zip    = require('gulp-zip');
-const rename = require('gulp-rename');
-const merge  = require('merge-stream');
+const gulp    = require('gulp');
+const zip     = require('gulp-zip');
+const rename  = require('gulp-rename');
+const replace = require('gulp-replace');
+const filter  = require('gulp-filter');
+const merge   = require('merge-stream');
+const moment  = require('moment');
+
 const config = {
 	dir: {
 		src: ['eriguns1', 'eriguns2'],
@@ -9,18 +13,26 @@ const config = {
 	},
 	pkg: require('./package.json')
 };
+const today = moment.utc().format('MM/DD/YYYY');
 
 gulp.task('compress', () =>
-	merge(config.dir.src.map(proj =>
-		gulp.src(`${proj}/**`)
+	merge(config.dir.src.map(proj => {
+		const wadinfoFilter = filter(`${proj}/wadinfo.txt`, { restore: true });
+		return gulp.src(`${proj}/**`)
+			.pipe(wadinfoFilter)
+			.pipe(replace('x.x.x', config.pkg.version))
+			.pipe(replace('xx/xx/xxxx', today))
+			.pipe(wadinfoFilter.restore)
 			.pipe(zip(`${proj}.pk3`))
 			.pipe(gulp.dest(config.dir.dest))
-	))
+	}))
 );
 
 gulp.task('copy-wadinfo', () =>
 	merge(config.dir.src.map(proj =>
 		gulp.src(`${proj}/wadinfo.txt`)
+			.pipe(replace('x.x.x', config.pkg.version))
+			.pipe(replace('xx/xx/xxxx', today))
 			.pipe(rename(`${proj}.txt`))
 			.pipe(gulp.dest(config.dir.dest))
 	))
