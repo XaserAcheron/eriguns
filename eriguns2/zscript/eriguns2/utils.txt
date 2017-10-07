@@ -1,0 +1,36 @@
+/*
+ * eriguns2: static utils
+ * (c) xaser 2017
+ */
+
+class EriUtils
+{
+	// simple string-split function; not gonna be as efficient as a
+	// native one, but it works, so here you go.
+	static StringArray SplitString(string str, string splitChar)
+	{
+		let strArr = new("StringArray");
+		if(splitChar.Length() == 1) { // only support single chars for now
+			int strlen = str.Length();
+			int pos = 0;
+			int len = 0;
+			for(int i = 0; i < strlen; i++) {
+				if(str.CharAt(i) == splitChar) {
+					strArr.Values.Push(str.Mid(pos, len));
+					pos = i+1;
+					len = 0;
+				}
+				len++;
+			}
+			strArr.Values.Push(str.Mid(pos, len));
+		}
+		return strArr;
+	}
+}
+
+// array wrapper classes to appease the zscript gods; thanks TZK!
+
+class StringArray
+{
+	Array<string> Values;
+}

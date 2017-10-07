@@ -7,8 +7,74 @@ class EriEventHandler : StaticEventHandler
 {
 	override void WorldThingDied(WorldEvent e)
 	{
-		if(e.Thing && (e.Thing.DamageTypeReceived == "Soul" || e.Thing.DamageTypeReceived == "SoulRipper")) {
-			EriSoulExplosion.X_Soulsplosion(e.Thing, e.Thing.target);
+		X_UniDrop(e.Thing);
+		X_SoulExplosion(e.Thing);
+	}
+
+	// quasi-universal item drops. No custom actors required!
+	void X_UniDrop(Actor subject)
+	{
+		if(subject) {
+			class<Actor> subjectClass = Actor.GetReplacee(subject.GetClass());
+			class<Actor> dropClass;
+
+			// get the class to drop from LANGUAGE. Hooray shenanigans. :P
+			// For awesomeness's sake, we support a comma-separated list now.
+			string lookupString = ("UNIDROP_" .. subjectClass.GetClassName());
+			string dropClassString = StringTable.Localize(lookupString, false);
+
+			// if we got a match from LANGUAGE, continue; otherwise, idgaf.
+			if(dropClassString != lookupString) {
+				StringArray classNames = EriUtils.SplitString(dropClassString, ",");
+				for(int i = 0; i < classNames.Values.Size(); i++) {
+					dropClass = classNames.Values[i];
+					if(dropClass) {
+						UniDropper.X_Create(subject, dropClass);
+					} else {
+						subject.A_Log("[UNIDROP] Unknown actor class '" .. classNames.Values[i] .. "'");
+					}
+				}
+			}
+		}
+	}
+
+	// eriguns2 soul explosions
+	void X_SoulExplosion(Actor subject)
+	{
+		if(subject && (subject.DamageTypeReceived == "Soul" || subject.DamageTypeReceived == "SoulRipper")) {
+			EriSoulExplosion.X_Soulsplosion(subject, subject.target);
+		}
+	}
+}
+
+// special dropper thinker: this is given to a UniDrop-assigned enemy upon death,
+// which waits patiently until the actor becomes non-solid; this emulates the
+// behavior of regular DropItems (i.e. dropping them when A_NoBlocking is called).
+class UniDropper : Thinker
+{
+	Actor subject;
+	class<Actor> dropClass;
+
+	static void X_Create(Actor subject, class<Actor> dropClass)
+	{
+		if(subject && dropClass) {
+			let dropper = new("UniDropper");
+			if (dropper) {
+				dropper.subject = subject;
+				dropper.dropClass = dropClass;
+			}
+		}
+	}
+
+	override void Tick()
+	{
+		// if we've got a valid owner and dropclass, check if the owner is dead
+		// and non-solid. If so, spawn the item and remove oneself.
+		if(!self.subject || !self.dropClass) {
+			self.Destroy();
+		} else if (self.subject.health <= 0 && !self.subject.bSolid) {
+			self.subject.A_DropItem(self.dropClass);
+			self.Destroy();
 		}
 	}
 }

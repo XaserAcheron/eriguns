@@ -153,6 +153,14 @@ TXT_KEY_HORN     = "Picked up a horn key.";
 TXT_KEY_SWAMP    = "Picked up a swamp key.";
 TXT_KEY_CASTLE   = "Picked up a castle key.";
 
+// unidrop stuffs
+
+UNIDROP_CYBERDEMON   = "EriSuperImmolator";
+UNIDROP_IRONLICH     = "EriMauler";
+UNIDROP_MINOTAUR     = "EriSuperImmolatorAsh,EriSoulReaver";
+UNIDROP_STRIFEBISHOP = "EriMauler";
+UNIDROP_LOREMASTER   = "EriSoulReaver";
+
 // just a tiny bit o' damnums support.
 
 DAMNUM_TYPECOLOR_FIREBURN   = "DamOrange";

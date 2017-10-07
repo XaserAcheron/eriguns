@@ -6,6 +6,7 @@
 version "2.5"
 
 #include "zscript/eriguns2/base.txt"
+#include "zscript/eriguns2/utils.txt"
 #include "zscript/eriguns2/player.txt"
 #include "zscript/eriguns2/events.txt"
 #include "zscript/eriguns2/ammo.txt"
@@ -27,5 +28,3 @@ version "2.5"
 #include "zscript/eriguns2/weapons/soulreaver.txt"
 
 #include "zscript/eriguns2/enemies/doom.txt"
-#include "zscript/eriguns2/enemies/heretic.txt"
-#include "zscript/eriguns2/enemies/strife.txt"
