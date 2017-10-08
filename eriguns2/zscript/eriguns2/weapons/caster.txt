@@ -36,9 +36,7 @@ class EriCaster : HellWeapon replaces RocketLauncher
 		HCAG A 1 A_Raise();
 		Wait;
 	Fire:
-		HCAF A 0 Bright X_CasterChargeStart();
-	Hold:
-		HCAG A 1 Bright X_CasterChargeHold();
+		HCAG A 1 Bright X_CasterChargeStart();
 		HCAG A 0 Bright A_Refire();
 		HCAG A 0 Bright ResolveState("Release");
 	Release:
@@ -78,20 +76,12 @@ class EriCaster : HellWeapon replaces RocketLauncher
 		A_Overlay(CHARGE_LAYER, "ChargeIdle");
 	}
 
-	action void X_CasterChargeStart()
+	action state X_CasterChargeStart()
 	{
-		A_PlaySound("weapons/castercharge", CHAN_AUTO);
-		invoker.chargeLevel = 1; // kick it off
-		A_Overlay(CHARGE_LAYER, "Charge");
-	}
-
-	action state X_CasterChargeHold()
-	{
-		// special check: if we have no charge level, force-set it.
-		// this means we've arrived at this state because the WeaponLevel2
-		// powerup ran out.
 		if(invoker.chargeLevel == 0) {
-			X_CasterChargeStart();
+			invoker.chargeLevel = 1; // kick it off
+			A_PlaySound("weapons/castercharge", CHAN_AUTO);
+			A_Overlay(CHARGE_LAYER, "Charge");
 		}
 		return A_JumpIfNoAmmo("Release");
 	}
@@ -130,9 +120,6 @@ class EriCaster : HellWeapon replaces RocketLauncher
 		A_StopSound(CHAN_VOICE);
 		invoker.chargeLevel = 0;
 		X_InitChargeOverlay();
-		if(player) {
-			player.refire = false;
-		}
 	}
 
 	action void X_FireCaster()
