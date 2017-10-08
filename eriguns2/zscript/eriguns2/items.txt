@@ -53,6 +53,14 @@ class EriHellsphere : PowerupGiver //replaces BlurSphere
 	}
 }
 
+// handy class for testing purposes
+class EriHellsphereShort : EriHellsphere
+{
+	Default {
+		Powerup.Duration -3;
+	}
+}
+
 class EriBerserksphere : Berserk //replaces Berserk
 {
 	Default
