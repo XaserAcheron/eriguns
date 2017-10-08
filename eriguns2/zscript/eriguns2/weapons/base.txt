@@ -12,12 +12,69 @@ class HellWeapon : DoomWeapon
 		Stop;
 	}
 
+	// handy-dandy ammo-check function; just returns a bool instead of jumping.
+	// this doesn't utilize the built-in CheckAmmo function since it doesn't
+	// have any way of passing in a unit multiplier (aside from meddling with
+	// DEH-support flags).
+	action bool X_CheckAmmo(int units = 1)
+	{
+		if(player && player.ReadyWeapon) {
+			Weapon weap = player.ReadyWeapon;
+			if(weap.bAltFire) {
+				return !weap.Ammo2 || weap.Ammo2.Amount >= (weap.AmmoUse2 * units);
+			} else if(invoker.bPrimary_Uses_Both) {
+				return (!weap.Ammo1 || weap.Ammo1.Amount >= (weap.AmmoUse1 * units))
+				    && (!weap.Ammo2 || weap.Ammo2.Amount >= (weap.AmmoUse1 * units)) // not a typo ;)
+				;
+			} else {
+				return !weap.Ammo1 || weap.Ammo1.Amount >= (weap.AmmoUse1 * units);
+			}
+		}
+		return false;
+	}
+
+	// easy-peasey ammo-consumption function; note that "units" is multiplied by
+	// Ammouse, for sanity n' whatnot, and this function will happily take more
+	// ammo than you have left (without dropping to the negatives or anything).
+	// that's what X_CheckAmmo() is for. ;)
+	action void X_ConsumeAmmo(int units = 1)
+	{
+		if(player && player.ReadyWeapon) {
+			Weapon weap = player.ReadyWeapon;
+			if (weap.bAltFire) {
+				A_TakeInventory(weap.AmmoType2, weap.AmmoUse2 * units, TIF_NOTAKEINFINITE);
+			} else if(invoker.bPrimary_Uses_Both) {
+				A_TakeInventory(weap.AmmoType1, weap.AmmoUse1 * units, TIF_NOTAKEINFINITE);
+				A_TakeInventory(weap.AmmoType2, weap.AmmoUse1 * units, TIF_NOTAKEINFINITE); // also not a typo.
+			} else {
+				A_TakeInventory(weap.AmmoType1, weap.AmmoUse1 * units, TIF_NOTAKEINFINITE);
+			}
+		}
+	}
+
 	// handy shortcut for firing a spray of projectiles with the same arguments.
 	// only uses a single "unit" of ammo (whatever AmmoUse is defined as).
 	action void X_FireProjectileSpread(class<Actor> missiletype, int amount = 1, Vector2 spreadAngle = (0, 0), bool useammo = true, double spawnofs_xy = 0, double spawnheight = 0, int flags = 0, Vector2 spreadPitch = (0, 0))
 	{
 		for(int i = 1; i <= amount; i++) {
 			A_FireProjectile(missiletype, frandom(spreadAngle.x, spreadAngle.y), (i == amount) ? useammo : false, spawnofs_xy, spawnheight, flags, frandom(spreadPitch.x, spreadPitch.y));
+		}
+	}
+
+	// sets sprite/frame of the specified overlay PSprite.
+	action void X_SetOverlaySprite(int layer, string spriteName = "----", int frame = -1)
+	{
+		if(self.player) {
+			PSprite psp = self.player.GetPSprite(layer);
+			if(psp && psp.CurState != null) {
+				int sprite = GetSpriteIndex(spriteName);
+				if(sprite > -1 && spriteName != "----") {
+					psp.sprite = sprite;
+				}
+				if(frame > -1) {
+					psp.frame = frame;
+				}
+			}
 		}
 	}
 }
