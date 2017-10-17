@@ -97,7 +97,6 @@ class EriBloodbaneMana : EriBloodbane replaces MWeapFrost
 {
 	Default
 	{
-		Weapon.AmmoUse 2;
 		Weapon.AmmoGive 25;
 		Weapon.AmmoType "Mana2";
 		Weapon.SisterWeapon "EriBloodbaneManaPowered";
@@ -108,7 +107,6 @@ class EriBloodbaneManaPowered : EriBloodbanePowered
 {
 	Default
 	{
-		Weapon.AmmoUse 2;
 		Weapon.AmmoType "Mana2";
 		Weapon.SisterWeapon "EriBloodbaneMana";
 		+WEAPON.POWERED_UP;
