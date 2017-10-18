@@ -111,13 +111,13 @@ statusbar normal
 	drawnumber 2, HUDFONT_RAVEN, untranslated, armorclass, 275, 176, 1;
 
 	// arms -- drawswitchableimage doesn't do selected weapon, so have some fun boilerplate
-	IsSelected EriImmolatorMana  { drawimage "HEXARM2B", 194, 176; } else { drawswitchableimage weaponslot 2, "HEXARM1A", "HEXARM2A", 194, 176; }
+	IsSelected EriImmolatorMana  { drawimage "HEXARM2B", 194, 176; } else { IsSelected EriSuperImmolatorMana  { drawimage "HEXARM2B", 194, 176; } else { drawswitchableimage weaponslot 2, "HEXARM1A", "HEXARM2A", 194, 176; } }
 	IsSelected EriBloodbaneMana  { drawimage "HEXARM3B", 200, 176; } else { drawswitchableimage weaponslot 3, "HEXARM1A", "HEXARM3A", 200, 176; }
 	IsSelected EriNailgunMana    { drawimage "HEXARM4B", 206, 176; } else { drawswitchableimage weaponslot 4, "HEXARM1A", "HEXARM4A", 206, 176; }
 	IsSelected EriMaulerMana     { drawimage "HEXARM5B", 212, 176; } else { drawswitchableimage weaponslot 5, "HEXARM1A", "HEXARM5A", 212, 176; }
-	IsSelected EriIreboltMana    { drawimage "HEXARM6B", 218, 176; } else { drawswitchableimage weaponslot 6, "HEXARM1A", "HEXARM6A", 218, 176; }
+	IsSelected EriIreboltMana    { drawimage "HEXARM6B", 218, 176; } else { IsSelected EriHellforgeMana       { drawimage "HEXARM6B", 218, 176; } else { drawswitchableimage weaponslot 6, "HEXARM1A", "HEXARM6A", 218, 176; } }
 	IsSelected EriCasterMana     { drawimage "HEXARM7B", 224, 176; } else { drawswitchableimage weaponslot 7, "HEXARM1A", "HEXARM7A", 224, 176; }
-	IsSelected EriBasiliskMana   { drawimage "HEXARM8B", 230, 176; } else { drawswitchableimage weaponslot 8, "HEXARM1A", "HEXARM8A", 230, 176; }
+	IsSelected EriBasiliskMana   { drawimage "HEXARM8B", 230, 176; } else { IsSelected EriHydraMana           { drawimage "HEXARM8B", 230, 176; } else { drawswitchableimage weaponslot 8, "HEXARM1A", "HEXARM8A", 230, 176; } }
 	IsSelected EriSoulreaverMana { drawimage "HEXARM9B", 236, 176; } else { drawswitchableimage weaponslot 9, "HEXARM1A", "HEXARM9A", 236, 176; }
 
 	// lifegem
