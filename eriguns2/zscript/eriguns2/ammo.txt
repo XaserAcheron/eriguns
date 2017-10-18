@@ -56,7 +56,7 @@ class BloodAmmo : Ammo replaces Shell
 	States
 	{
 	Spawn:
-		BLDA AAAAACBC 5;
+		BLDA ABC 5;
 		Loop;
 	}
 }
@@ -72,7 +72,7 @@ class BloodHefty : BloodAmmo replaces ShellBox
 	States
 	{
 	Spawn:
-		BLDC AAAAABCB 5;
+		BLDC ABC 5;
 		Loop;
 	}
 }
