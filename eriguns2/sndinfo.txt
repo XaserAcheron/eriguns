@@ -5,8 +5,6 @@
 
 // hellguy gunsounds
 
-weapons/fist            dspunch
-
 weapons/swordswing      dstswing
 weapons/swordsplat      dstsplat
 weapons/swordclunk      dstclunk

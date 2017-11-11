@@ -9,6 +9,7 @@ MNU_CHOOSECLASS	= "SELECT WEAPON SET";
 
 SKILL_VERYHARD  = "Man and a Half!";
 
+TAG_SWORD       = "Templar Sword";
 TAG_BLADE       = "Vorpal Blade";
 TAG_IMMOLATOR   = "Immolator";
 TAG_SUPERLATOR  = "Super Immolator";
@@ -32,6 +33,7 @@ TAG_BOLTAMMO    = "Bolts";
 TAG_DEMONOMICON = "The Demonomicon";
 TAG_SOULBOMB    = "Soul Bomb";
 
+GOTSWORD        = "You got the templar sword!";
 GOTBLADE        = "You got the vorpal blade!";
 GOTIMMOLATOR    = "You got the immolator!";
 GOTSUPERLATOR   = "You got the super immolator!";
@@ -75,6 +77,7 @@ GOTALLSEEINGEYE = "All-Seeing Eye!";
 GOTDEMONOMICON  = "The Demonomicon! Unreal!";
 GOTSOULBOMB     = "Picked up a soul bomb.";
 
+OB_MPSWORD      = "%o was hacked to bits by %k's templar sword."
 OB_MPBLADE      = "%o was slashed in half by %k's vorpal blade."
 OB_MPIMMOLATOR  = "%o was lit ablaze by %k's immolator."
 OB_MPSUPERLATOR = "%o was roasted alive by %k's super immolator."
@@ -88,6 +91,7 @@ OB_MPBASILISK   = "%o was shredded by %k's basilisk.";
 OB_MPHYDRA      = "%o was eaten alive by %k's hydra.";
 OB_MPSOULREAVER = "%o was raptured by %k's soul reaver.";
 
+OB_MPSWORDPOW      = "%o's soul was inhaled by %k's templar sword."
 OB_MPBLADEPOW      = "%o was minced by %k's powered vorpal blade."
 OB_MPIMMOLATORPOW  = "%o was broiled by %k's powered immolator."
 OB_MPSUPERLATORPOW = "%o was overcooked by %k's powered super immolator."
