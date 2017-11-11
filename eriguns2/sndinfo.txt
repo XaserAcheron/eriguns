@@ -7,6 +7,10 @@
 
 weapons/fist            dspunch
 
+weapons/swordswing      dstswing
+weapons/swordsplat      dstsplat
+weapons/swordclunk      dstclunk
+
 weapons/bladeswing      dsbswing
 weapons/bladesplat1     dsbsplt1
 weapons/bladesplat2     dsbsplt2
