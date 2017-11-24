@@ -4,7 +4,7 @@
  * sprites (c) Amuscaria
  */
 
-class EriMauler : HellWeapon replaces Chaingun
+class EriMauler : HellWeapon
 {
 	Default
 	{

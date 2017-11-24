@@ -160,7 +160,7 @@ class BasicAmmo : Backpack replaces Backpack
 	{
 	Spawn:
 		BASC A 0;
-		BASC A 0 A_SpawnItemEx("EriNailgun");
+		BASC A 0 A_SpawnItemEx("EriMauler");
 	Idle:
 		BASC ABCD 6 BRIGHT;
 		Loop;
