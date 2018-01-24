@@ -1,0 +1,349 @@
+// GZDoom lights.pk3, weapons section, modified for eriguns1.
+// Original author: Graf Zahl
+// Modified by: m8f
+
+// Bullet puff
+flickerlight BPUFF1
+{
+    color 0.5 0.5 0.0
+    size 9
+    secondarySize 12
+    chance 0.8
+    attenuate 1
+}
+
+flickerlight BPUFF2
+{
+    color 0.5 0.5 0.0
+    size 4
+    secondarySize 6
+    chance 0.8
+    attenuate 1
+}
+
+object BulletPuff
+{
+    frame PUFFA { light BPUFF1 }
+    frame PUFFB { light BPUFF2 }
+}
+
+// Rocket
+pointlight ROCKET
+{
+    color 1.0 0.7 0.0
+    size 84
+    attenuate 1
+}
+
+flickerlight ROCKET_X1
+{
+    color 1.0 0.7 0.5
+    size 96
+    secondarySize 108
+    chance 0.3
+    attenuate 1
+}
+
+flickerlight ROCKET_X2
+{
+    color 0.5 0.3 0.2
+    size 120
+    secondarySize 132
+    chance 0.3
+    attenuate 1
+}
+
+flickerlight ROCKET_X3
+{
+    color 0.3 0.1 0.1
+    size 144
+    secondarySize 156
+    chance 0.3
+    attenuate 1
+}
+
+object EriRocket
+{
+    frame RCKTA { light ROCKET    }
+
+    frame RCKTB { light ROCKET_X1 }
+    frame RCKTC { light ROCKET_X2 }
+    frame RCKTD { light ROCKET_X3 }
+    frame RCKTE { light ROCKET_X3 }
+    frame RCKTF { light ROCKET_X3 }
+}
+
+object EriMissile
+{
+    frame XMISA { light ROCKET    }
+
+    frame XMISB { light ROCKET_X1 }
+    frame XMISC { light ROCKET_X2 }
+    frame XMISD { light ROCKET_X3 }
+    frame XMISE { light ROCKET_X3 }
+    frame XMISF { light ROCKET_X3 }
+    frame XMISG { light ROCKET_X3 }
+}
+
+object EriGrenade
+{
+    frame RCKTB { light ROCKET_X1 }
+    frame RCKTC { light ROCKET_X2 }
+    frame RCKTD { light ROCKET_X3 }
+    frame RCKTE { light ROCKET_X3 }
+    frame RCKTF { light ROCKET_X3 }
+}
+
+// Plasma
+pointlight PLASMABALL
+{
+    color 0.5 0.5 1.0
+    size 84
+    attenuate 1
+}
+
+flickerlight PLASMA_X1
+{
+    color 0.5 0.5 1.0
+    size 96
+    secondarySize 108
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA_X2
+{
+    color 0.4 0.4 0.8
+    size 120
+    secondarySize 132
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA_X3
+{
+    color 0.25 0.25 0.5
+    size 96
+    secondarySize 108
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA_X4
+{
+    color 0.1 0.1 0.2
+    size 12
+    secondarySize 24
+    chance 0.4
+    attenuate 1
+}
+
+object EriPlasmaBall
+{
+    frame PLSSA { light PLASMABALL }
+    frame PLSSB { light PLASMABALL }
+    frame PLSSC { light PLASMABALL }
+    frame PLSSD { light PLASMABALL }
+
+    frame PLSEA { light PLASMA_X1 }
+    frame PLSEB { light PLASMA_X2 }
+    frame PLSEC { light PLASMA_X2 }
+    frame PLSED { light PLASMA_X3 }
+    frame PLSEE { light PLASMA_X4 }
+}
+
+// Beta Plasma 1
+pointlight PLASMABALL1
+{
+    color 0.1 1.0 0.0
+    size 84
+    attenuate 1
+}
+
+flickerlight PLASMA1_X1
+{
+    color 0.2 1.0 0.2
+    size 96
+    secondarySize 108
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA1_X2
+{
+    color 0.2 0.8 0.2
+    size 120
+    secondarySize 132
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA1_X3
+{
+    color 0.1 0.5 0.1
+    size 96
+    secondarySize 108
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA1_X4
+{
+    color 0.0 0.2 0.0
+    size 12
+    secondarySize 24
+    chance 0.4
+    attenuate 1
+}
+
+object PlasmaBall1
+{
+    frame PLS1A { light PLASMABALL1 }
+    frame PLS1B { light PLASMABALL1 }
+
+    frame PLS1C { light PLASMA1_X1 }
+    frame PLS1D { light PLASMA1_X2 }
+    frame PLS1E { light PLASMA1_X2 }
+    frame PLS1F { light PLASMA1_X3 }
+    frame PLS1G { light PLASMA1_X4 }
+}
+
+// Beta Plasma 2
+pointlight PLASMABALL2
+{
+    color 1.0 0.1 0.0
+    size 84
+    attenuate 1
+}
+
+flickerlight PLASMA1_X1
+{
+    color 0.9 0.2 0.2
+    size 96
+    secondarySize 108
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA1_X2
+{
+    color 0.6 0.2 0.2
+    size 120
+    secondarySize 132
+    chance 0.4
+    attenuate 1
+}
+
+flickerlight PLASMA1_X3
+{
+    color 0.2 0.0 0.0
+    size 12
+    secondarySize 24
+    chance 0.4
+    attenuate 1
+}
+
+object PlasmaBall2
+{
+    frame PLS2A { light PLASMABALL2 }
+    frame PLS2B { light PLASMABALL2 }
+
+    frame PLS2C { light PLASMA2_X1 }
+    frame PLS2D { light PLASMA2_X2 }
+    frame PLS2E { light PLASMA2_X3 }
+}
+
+// BFG
+pointlight BFGBALL
+{
+    color 0.5 1.0 0.5
+    size 120
+    attenuate 1
+}
+
+flickerlight BFGBALL_X1
+{
+    color 0.5 1.0 0.5
+    size 120
+    secondarySize 132
+    chance 0.3
+    attenuate 1
+}
+
+flickerlight BFGBALL_X2
+{
+    color 0.6 1.0 0.6
+    size 156
+    secondarySize 168
+    chance 0.3
+    attenuate 1
+}
+
+flickerlight BFGBALL_X3
+{
+    color 0.7 1.0 0.7
+    size 180
+    secondarySize 192
+    chance 0.3
+    attenuate 1
+}
+
+flickerlight BFGBALL_X4
+{
+    color 0.4 0.7 0.4
+    size 84
+    secondarySize 96
+    chance 0.3
+    attenuate 1
+    attenuate 1
+}
+
+flickerlight BFGBALL_X5
+{
+    color 0.1 0.3 0.1
+    size 72
+    secondarySize 84
+    chance 0.3
+    attenuate 1
+}
+
+object EriBFGBall
+{
+    frame BFS1A { light BFGBALL }
+    frame BFS1B { light BFGBALL }
+
+    frame BFE1A { light BFGBALL_X1 }
+    frame BFE1B { light BFGBALL_X2 }
+    frame BFE1C { light BFGBALL_X3 }
+    frame BFE1D { light BFGBALL_X1 }
+    frame BFE1E { light BFGBALL_X4 }
+    frame BFE1F { light BFGBALL_X5 }
+}
+
+object EriBFGExtra
+{
+    frame BFE2A { light BFGBALL    }
+    frame BFE2B { light BFGBALL_X1 }
+    frame BFE2C { light BFGBALL_X4 }
+    frame BFE2D { light BFGBALL_X5 }
+}
+
+flickerlight2 ZOMBIEATK
+{
+    color 1.0 0.8 0.2
+    size 72
+    secondarySize 84
+    interval 1
+    offset 0 40 0
+    attenuate 1
+}
+
+object EriPlayer
+{
+    frame PLAYF { light ZOMBIEATK }
+}
+
+object AltPlayer
+{
+    frame PLAYF { light ZOMBIEATK }
+}
