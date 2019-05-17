@@ -11,9 +11,18 @@ Email Address           : xaser.88@gmail.com
 GitHub Repo             : https://github.com/XaserAcheron/eriguns
 Discussion Thread       : https://forum.zdoom.org/viewtopic.php?f=43&t=48208
 
-Description             : [Description Here]
+Description             : The first Eriguns pack, featuring a spiffy set
+                          of updated UAC military armaments. It's the Doom
+                          weapons you know and love, but with a fresh coat
+                          of paint, adapted from Amuscaria's "Demon Eclipse".
 
-Additional Credits to   : Amuscaria (nee Eriance) for the kickass weapon
+                          This mod offers two modes of play: Standard mode
+                          sticks to the vanilla weapon behaviors, while
+                          Alternate mode adds some new guns and adds a few
+                          interesting twists to the stock ones. Who says
+                          you can't teach an old gun new tricks?
+
+Additional Credits to   : Amuscaria (née Eriance) for the kickass weapon
                           sprites, plus many others -- see Credits section.
 ===========================================================================
 * What is included *
@@ -51,9 +60,49 @@ May Not Run With...     : Old versions of GZDoom. If you get some sort of
                           Sanity is a finite resource.
 
 ===========================================================================
-* Weapons *
+* Gameplay Notes *
 
-[TODO] list n' describe everything
+At its core, Eriguns #1 is mainly an aesthetic tune-up of Doom's classic
+weapons. Though the designs are different, the guns are still the same at
+heart: super shotguns, rocket launchers, and plasma rifles.
+
+In fact, to hammer home this point, there's two "rule sets" to choose from
+when starting a new game:
+ - Standard: weapons behave exactly the same as their Doom counterparts.
+ - Alternate: some weapons are tweaked a bit, and there's a few new guns.
+
+As mentioned, the Standard set plays exactly like good ol' Doom, so it's
+perfect for folks just looking for a fresh coat of paint. For the more
+adventurous, the Alternate set makes the following changes:
+ - The Pistol is semi-automatic, fires faster, and has a 12-round magazine.
+ - The Super Shotgun has two fire-modes: the primary fire shoots a single
+   barrel at a time, while altfire unleashes both at once. If you've fired
+   just one barrel, you can also reload the barrel without firing a second
+   shot, if you so desire.
+ - Two new weapons have been added:
+   - Gatling Gun (slot 4): Dropped by Spider Masterminds. Fires twice
+     as fast as the Machinegun (the chaingun-equivalent), but has a short
+     spin-up/spin-down time to compensate. Eats crowds for dinner.
+   - Missile Launcher (slot 5): Dropped by Cyberdemons. Works like ROTT's
+     Split Missile; fire a pair of missiles with primary fire, then hit
+     alt-fire to make 'em split in half and seek out targets. Tacticool!
+
+There are also two additional weapons, currently only available via cheats:
+ - Auto Shotgun (slot 3): Automatic. Twelve-round magazine. 'Nuff said.
+ - Grenade Launcher (slot 8): Projectiles have gravity and don't bounce,
+   but the explosion radius is twice the size of a rocket. Uses its own
+   ammo type.
+
+Although the above weapons don't appear ingame without cheats, they can
+be placed into maps with the following DoomEdNums:
+ - 1006: Auto Shotgun
+ - 5011: Missile Launcher
+ - 5012: Grenade Launcher
+ - 5013: Grenades
+ - 5014: Gatling Gun
+ - 5015: Box of Grenades
+
+...just in the off chance anyone ever wishes to map for this. :P
 
 ===========================================================================
 * Credits *
@@ -62,11 +111,11 @@ Code:
  - Xaser (das me)
 
 Sprites:
- - Amuscaria (nee Eriance)
+ - Amuscaria (née Eriance)
 
 Sounds:
  - Per Kristian Risvik (HQ Doom sounds)
- - Slipgate Studios (nee Interceptor Entertainment) (split missile sounds from ROTT2013)
+ - Slipgate Studios (née Interceptor Entertainment) (split missile sounds from ROTT2013)
 
 Testing n' bugfixing help:
  - zrrion the insect

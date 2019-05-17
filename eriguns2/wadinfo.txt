@@ -11,9 +11,18 @@ Email Address           : xaser.88@gmail.com
 GitHub Repo             : https://github.com/XaserAcheron/eriguns
 Discussion Thread       : https://forum.zdoom.org/viewtopic.php?f=43&t=48208
 
-Description             : [Description Here]
+Description             : The second Eriguns pack, featuring a devilish
+                          array of demonic weaponry, adapted from
+                          Amuscaria's "Hell-Forged". Bored with shotguns
+                          and rocket launchers? Try out some fleshrippers,
+                          soulthrowers, and bloodletters for a change.
 
-Additional Credits to   : Amuscaria (nee Eriance) for the kickass weapon
+                          This mod features thirteen new weapons, hand-
+                          drawn by one of the best Doom artists in the
+                          "business", all with a demonic theme that feels
+                          right at home in Doom, Heretic, _and_ Hexen.
+
+Additional Credits to   : Amuscaria (née Eriance) for the kickass weapon
                           sprites, plus many others -- see Credits section.
 ===========================================================================
 * What is included *
@@ -51,9 +60,139 @@ May Not Run With...     : Old versions of GZDoom. If you get some sort of
                           Sanity is a finite resource.
 
 ===========================================================================
+* Gameplay Notes *
+
+Unlike its counterpart, Eriguns #2 is a full weapon overhaul, behavior and
+all. Not all weapon replacements are going to behave identically to their
+replaced counterparts (e.g. the SSG replacement is effectively a rocket
+launcher); ammo balance should be preserved, however, but be warned that
+it's a bit of an unusual mix on the surface.
+
+In order to best support Doom, Heretic, and Hexen, weapons exhibit some
+differences between the games (mainly ammo types; in Heretic, there are a
+few new unique ammo types for some guns, and in Hexen, weapons use mana).
+In addition, some items only appear in certain games -- Soul Bombs, for
+instance, replace Flechettes and Time Bombs, but don't make an appearance
+in Doom.
+
+For a full list of what devilish delights await (or whatever cheesy
+phrase you prefer), read on!
+
+===========================================================================
 * Weapons *
 
-[TODO] list n' describe everything
+Hell has an interesting way with weapon smithery. Not only are these
+biomechanical pseudo-magical death dealers extremely effective in their
+own right, but they all sport a secondary function that's activated when
+an external surge of demonic power... ok, look, they all have powered-up
+modes and the berserk pack is a Tome of Power. 'Nuff said, y'all.
+
+That over with, let's get to the nitty gritty...
+
+Templar Sword
+-------------
+  Your starting weapon. Also your ending weapon if you don't find something
+  better, quick.
+
+  Powered up, however, the runes on its surface glow with a powerful
+  counter-curse that steals the life-force of those it cuts and transfers
+  it to the wielder -- that's you -- resulting in a nice friendly health
+  boost. Good in a pinch, though be warned you've got to get in close
+  to use it, so those beasties are liable to pinch you right back.
+
+Vorpal Blade
+------------
+  [TODO: desc]
+
+Immolator
+---------
+  A pocket-sized flamethrower, perfect for lighting cigars and melting
+  faces. Flames stick to enemies for a short while, and when powered up,
+  this puppy shoots a continuous stream of flame that makes short work
+  of flammable foes. Marshmallows not included.
+
+Super Immolator
+---------------
+  [TODO: desc]
+
+Bloodbane
+---------
+  [TODO: desc]
+
+Nailgun
+-------
+  A landmark in efficient design, this compact spike-thrower doubles
+  as both a machinegun and a torture device... and maybe an industrial
+  tool, if you're building something out of solid titanium and
+  need the punch.
+
+  Nails have a tendency to rip through their targets, and when powered,
+  the projectiles become super-heated and cleave through just about
+  anything with a pulse. Hope you weren't too attached to your neighbors.
+
+Mauler
+------
+  What's better than a nail machinegun? How about strapping a cluster of
+  them together, modifying the firing mechanism, and brandishing a
+  shiny new nail supershotgun?
+
+  Whether you're turning enemies into instant pincushions or powering
+  this baby up and unleashing a volley of volatile energy at a crowd of
+  foes, this little horror is proof that sometimes too much of a good
+  thing can, in fact, be a great thing.
+
+Irebolt
+-------
+  [TODO: desc]
+
+Hellforge
+---------
+  [TODO: desc]
+
+Soulcaster
+----------
+  [TODO: desc]
+
+Basilisk
+--------
+  [TODO: desc]
+
+Hydra
+-----
+  [TODO: desc]
+
+Soul Reaver
+-----------
+  [TODO: desc]
+
+===========================================================================
+* Artifacts *
+
+Guns ain't everything. Most of doom's earthly items, like medical kits and
+radiation suits, have been replaced with more Hell-esque counterparts
+(magical floaty spheres, mostly), and a few new creations grace the screen:
+
+- Hellsphere:
+Jam-packed with violence, deapsir, and other juicy emotional distress,
+consuming this horrifying artifact will fill the user with strength and
+rage, powering up their weapons for a limited time and buffing one's melee
+prowess for the duration of the level. Two for the price of one!
+
+- Demonomicon:
+The Essence of the Hellsphere, condensed into a convenient written form.
+The cursed glyphs within can only be read once, but will fill the user
+with a surge of demonic energy. Totally not just a Tome of Power or anything.
+
+- Soul Bomb:
+A volatile cask of spiritual energy, these bombs erupt violently after a
+few seconds and deal tremendous Soul damage to all enemies within range,
+rupturing victims' souls and potentially causing a ghastly chain reaction.
+
+- Dark Armor:
+Exclusive to Hexen, this four-piece set of hell-forged armor is tempered
+in hellfire, giving it extreme resilience against all forms of damage.
+Each piece grants 50 points of armor, which can stack to a whopping 200
+points of full damage reduction when donning the full set.
 
 ===========================================================================
 * Credits *
@@ -63,7 +202,7 @@ Code:
  - Woolie Wool (hell items)
 
 Sprites:
- - Amuscaria (nee Eriance)
+ - Amuscaria (née Eriance)
  - PillowBlaster (widescreen-friendly Vorpal Blade & Demonomicon)
 
 Misc Graphics:
