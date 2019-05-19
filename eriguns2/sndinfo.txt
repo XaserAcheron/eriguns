@@ -21,9 +21,11 @@ weapons/bladepower      dsbpower
 weapons/bladepower2     dsbpowr2
 weapons/bladecharge1    dsbchrg1
 weapons/bladecharge2    dsbchrg2
+weapons/bladeboom       dsbboom
 $volume weapons/bladepower 0.66
 $volume weapons/bladecharge1 0.25
 $volume weapons/bladecharge2 0.25
+$limit weapons/bladeboom 0
 
 weapons/immolatorfire   dsimofir
 weapons/immolatorhit    dsimohit

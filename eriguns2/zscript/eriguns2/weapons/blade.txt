@@ -216,8 +216,7 @@ class EriBladePowered : EriBlade
 
 	action void X_BladePowAttack()
 	{
-		A_CustomPunch(10, 1, 0, "BladePuffPow", 128, 1, 200);
-		A_CustomPunch(20, 0, 0, "BladePuffPow", 128);
+		A_CustomPunch(30, 0, 0, "BladePowPuff", 128);
 	}
 }
 
@@ -289,11 +288,35 @@ class BladePuffRed : BladePuff
 	}
 }
 
-class BladePuffPow : BladePuffRed
+class BladePowPuff : BladePuff
 {
 	Default
 	{
-		DamageType "Drain";
+		SeeSound "";
+		AttackSound "";
+		RenderStyle 'Add';
+		Alpha 1.0;
+
+		+PUFFGETSOWNER;
+	}
+	States
+	{	
+	Spawn:
+	Melee:
+		HEXP A 3 Bright X_BladePowHit(false);
+		Goto Baoom;
+	XDeath:
+		HEXP A 3 Bright X_BladePowHit(true);
+	Baoom:
+		HEXP BCDEFG 3 Bright;
+		Stop;
+	}
+
+	void X_BladePowHit(bool hitMonster = false)
+	{
+		X_BladeHit(hitMonster);
+	    A_PlaySound("weapons/bladeboom", CHAN_AUTO);
+		A_Explode(128, 128, 0);
 	}
 }
 
