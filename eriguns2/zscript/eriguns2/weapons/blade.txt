@@ -6,6 +6,8 @@
 
 class EriBlade : HellWeapon replaces Chainsaw
 {
+	bool chargeSoundStep;
+
 	Default
 	{
 		Scale 0.8;
@@ -82,16 +84,19 @@ class EriBlade : HellWeapon replaces Chainsaw
 		Goto LightDone;
 
 	ChargedReady:
-		HVBP AAABBBCCCDDDCCC 1 A_WeaponReady();
+		HVBP A 1 X_BladeChargedReady();
+		HVBP AABBBCCCDDDCCC 1 A_WeaponReady();
 		Loop;
 	ChargedDeselect:
 		HVBP AAABBBCCCDDDCCC 1 A_Lower();
 		Loop;
 	ChargedSelect:
+		HVBP A 0 X_BladeChargedSound();
+	ChargedSelectLoop:
 		HVBP AAABBBCCCDDDCCC 1 A_Raise();
 		Loop;
 	ChargedHold:
-		HVBG B 3;
+		HVBG B 3 X_BladeChargedSound();
 		HVBP E 2 A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
 		HVBP F 2;
 		HVBP G 2 A_CustomPunch(15, 0, 0, "BladePuffRed", 96);
@@ -114,6 +119,12 @@ class EriBlade : HellWeapon replaces Chainsaw
 	{
 		return self.ammo2 && self.ammo2.amount >= 100;
 	}
+	
+	action void X_BladeChargedSound()
+	{
+		A_PlaySound(invoker.chargeSoundStep ? "weapons/bladecharge1" : "weapons/bladecharge2", CHAN_AUTO);
+		invoker.chargeSoundStep = !invoker.chargeSoundStep;
+	}
 
 	action state X_BladeReady()
 	{
@@ -122,6 +133,12 @@ class EriBlade : HellWeapon replaces Chainsaw
 		}
 		A_WeaponReady();
 		return null;
+	}
+	
+	action void X_BladeChargedReady()
+	{
+		X_BladeChargedSound();
+		A_WeaponReady();
 	}
 
 	action state X_BladeRaise()
@@ -169,7 +186,7 @@ class EriBladePowered : EriBlade
 	Select:
 		Goto ChargedSelect;
 	ChargedHold:
-		HVBG B 3;
+		HVBG B 3 X_BladeChargedSound();
 		HVBP E 2 X_BladePowSwing();
 		HVBP F 2;
 		HVBP G 2 X_BladePowAttack();
@@ -193,7 +210,7 @@ class EriBladePowered : EriBlade
 
 	action void X_BladePowSwing()
 	{
-		A_PlaySound("weapons/bladepower", CHAN_AUTO);
+		A_PlaySound("weapons/bladepower", CHAN_5);
 		A_PlaySound("weapons/bladeswing", CHAN_WEAPON);
 	}
 
