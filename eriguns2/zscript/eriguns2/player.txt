@@ -9,10 +9,10 @@ class HellPlayer : DoomPlayer
 	{
 		Player.DisplayName "Hellguy";
 		Player.StartItem "EriImmolator";
-		Player.StartItem "EriFist";
+		Player.StartItem "EriSword";
 		Player.StartItem "FlameAmmo", 60;
 		Player.StartItem "AshAmmo", 25;
-		Player.WeaponSlot 1, "EriFist", "EriBlade";
+		Player.WeaponSlot 1, "EriSword", "EriBlade";
 		Player.WeaponSlot 2, "EriImmolator", "EriSuperImmolator";
 		Player.WeaponSlot 3, "EriBloodbane";
 		Player.WeaponSlot 4, "EriNailgun";
@@ -33,9 +33,9 @@ class HellPlayerHeretic : HellPlayer
 	Default
 	{
 		Player.StartItem "EriImmolatorAsh";
-		Player.StartItem "EriFist";
+		Player.StartItem "EriSword";
 		Player.StartItem "AshAmmo", 30;
-		Player.WeaponSlot 1, "EriFist", "EriBlade";
+		Player.WeaponSlot 1, "EriSword", "EriBlade";
 		Player.WeaponSlot 2, "EriImmolatorAsh", "EriSuperImmolatorAsh";
 		Player.WeaponSlot 3, "EriBloodbane";
 		Player.WeaponSlot 4, "EriNailgun";

@@ -13,7 +13,7 @@ version "2.5"
 #include "zscript/eriguns2/items.txt"
 
 #include "zscript/eriguns2/weapons/base.txt"
-#include "zscript/eriguns2/weapons/fist.txt"
+#include "zscript/eriguns2/weapons/templarsword.txt"
 #include "zscript/eriguns2/weapons/blade.txt"
 #include "zscript/eriguns2/weapons/immolator.txt"
 #include "zscript/eriguns2/weapons/superimmolator.txt"

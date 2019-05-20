@@ -5,7 +5,13 @@
 
 // hellguy gunsounds
 
-weapons/fist            dspunch
+weapons/swordswing      dstswing
+weapons/swordsplat      dstsplat
+weapons/swordclunk      dstclunk
+weapons/swordpower      dstpower
+$limit weapons/swordsplat 0
+$limit weapons/swordclunk 0
+$limit weapons/swordpower 0
 
 weapons/bladeswing      dsbswing
 weapons/bladesplat1     dsbsplt1
@@ -17,6 +23,13 @@ weapons/bladeclunk      dsbclunk
 weapons/bladeclang      dsbclang
 weapons/bladepower      dsbpower
 weapons/bladepower2     dsbpowr2
+weapons/bladecharge1    dsbchrg1
+weapons/bladecharge2    dsbchrg2
+weapons/bladeboom       dsbboom
+$volume weapons/bladepower 0.66
+$volume weapons/bladecharge1 0.25
+$volume weapons/bladecharge2 0.25
+$limit weapons/bladeboom 0
 
 weapons/immolatorfire   dsimofir
 weapons/immolatorhit    dsimohit
