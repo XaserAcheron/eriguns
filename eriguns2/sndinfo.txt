@@ -8,6 +8,10 @@
 weapons/swordswing      dstswing
 weapons/swordsplat      dstsplat
 weapons/swordclunk      dstclunk
+weapons/swordpower      dstpower
+$limit weapons/swordsplat 0
+$limit weapons/swordclunk 0
+$limit weapons/swordpower 0
 
 weapons/bladeswing      dsbswing
 weapons/bladesplat1     dsbsplt1
