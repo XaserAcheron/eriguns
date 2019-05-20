@@ -4,7 +4,7 @@
  * sprites (c) Amuscaria
  */
 
-class EriNailgun : HellWeapon
+class EriNailgun : HellWeapon replaces Chaingun
 {
 	bool fireSide;
 

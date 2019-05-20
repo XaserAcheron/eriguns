@@ -68,4 +68,5 @@ skill nightmare
 DoomEdNums
 {
 	5011 = EriNailgun
+	2002 = EriMauler
 }
