@@ -9,6 +9,8 @@ weapons/swordswing      dstswing
 weapons/swordsplat      dstsplat
 weapons/swordclunk      dstclunk
 weapons/swordpower      dstpower
+weapons/swordpoint      dstpoint
+$volume weapons/swordpoint 0.5
 $limit weapons/swordsplat 0
 $limit weapons/swordclunk 0
 $limit weapons/swordpower 0

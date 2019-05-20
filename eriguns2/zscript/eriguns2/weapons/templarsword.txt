@@ -49,6 +49,14 @@ class EriSword : HellWeapon replaces Fist
 		HTSG A 1 A_WeaponOffset( 4, 48);
 		HTSG A 1 A_WeaponOffset( 2, 40);
 		Goto Ready;
+	AltFire:
+		HTSG F 2 A_PlaySound("weapons/swordpoint", CHAN_WEAPON);
+		HTSG G 2;
+		HTSG H 8 A_FireBullets(0, 0, 1, 1, "SwordPointPuff", FBF_NORANDOM);
+		HTSG GF 2;
+		HTSG A 4;
+		HTSG A 0 ResolveState('Ready');
+		Goto Ready;
 	Spawn:
 		HETZ A -1;
 		Stop;
@@ -161,3 +169,18 @@ class SwordPowPuff : BulletPuff
 	}
 }
 
+class SwordPointPuff : BulletPuff
+{
+	Default
+	{
+		+BLOODLESSIMPACT;
+		+FORCEPAIN;
+	}
+	States
+	{
+	Spawn:
+	Melee:
+		TNT1 A 1;
+		Stop;
+	}
+}
