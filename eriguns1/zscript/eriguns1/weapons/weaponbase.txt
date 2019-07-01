@@ -40,7 +40,7 @@ class EriWeapon : DoomWeapon
 	{
 		self.hold = hold;
 		if(self.magsize > 0 && self.reloadcounter <= 0) {
-			state reloadState = X_Reload();
+			state reloadState = X_Reload("DoReload");
 			return reloadState ? reloadState : Super.GetAtkState(hold);
 		} else {
 			self.reloadcounter--;
