@@ -1,0 +1,4 @@
+DoomEdNums
+{
+    2002 = EriMauler
+}
